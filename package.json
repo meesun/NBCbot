@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "main": "app.js",
-  "start": "node app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "express": "~4.15.2"
   }
