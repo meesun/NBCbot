@@ -1,11 +1,11 @@
 var express = require('express');
-
+var facebook = require(__dirname+'/routes/facebook')();
 
 
 
 var app = express();
 
-
+app.use('/facebook',facebook);
 app.get('/', function (req, res) {
     res.send('hello world');
 });
