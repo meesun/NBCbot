@@ -34,28 +34,31 @@ app.get('/webhook/', function(req, res) {
 app.get('/oauthCallBack/', function(req, res) {
     console.log(req);
     console.log(res);
-  res.send(req);
-
-    /*request({
-           url: "https://www.googleapis.com/oauth2/v4/token",
+    var code=req.query['code'];
+    var params= 'client_id=1478594992183399&redirect_uri=https://mysterious-fortress-93870.herokuapp.com/clientCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    request({
+           url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
             headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-           method: "POST",
-           json: true, 
-           json: {
-           code :code,
-           client_id: "1087087077633-oge44fqqe22j6p1oes5ggagvgn7qrvc5.apps.googleusercontent.com",
-           client_secret: "QwGFw5Kg4JggHv8rMOvmJrCA",
-           redirect_uri : "https://mysterious-fortress-93870.herokuapp.com/oauthcallback",
-           grant_type :"refresh_token",
-            }  // <--Very important!!!
+             'Content-Type': 'application/x-www-form-urlencoded'
+            },
+           method: "GET",
+          // <--Very important!!!
         }, function (error, response, body){
 
            console.log("inside body");
            console.log(body);
-        });*/
+        });
+    res.send("code");
+
+    
 });
+
+app.get('/clientCallBack/', function(req, res) {
+    console.log(req);
+    res.send("code");
+    
+});
+
 
 
 app.post('/webhook/', function(req, res) {
