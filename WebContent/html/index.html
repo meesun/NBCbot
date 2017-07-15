@@ -2,56 +2,14 @@
 <html>
 
 <head>
-    <title>Baasha Bot - Chat bot</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <title>NBC Bot - Chat bot - Admin Module</title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
 <body>
-    <button class="btn btn-positive" onclick="getContent()">Get Content</button>
-    <pre id="content"></pre>
-    <script>
-        function getContent() {
-            console.log('clicked');
-            FB.api(
-                "/me/movies",
-                function(response) {
-                    if (response && !response.error) {
-                        console.log(response);
-                        $("#content").text(response);
-                    } else {
-                        $("#content").text('error');
-                        console.log(response.error);
-                    }
-                }
-            );
-        }
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId: '194434757740203',
-                xfbml: true,
-                version: 'v2.9'
-            });
-            FB.login(function(response) {
-                console.log(response);
-            }, {
-                scope: 'email,user_likes'
-            });
-            FB.AppEvents.logPageView();
-        };
 
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>
