@@ -12,6 +12,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('WebContent'));
 
+/* Router Declarations */
+var facebook = require(__dirname + '/routes/facebook')();
+
+/* Mapping the requests to routes (controllers) */
+app.use('/facebook', facebook);
+
 app.get('/', function (req, res) {
     res.send('hello world');
 });
