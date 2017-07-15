@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movie Details</title>
+    <link href="html/movie.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <img class="poster" id="poster" src="">
+            </div>
+            <div class="col-xs-6">
+                <h1 id="movieName"></h1>
+                <h6 id="yearReleased"></h6>
+                <p id="description"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-users" aria-hidden="true"></i>Cast</h3>
+                    </div>
+                    <div class="panel-body" id="cast">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Director</h3>
+                    </div>
+                    <div class="panel-body" id="director">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Awards</td>
+                        <td id="awards"></td>
+                    </tr>
+                    <tr>
+                        <td>Language</td>
+                        <td id="language"></td>
+                    </tr>
+                    <tr>
+                        <td>Writer</td>
+                        <td id="writer"></td>
+                    </tr>
+                    <tr>
+                        <td>Ratings</td>
+                        <td id="ratings"></td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td id="website"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="progress">
+                    <div id="positive" class="progress-bar progress-bar-success" style="width: 35%">
+                        <span class="sr-only">Positive</span>
+                    </div>
+                    <div id="negative" class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+                        <span class="sr-only">Neutral</span>
+                    </div>
+                    <div id="neutral" class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">Negative</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="embed-responsive embed-responsive-16by9" id="trailer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+    </script>
+    <script>
+    window.extAsyncInit = function() {
+        // the Messenger Extensions JS SDK is done loading 
+    }
+
+    function findGetParameter(parameterName) {
+        var result = null,
+            tmp = [];
+        location.search
+            .substr(1)
+            .split("&")
+            .forEach(function(item) {
+                tmp = item.split("=");
+                if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+            });
+        return result;
+    }
+
+    var title = findGetParameter("title");
+    var servername = 'https://thebotdesigners.herokuapp.com/'; 
+    var params = {
+        "title": title
+    }
+    $.get(servername + 'movies/getMovieByTitle', params, function(data) {
+        console.log(data);
+        var movie = data[0];
+        var trailerDiv = '<iframe class="embed-responsive-item" width="560" height="315" id="trailer" src="'+ movie.Trailer+'" frameborder="0" allowfullscreen></iframe>';
+        $("#movieName").html(movie.Title);
+        $("#yearReleased").html(movie.Year);
+        $("#director").html(movie.Director);
+        $("#writer").html(movie.Writer);
+        $("#cast").html(movie.Actors);
+        $("#description").html(movie.Plot);
+        $("#language").html(movie.Language);
+        $("#poster").attr("src", movie.Poster);
+        $("#ratings").html(movie.imdbRating);
+        $("#website").html(movie.Website);
+        $("#trailer").html(trailerDiv);
+    });
+    params = {
+        "name": title
+    }
+    $.get(servername + 'movies/getMoviesReviews', params, function(data) {
+        console.log(data);
+        $("#positive").css("width", data.pos + "%");
+        $("#neutral").css("width", data.neut + "%");
+        $("#negative").css("width", data.neg + "%");
+    });
+    </script>
+</body>
+
+</html>
