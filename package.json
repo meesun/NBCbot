@@ -9,7 +9,9 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "~4.15.2",
+    "fs": "0.0.1-security",
     "mongoose": "^4.11.3",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "watson-developer-cloud": "^2.34.0"
   }
 }

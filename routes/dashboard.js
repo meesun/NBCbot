@@ -10,7 +10,7 @@ module.exports = function() {
 
 	router.get('/getQues', function(req, res, next) {
 		
-        dashboard.getQuestion(req,res);
+        dashboard.getQuestionById(req,res);
             
         
 	});
@@ -22,8 +22,10 @@ module.exports = function() {
 	router.get('/saveQues', function(req, res, next) {
 		
         dashboard.saveQuestion(req,res);
-            
-       
 	});
+    
+    router.get('/getQnAnsByUser', function(req,res){
+        dashboard.getQnAnsByUser(req,res);
+    })
      return router;
 }
