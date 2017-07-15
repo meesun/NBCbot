@@ -34,6 +34,8 @@ app.get('/webhook/', function(req, res) {
 app.get('/oauthCallBack/', function(req, res) {
     console.log(req);
     console.log(res);
+  res.send(req);
+
     /*request({
            url: "https://www.googleapis.com/oauth2/v4/token",
             headers: {
