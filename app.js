@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
 var mongoose = require('mongoose');
+var config = require('./config');
 
 var app = express();
 
@@ -14,12 +15,22 @@ app.use(bodyParser.json());
 app.use(express.static('WebContent'));
 global.__base = __dirname + '/';
 
+//DB connection
+
+// Connect to database
+mongoose.connect(config.database.mlabs);
+
 /* Router Declarations */
 var facebook = require(__dirname + '/routes/facebook')();
 var dashboard = require(__dirname + '/routes/dashboard')();
+var shows = require(__dirname + '/routes/shows')();
+
 /* Mapping the requests to routes (controllers) */
 app.use('/facebook', facebook);
 app.use('/dashboard', dashboard);
+app.use('/shows', shows);
+
+
 
 app.get('/', function (req, res) {
     res.send('hello world');
@@ -77,8 +88,8 @@ app.post('/webhook/', function(req, res) {
 app.get('/sendPushMessages', function(req, res) {
 	//Change dynamic 
 	//var senderId = '1128081597293753';
-    var senderId = req.param.senderId;
-    var showsId = req.param.showsId;
+    var senderId = req.query.senderId;
+    var showsId = req.query.showsId;
 
     var msg = 'Thanks for liking the page. Do you want us to subscribe you for the show so that you can get show updates?';
 
@@ -87,26 +98,27 @@ app.get('/sendPushMessages', function(req, res) {
 
     var Shows = require(__base + 'models/shows');
 
+	console.log("wait"+ senderId+showsId);
+
 
 	// get all the users
-	Shows.find({"id":showsId}, function(err, shows) {
+	Shows.find({_id:showsId}, function(err, shows) {
 		if (err) next(err);
-
-		// object of all the users
-		console.log(shows);
-
-		global.showsVar = shows;
-		//res.json(shows);
+		global.showsVar = shows[0];
+		
 	});
 
+	
 	fbMessenger.sendTextMessage(senderId,msg);
+	
 
+	console.log("Output debug 3:" + global.showsVar);
     var elements = [{
-      title: showsVar.name,
-      image_url: showsVar.imageURL,
+      title: global.showsVar.name,
+      image_url: global.showsVar.imageURL,
       buttons: [{
         type: "postback",
-        payload: "Payload for first bubble",
+        payload: "ADD_TO_FAVORITE_"+global.showsVar._id+"@"+senderId,
         title: "Add to Favorite"
       }]
     }];
@@ -114,7 +126,7 @@ app.get('/sendPushMessages', function(req, res) {
 
     var messageData = {
     recipient: {
-      id: recipientId
+      id: senderId
     },
     message: {
       attachment: {
@@ -127,9 +139,9 @@ app.get('/sendPushMessages', function(req, res) {
     }
   };
 
-  fbMessenger.callSendAPI(messageData);
+  fbMessenger.sendGenericMessage(senderId,elements);
 
-
+  res.sendStatus(200);
 
 });
 
