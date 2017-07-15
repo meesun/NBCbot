@@ -67,7 +67,7 @@ app.get('/oauthCallBack/', function(req, res) {
 
            console.log("inside body");
            console.log(body);
-           var token=body['access_token'];
+           var token=body.access_token;
            if(token!=null){
                 console.log(token);
                 var graph = require('fbgraph');
