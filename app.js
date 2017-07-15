@@ -31,6 +31,31 @@ app.get('/webhook/', function(req, res) {
     res.send('Error, wrong token');
 });
 
+app.get('/oauthCallBack/', function(req, res) {
+    console.log(req);
+    console.log(res);
+    /*request({
+           url: "https://www.googleapis.com/oauth2/v4/token",
+            headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+           method: "POST",
+           json: true, 
+           json: {
+           code :code,
+           client_id: "1087087077633-oge44fqqe22j6p1oes5ggagvgn7qrvc5.apps.googleusercontent.com",
+           client_secret: "QwGFw5Kg4JggHv8rMOvmJrCA",
+           redirect_uri : "https://mysterious-fortress-93870.herokuapp.com/oauthcallback",
+           grant_type :"refresh_token",
+            }  // <--Very important!!!
+        }, function (error, response, body){
+
+           console.log("inside body");
+           console.log(body);
+        });*/
+});
+
+
 app.post('/webhook/', function(req, res) {
     var data = req.body;
 
@@ -68,6 +93,8 @@ app.post('/webhook/', function(req, res) {
         res.sendStatus(200);
     }
 })
+
+
 
 // Spin up the server
 app.listen(app.get('port'), function() {
