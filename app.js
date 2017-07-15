@@ -14,9 +14,10 @@ app.use(express.static('WebContent'));
 
 /* Router Declarations */
 var facebook = require(__dirname + '/routes/facebook')();
-
+var dashboard = require(__dirname + '/routes/dashboard')();
 /* Mapping the requests to routes (controllers) */
 app.use('/facebook', facebook);
+app.use('/dashboard', dashboard);
 
 app.get('/', function (req, res) {
     res.send('hello world');

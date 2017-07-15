@@ -18,7 +18,7 @@ module.exports = {
             consiole.log("question saved in db")
         });
     },
-    saveAns:function(req,res){
+    saveAnswer:function(req,res){
         
                     var feedbackAnsSchema = new feedbackAns({
                          "qnId": req.query.qnId,
@@ -30,7 +30,7 @@ module.exports = {
         });
     },
     
-    getAns:function(req,res){
+    getAnswer:function(req,res){
                     var feedbackAns.find({_id : req.query.qnId , userId : req.query.userId}, function(err, movies) {
             console.log(feedbackAns.answer);
             
