@@ -199,7 +199,38 @@ module.exports = {
       "at %d", senderID, recipientID, payload, timeOfPostback);
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
-    sendTextMessage(senderID, "Postback called");
+
+    var payload = event.postback.payload;
+
+    console.log("payload" + payload) ;
+
+    if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+
+      console.log(showId + ": = " + userId);
+      var Shows = require(__base + 'models/shows');
+      var Users = require(__base + 'models/users');
+      Shows.find({_id:showId}, function(err, shows) {
+        if (err) console.log(err);
+        global._showDet = shows[0];
+      });
+
+      console.log("Show Details: " + global._showDet);
+
+      Users.findOneAndUpdate({fbId:userId},
+       {$push: {"favShows": global._showDet}},
+       {safe: true, upsert: true, new : true}, 
+       function (err, place) {
+          sendTextMessage(senderID, "Added to the favorite");
+      });
+
+
+
+    }
+    else 
+      sendTextMessage(senderID, "Postback called");
+
   },
 
   /*
@@ -673,3 +704,7 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+
+module.exports.sendGenericMessage = sendGenericMessage;
+module.exports.sendTextMessage = sendTextMessage;

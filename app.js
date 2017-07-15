@@ -3,6 +3,14 @@ var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
 
+
+var mongoose = require('mongoose');
+var config = require('./config');
+
+var graph = require('fbgraph');
+
+const request = require('request')
+
 var app = express();
 
 app.set('port', (process.env.PORT || 8080));
@@ -11,13 +19,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(express.static('WebContent'));
+global.__base = __dirname + '/';
+
+//DB connection
+
+// Connect to database
+mongoose.connect(config.database.mlabs);
 
 /* Router Declarations */
 var facebook = require(__dirname + '/routes/facebook')();
 var dashboard = require(__dirname + '/routes/dashboard')();
+var shows = require(__dirname + '/routes/shows')();
+
 /* Mapping the requests to routes (controllers) */
 app.use('/facebook', facebook);
 app.use('/dashboard', dashboard);
+app.use('/shows', shows);
+
+
 
 app.get('/', function (req, res) {
     res.send('hello world');
@@ -30,6 +49,38 @@ app.get('/webhook/', function(req, res) {
     }
     res.send('Error, wrong token');
 });
+
+app.get('/oauthCallBack/', function(req, res) {
+    
+    var code=req.query['code'];
+    console.log(code);
+
+    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/oauthCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    if(code!=null){
+    request({
+           url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
+            headers: {
+             'Content-Type': 'application/x-www-form-urlencoded'
+            },
+           method: "GET",
+        }, function (error, response, body){
+
+           console.log("inside body");
+           console.log(body);
+           var token=body.access_token;
+           if(token!=null){
+                console.log(token);
+                var graph = require('fbgraph');
+                graph.setAccessToken(token);
+                graph.get('likes', {limit: 1000, access_token: token}, function(err, res) {
+                   console.log(res);
+                 });
+            } 
+        res.send("code");
+    
+    });
+    }
+ });
 
 app.post('/webhook/', function(req, res) {
     var data = req.body;
@@ -63,12 +114,76 @@ app.post('/webhook/', function(req, res) {
         });
 
         // Assume all went well.
-        //
         // You must send back a 200, within 20 seconds, to let us know you've
         // successfully received the callback. Otherwise, the request will time out.
         res.sendStatus(200);
     }
-})
+});
+
+
+//Send push message
+app.get('/sendPushMessages', function(req, res) {
+	//Change dynamic 
+	//var senderId = '1128081597293753';
+    var senderId = req.query.senderId;
+    var showsId = req.query.showsId;
+
+    var msg = 'Thanks for liking the page. Do you want us to subscribe you for the show so that you can get show updates?';
+
+
+    // Getting the show information
+
+    var Shows = require(__base + 'models/shows');
+
+	console.log("wait"+ senderId+showsId);
+
+
+	// get all the users
+	Shows.find({_id:showsId}, function(err, shows) {
+		if (err) next(err);
+		global.showsVar = shows[0];
+		
+	});
+
+	
+	fbMessenger.sendTextMessage(senderId,msg);
+	
+
+	console.log("Output debug 3:" + global.showsVar);
+    var elements = [{
+      title: global.showsVar.name,
+      image_url: global.showsVar.imageURL,
+      buttons: [{
+        type: "postback",
+        payload: "ADD_TO_FAVORITE_"+global.showsVar._id+"@"+senderId,
+        title: "Add to Favorite"
+      }]
+    }];
+
+
+    var messageData = {
+    recipient: {
+      id: senderId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: elements
+        }
+      }
+    }
+  };
+
+  fbMessenger.sendGenericMessage(senderId,elements);
+
+  res.sendStatus(200);
+
+});
+
+
+
 
 // Spin up the server
 app.listen(app.get('port'), function() {
