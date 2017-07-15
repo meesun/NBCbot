@@ -52,17 +52,14 @@ app.get('/oauthCallBack/', function(req, res) {
 
            console.log("inside body");
            console.log(body);
+           var access_token=body['access_token'];
+           var graph = require('fbgraph');
+           graph.setAccessToken(access_token);
+           graph.get('likes', {limit: 1000, access_token: access_token}, function(err, res) {
+                console.log(res);
+          });
         });
-    } else{
-       var access_token=req.query['access_token'];
-
-       var graph = require('fbgraph');
-       graph.setAccessToken(access_token);
-       graph.get('likes', {limit: 1000, access_token: access_token}, function(err, res) {
-        console.log(res);
-        
-        });
-    }
+    } 
     res.send("code");
     
 });
