@@ -1,6 +1,5 @@
 var constants = require('./constants');
 var request = require('request');
-var game = require('./game');
 
 module.exports = {
   /*
