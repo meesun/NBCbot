@@ -1,5 +1,6 @@
 var dashboard = require('../modules/dashboard');
 var request = require('request');
+var express = require('express');
 var router = express.Router();
 
 module.exports = function() {
@@ -22,6 +23,7 @@ module.exports = function() {
 		
         dashboard.saveQuestion(req,res);
             
-        
+       
 	});
+     return router;
 }
