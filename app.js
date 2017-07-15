@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+var mongoose = require('mongoose');
 
 var app = express();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(express.static('WebContent'));
+global.__base = __dirname + '/';
 
 /* Router Declarations */
 var facebook = require(__dirname + '/routes/facebook')();
@@ -67,7 +69,69 @@ app.post('/webhook/', function(req, res) {
         // successfully received the callback. Otherwise, the request will time out.
         res.sendStatus(200);
     }
-})
+});
+
+
+//Send push message
+app.get('/sendPushMessages', function(req, res) {
+	//Change dynamic 
+	//var senderId = '1128081597293753';
+    var senderId = req.param.senderId;
+    var showsId = req.param.showsId;
+
+    var msg = 'Thanks for liking the page. Do you want us to subscribe you for the show so that you can get show updates?';
+
+
+    // Getting the show information
+
+    var Shows = require(__base + 'models/shows');
+
+
+	// get all the users
+	Shows.find({"id":showsId}, function(err, shows) {
+		if (err) next(err);
+
+		// object of all the users
+		console.log(shows);
+
+		global.showsVar = shows;
+		//res.json(shows);
+	});
+
+	fbMessenger.sendTextMessage(senderId,msg);
+
+    var elements = [{
+      title: showsVar.name,
+      image_url: showsVar.imageURL,
+      buttons: [{
+        type: "postback",
+        payload: "Payload for first bubble",
+        title: "Add to Favorite"
+      }]
+    }];
+
+
+    var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: elements
+        }
+      }
+    }
+  };
+
+  fbMessenger.callSendAPI(messageData);
+
+
+
+});
+
 
 // Spin up the server
 app.listen(app.get('port'), function() {
