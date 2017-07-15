@@ -33,10 +33,11 @@ app.get('/webhook/', function(req, res) {
 });
 
 app.get('/oauthCallBack/', function(req, res) {
-    console.log(req);
-    console.log(res);
+    
     var code=req.query['code'];
-    var params= 'client_id=1478594992183399&redirect_uri=https://mysterious-fortress-93870.herokuapp.com/clientCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    console.log(code);
+    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/clientCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    
     request({
            url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
             headers: {
