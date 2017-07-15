@@ -205,7 +205,7 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@')-1 );
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
       var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
 
       console.log(showId + ": = " + userId);
