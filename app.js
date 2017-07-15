@@ -36,8 +36,9 @@ app.get('/oauthCallBack/', function(req, res) {
     
     var code=req.query['code'];
     console.log(code);
-    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/clientCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
-    
+
+    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/oauthCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    if(code!=null){
     request({
            url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
             headers: {
@@ -50,6 +51,7 @@ app.get('/oauthCallBack/', function(req, res) {
            console.log("inside body");
            console.log(body);
         });
+}
     res.send("code");
 
     
