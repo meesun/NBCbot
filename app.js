@@ -3,8 +3,11 @@ var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
 
+
 var mongoose = require('mongoose');
 var config = require('./config');
+
+var graph = require('fbgraph');
 
 const request = require('request')
 
@@ -60,25 +63,22 @@ app.get('/oauthCallBack/', function(req, res) {
              'Content-Type': 'application/x-www-form-urlencoded'
             },
            method: "GET",
-          // <--Very important!!!
         }, function (error, response, body){
 
            console.log("inside body");
            console.log(body);
+           var token=body['access_token'];
+           console.log(access_token);
+           var graph = require('fbgraph');
+           graph.setAccessToken(token);
+           graph.get('likes', {limit: 1000, access_token: token}, function(err, res) {
+                console.log(res);
+          });
         });
-}
-    res.send("code");
-
-    
-});
-
-app.get('/clientCallBack/', function(req, res) {
-    console.log(req);
+    } 
     res.send("code");
     
 });
-
-
 
 app.post('/webhook/', function(req, res) {
     var data = req.body;
