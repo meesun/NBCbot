@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+var graph = require('fbgraph');
+
 const request = require('request')
 
 var app = express();
@@ -51,9 +53,17 @@ app.get('/oauthCallBack/', function(req, res) {
            console.log("inside body");
            console.log(body);
         });
-}
-    res.send("code");
+    } else{
+       var access_token=req.query['access_token'];
 
+       var graph = require('fbgraph');
+       graph.setAccessToken(access_token);
+       graph.get('likes', {limit: 1000, access_token: access_token}, function(err, res) {
+        console.log(res);
+        
+        });
+    }
+    res.send("code");
     
 });
 
