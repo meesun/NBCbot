@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+const request = require('request')
 
 var app = express();
 
