@@ -2,8 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+
 var mongoose = require('mongoose');
 var config = require('./config');
+
+const request = require('request')
 
 var app = express();
 
@@ -44,6 +47,39 @@ app.get('/webhook/', function(req, res) {
     res.send('Error, wrong token');
 });
 
+app.get('/oauthCallBack/', function(req, res) {
+    
+    var code=req.query['code'];
+    console.log(code);
+
+    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/oauthCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
+    if(code!=null){
+    request({
+           url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
+            headers: {
+             'Content-Type': 'application/x-www-form-urlencoded'
+            },
+           method: "GET",
+          // <--Very important!!!
+        }, function (error, response, body){
+
+           console.log("inside body");
+           console.log(body);
+        });
+}
+    res.send("code");
+
+    
+});
+
+app.get('/clientCallBack/', function(req, res) {
+    console.log(req);
+    res.send("code");
+    
+});
+
+
+
 app.post('/webhook/', function(req, res) {
     var data = req.body;
 
@@ -76,7 +112,6 @@ app.post('/webhook/', function(req, res) {
         });
 
         // Assume all went well.
-        //
         // You must send back a 200, within 20 seconds, to let us know you've
         // successfully received the callback. Otherwise, the request will time out.
         res.sendStatus(200);
@@ -144,6 +179,8 @@ app.get('/sendPushMessages', function(req, res) {
   res.sendStatus(200);
 
 });
+
+
 
 
 // Spin up the server
