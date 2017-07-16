@@ -818,13 +818,16 @@ function playGames(senderID,quiz_id){
     global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
   }
       var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
-      if(user_games.length==0){
+      console.log(user_games);
+
+      if(user_games!=undefined&& user_games.length==0){
         //Fetch from DB and insert
         console.log("zero case");
       } else{
-
-          if(user_games.length>0)
-          {
+          
+          if(user_games!=undefined && user_games.length>0)
+          {.  
+             console.log("user_games"+user_games.games);
               var gameToBeSent=user_games.games[0]; 
               user_games.games.splice(0,1);
               
