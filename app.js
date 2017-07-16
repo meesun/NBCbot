@@ -51,38 +51,52 @@ app.get('/webhook/', function(req, res) {
 });
 
 app.get('/oauthCallBack/', function(req, res) {
-    
+
     var code=req.query['code'];
     console.log(code);
 
     var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/oauthCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
     if(code!=null){
-    request({
-           url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
-            headers: {
-             'Content-Type': 'application/x-www-form-urlencoded'
-            },
-           method: "GET",
-        }, function (error, response, body){
+        request({
+         url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
+         headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       },
+       method: "GET",
+   }, function (error, response, body){
 
-           console.log("inside body");
-           console.log(body);
-           var tokenJson=JSON.parse(body);
-           var token=tokenJson.access_token;
-           console.log("obtained"+token);
-           if(token!=null){
-                console.log(token);
-                var graph = require('fbgraph');
-                graph.setAccessToken(token);
-                graph.get('likes', {limit: 1000, access_token: token}, function(err, res) {
-                   console.log(res);
-                 });
-            } 
-        res.send("code");
-    
-    });
+     console.log("inside body");
+     console.log(body);
+     var tokenJson=JSON.parse(body);
+     var token=tokenJson.access_token;
+     console.log("obtained"+token);
+     if(token!=null){
+        console.log(token);
+        var graph = require('fbgraph');
+        var options = {
+          timeout:  3000,
+          pool:{ maxSockets:  Infinity }, 
+          headers:  { connection:  "keep-alive" }
+      };
+
+     var graphObject = graph
+      .setOptions(options)
+      graph.setAccessToken(token);
+      .get("me", function(err, res) {
+          console.log(res); // { id: '4', name: 'Mark Zuckerberg'... } 
+    });  
+      graphObject.request.abort();
+
+      graph.get('likes', {limit: 1000, access_token: token}, function(err, res) {
+         console.log(res);
+     });
+  } 
+
+  res.send("code");
+
+});
     }
- });
+});
 
 app.post('/webhook/', function(req, res) {
     var data = req.body;
