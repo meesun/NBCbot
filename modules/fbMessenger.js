@@ -161,11 +161,6 @@ module.exports = {
       // keywords and send back the corresponding example. Otherwise, just echo
       // the text we received.
 
-      //Change the options to intent
-      if(messageText.contains('Shows me all the options') || messageText.contains('What else do you have') ){
-        //Add the configure
-      }
-      else {
         switch (messageText) {
           case "HI" || "HELLO" || "GOOD MORNING":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
@@ -229,7 +224,7 @@ module.exports = {
           default:
             sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       }
-     }
+     
     } else if (messageAttachments) {
       sendTextMessage(senderID, "Message with attachment received");
     }
