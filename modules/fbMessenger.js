@@ -165,7 +165,7 @@ module.exports = {
       if(messageText.cotains('Shows me all the options') || messageText.cotains('What else do you have') ){
         //Add the configure
       }
-      else if {
+      else {
         switch (messageText) {
           case "HI" || "HELLO" || "GOOD MORNING":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
