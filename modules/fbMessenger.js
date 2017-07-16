@@ -906,7 +906,7 @@ function playGames(senderID,quiz_id){
             //calculate score
            var game_score= global.user_game_score;
            game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
-           sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
+           sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
           }
       
     
