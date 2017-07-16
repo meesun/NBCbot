@@ -846,15 +846,15 @@ function callSendAPI(messageData) {
    function addToFavorite(payload,senderId){
 
       var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
-      var userId = senderId;
+      global.addFavUserId = senderId;
 
-      console.log(showId + ": = " + userId);
+      console.log(showId + ": = " + global.addFavUserId);
       var Shows = require(__base + 'models/shows');
       Shows.findOneAndUpdate({_id:showId},
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-          sendTextMessage(senderID, "Added to the favorite");
+          sendTextMessage(lobal.addFavUserId, "Added to the favorite");
       });
    }
 
