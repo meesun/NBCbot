@@ -11,17 +11,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>NBC Chat bot - Admin Panel</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="../../dist/css/skins/skin-blue.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,15 +51,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <nav id="navigation_page"></nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <aside id="main-sidebar" class="main-sidebar"></aside>
+    <aside id="main-sidebar" class="main-sidebar">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img src="../../dist/img/avatar3.png" class="img-circle" alt="User Image">
+          </div>
+          <div class="pull-left info">
+            <p>Adminstrator</p>
+            <!-- Status -->
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">Menu</li>
+          <!-- Optionally, you can add icons to the links -->
+          <li><a href="../../index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li><a href="allquestions.html"><i class="fa fa-question-circle" aria-hidden="true"></i> <span>All Questions</span></a></li>
+          <li class="active"><a href="#"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>All Feedback</span></a></li>
+        </ul>
+        <!-- /.sidebar-menu -->
+      </section>
+      <!-- /.sidebar -->
+    </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-        Admin Console
-        <small>View Charts, Add Questions and Information to push</small>
+        Feedback data
+        <small>View feedback responses by questions asked</small>
       </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -85,7 +112,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <strong>Copyright &copy; 2017 <a href="#">NBC Chat Bot</a>.</strong> All rights reserved.
     </footer>
 
-    <section id="sidebar__right"></section>
+    <!-- <section id="sidebar__right"></section> -->
 
   </div>
   <!-- ./wrapper -->
@@ -93,27 +120,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- REQUIRED JS SCRIPTS -->
 
   <!-- jQuery 3 -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="dist/js/adminlte.min.js"></script>
-  <!-- Widget related functionality -->
-  <script src="dist/js/app.min.js"></script>
+  <script src="../../dist/js/adminlte.min.js"></script>
   <!-- Slimscroll -->
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
   <!-- FastClick -->
-  <script src="bower_components/fastclick/lib/fastclick.js"></script>
+  <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
   <!-- ChartJS -->
-  <script src="bower_components/Chart.js/Chart.js"></script>
-  <!-- jvectormap  -->
-  <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-  <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-  <!-- custom js for loading templates -->
-  <script src="js/loading.js"></script>
+  <script src="../../bower_components/Chart.js/Chart.js"></script>
 
   <script>
-
+    $(document).ready(function() {
+      $.ajax({
+        url: 'topbar.html',
+        success: function(result) {
+          $("#navigation_page").html(result);
+        }
+      });
+      $.ajax({
+        url: 'feedback_content.html',
+        success: function(result) {
+          $("#content__main").html(result);
+        }
+      })
+    });
   </script>
   <!-- <script src="js/charts_demo.js"></script> -->
 

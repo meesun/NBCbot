@@ -2,10 +2,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var usersSchema = new Schema({
-  uname: String,
-  fbId: String,
-  favShows: Array,
+  name: String,
+  timezone: Number,
+  birthday: String,
+  location: String,
+  locale: String,
+  email: String,
+  imageUrl: String,
+  gender: String,
   likes: Array,
+  movies: Array,
+  fbId: String,
   roles: String
 });
 
