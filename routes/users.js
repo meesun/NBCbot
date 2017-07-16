@@ -73,7 +73,7 @@ function saveUserProfileData(senderId, senderData) {
 
 
 /*
- * Save the user details
+ * Get the favorite list
  *
  */
 function getFavoriteList(senderId) {
@@ -110,6 +110,45 @@ function getFavoriteList(senderId) {
     
 }
 
+/*
+ * Get the generic list
+ *
+ */
+function getGenericList(senderId) {
+    console.log("Getting the favorite show for the user: " + senderId );
+
+	var Shows = require(__base + 'models/shows');
+	var deferred = q.defer();
+
+	Shows.find({}, function(err, shows) {
+		if (err) console.log(err);
+		console.log('1');
+		console.log(shows);
+		console.log('2');
+		global.showsList = shows;
+		console.log('3');
+
+		
+        var Users = require(__base + 'models/users');
+        Users.find({fbId:senderId}, function(err, users) {
+				if (err) console.log(err);
+				var likesList = users[0].likes;
+				console.log(likesList);
+				finalLikesArr = [];
+				for(var j = 0; j< global.showsList.length; j++){
+					console.log(global.showsList[j].name);
+					if(!likesList.includes(global.showsList[j].name)){
+						finalLikesArr.push(global.showsList[j]);
+					}
+				}
+				deferred.resolve(finalLikesArr);
+		});
+	});
+	return deferred.promise;
+    
+}
+
 
 module.exports.saveUserProfileData = saveUserProfileData;
 module.exports.getFavoriteList = getFavoriteList;
+module.exports.getGenericList = getGenericList;
