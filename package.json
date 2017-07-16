@@ -9,16 +9,17 @@
   "dependencies": {
     "async": "*",
     "body-parser": "^1.17.2",
+    "cron": "^1.2.1",
+    "emotional": "0.0.3",
     "express": "~4.15.2",
     "fbgraph": "^1.4.1",
     "mongodb": "^2.2.8",
     "mongoose": "^4.9.7",
     "mongoose-auto-increment": "*",
-    "fbgraph":"^1.4.1",
-    "q": "^1.5.0",
-    "underscore":"^1.8.3",
     "node-geocoder": "^3.18.0",
+    "q": "^1.5.0",
     "request": "^2.81.0",
-    "cron":"^1.0.0"
+    "underscore": "^1.8.3",
+    "watson-developer-cloud": "^2.34.0"
   }
 }
