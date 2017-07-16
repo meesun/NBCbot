@@ -302,6 +302,11 @@ module.exports = {
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
       
+
+
+       addToFavorite(payload,senderID);
+
+
        var quickReply = [{
          "content_type": "text",
           "title": "Explore",
@@ -843,23 +848,15 @@ function callSendAPI(messageData) {
         sendButtonMessage(senderID, title, buttons);
 
 }
-   function addToFavorite(payload){
+   function addToFavorite(payload,senderId){
 
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
-      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
+      var userId = senderId;
 
       console.log(showId + ": = " + userId);
       var Shows = require(__base + 'models/shows');
-      var Users = require(__base + 'models/users');
-      Shows.find({_id:showId}, function(err, shows) {
-        if (err) console.log(err);
-        global._showDet = shows[0];
-      });
-
-      console.log("Show Details: " + global._showDet);
-
-      Users.findOneAndUpdate({fbId:userId},
-       {$push: {"favShows": global._showDet}},
+      Shows.findOneAndUpdate({_id:showId},
+       {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
           sendTextMessage(senderID, "Added to the favorite");
