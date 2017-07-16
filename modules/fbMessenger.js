@@ -270,7 +270,7 @@ module.exports = {
    *
    */
 
-  resolveQuickReplyPayload: function(payload){
+  resolveQuickReplyPayload: function(senderID,payload){
      console.log("payload" + payload) ;
       if(payload.indexOf('EXPLORE') != -1){
         sendRecommendedShows(senderID)
