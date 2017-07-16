@@ -44,6 +44,38 @@ module.exports = function() {
     });
     
     
-    
-     return router;
+    return router;
 }
+
+
+/*
+ * Get the generic list
+ *
+ */
+function getFeedbackQuestionList(showName) {
+
+	var Qnas = require(__base + 'models/qna');
+	var deferred = q.defer();
+
+	Qnas.find({name:showName,type:"feedback"}, function(err, qnas) {
+		if (err) console.log(err);
+		deferred.resolve(qnas);
+	});
+	return deferred.promise;
+    
+}
+
+
+
+function setUserIdInQuestion(senderId,quesId){
+
+	var Qnas = require(__base + 'models/qna');
+      Qnas.findOneAndUpdate({_id:quesId},
+       {$push: {"userId": senderId}},
+       {safe: true, upsert: true, new : true}, 
+       function (err, place) {
+      });
+}
+
+module.exports.getFeedbackQuestionList=getFeedbackQuestionList;
+module.exports.setUserIdInQuestion=setUserIdInQuestion;
