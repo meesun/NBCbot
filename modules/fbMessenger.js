@@ -104,7 +104,7 @@ module.exports = {
       sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       return;
     }
-
+    
     if (messageText) {
 
       // If we receive a text message, check to see if it matches any special
@@ -112,8 +112,10 @@ module.exports = {
       // the text we received.
       switch (messageText) {
         case "HI" || "HELLO" || "GOOD MORNING":
-          sendTextMessage(senderID, "Hi :-)");
+          sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
           break;
+        case "NBC":
+           sendFBLogin(senderID);
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
