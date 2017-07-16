@@ -14,6 +14,29 @@ module.exports = {
    *
    */
 
+  updateQuizAnswer:function(payload,senderID){
+     var res = payload.split("_");
+     var valid=false;
+     if(res[1]==res[2]){
+        valid=true;
+     }
+
+     var score={
+      "senderID":senderID,
+      "quiz_id":res[0],
+      "answer_right":valid
+     }
+    var game_score= global.user_game_score;
+    if(game_score==null || game_score==undefined){
+      var game_score_array=[];
+      game_score_array.push(score);
+      global.user_game_score=game_score_array;
+    } else{
+            global.user_game_score.push(score);
+    }
+    
+    playGames(senderID,res[0])
+  },
 
   
   receivedAuthentication: function(event) {
@@ -167,10 +190,13 @@ module.exports = {
           break;
          case "OPTIONS" || "HELP":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
+          break;
         case "NBC":
            sendFBLogin(senderID);
-        case "PLAY":
+           break;
+        case "TESTGAME":
            playGames(senderID,1);
+           break;
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
@@ -274,8 +300,10 @@ module.exports = {
       else if(payload.indexOf('WHATS_HOT') != -1){
          sendTrendingShows(senderID)
        }
-     else 
-        sendTextMessage(senderID, "Postback called"+postback);
+     else if(payload.includes('QUIZ')){
+        this.updateQuizAnswer(payload,senderID);
+     }
+        
 
   },
   receivedPostback: function(event) {
@@ -686,6 +714,11 @@ function sendReceiptMessage(recipientId) {
  *
  */
 function sendQuickReply(recipientId, quickReply, text) {
+  console.log("send Quick Reply");
+  console.log(recipientId);
+  console.log(quickReply);
+  console.log(text);
+
   if (!quickReply) {
     quickReply = [{
       "content_type": "text",
@@ -820,21 +853,39 @@ function playGames(senderID,quiz_id){
       var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
       console.log(user_games);
 
-      if(user_games!=undefined&& user_games.length==0){
+      if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
+             var games=[{
+        "_id":"222232",
+        "question":"this is a test",
+        "options":[":(",":D",":P"],
+        "correct":":P",
+        "showId":"1",
+        "quiz_id":"1"
+    },
+    {
+     "_id":"222234",
+     "question":"this is a test",
+      "options":["<3",":P"],
+      "correct":":P",
+      "showId":"2",
+      "quiz_id":"1"
+    }]
+        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+
         console.log("zero case");
-      } else{
+      } 
           
           if(user_games!=undefined && user_games.length>0)
           {
-             console.log("user_games"+user_games.games);
-              var gameToBeSent=user_games.games[0]; 
-              user_games.games.splice(0,1);
+             console.log("user_games"+user_games[0].games);
+              var gameToBeSent=user_games[0].games[0]; 
+              user_games[0].games.splice(0,1);
               
 
             _.each(global.user_games, function(item) {
                if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
-                    item.games=user_games.games
+                    item.games=user_games[0].games
             });
 
        var quickReply = [];
@@ -845,7 +896,8 @@ function playGames(senderID,quiz_id){
                 "title":gameToBeSent.options[i],
                 "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
               }
-              quickReply.push(gameToBeSent);
+              console.log(reply);
+              quickReply.push(reply);
         }
       
        var text = gameToBeSent.question;
@@ -856,7 +908,7 @@ function playGames(senderID,quiz_id){
            game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
           }
-      }
+      
     
   
 
@@ -867,6 +919,7 @@ function playGames(senderID,quiz_id){
  *
  */
 function callSendAPI(messageData) {
+  console.log(messageData)
   request({
     uri: constants.FB_MESSAGES_URL,
     qs: {
