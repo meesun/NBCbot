@@ -35,53 +35,17 @@ module.exports = function() {
 		      		 };
 		      	 var graphObject = graph
 		     		 .setOptions(options)
-		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture", function(err, res) {
+		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,books,movies,likes", function(err, res) {
 		     		     console.log("here");
 		     		     console.log(res); 
 		   		 });  
 
-		        graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
+		        /*graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
 		         	console.log("likes");
 		        	 console.log(res);
-		     	 });
+		     	 });*/
 		      		console.log("logged in");
 	    });
-    	/*var params= 'client_id='+constants.CLIENT_ID+'&redirect_uri='+constant.FBREDIRECT_URI+'&client_secret='+constants.CLIENT_SECRET'&code='+code;
-   		if(code!=null){
-        	request({
-       		  url: "https://graph.facebook.com/v2.9/oauth/access_token?"+params,
-       		  headers: {
-        	   'Content-Type': 'application/x-www-form-urlencoded'
-      		 },
-      		 method: "GET",
-  			 }, function (error, response, body){
-
-     		console.log("inside body");
-   			console.log(body);
-     		var tokenJson=JSON.parse(body);
-     		var token=tokenJson.access_token;
-    		console.log("obtained"+token);
-     		if(token!=null){
-    		    console.log(token);
-    		    var options = {
-        	    timeout:  3000,
-        	    pool:{ maxSockets:  Infinity }, 
-                headers:  { connection:  "keep-alive" }
-      		 };
-      
-    	   graph.setAccessToken(token)
-		   var graphObject = graph
-     		 .setOptions(options)
-     		 .get("me/?fields=id,name,timezone,birthday,location,locale,email,picture", function(err, res) {
-     		     console.log("here");
-     		     console.log(res); 
-   		 });  
-
-        graph.get("me/likes", {limit: 1000, access_token: token}, function(err, res) {
-         console.log("likes");
-         console.log(res);
-      });
-    } */
 
  	 res.send("thanks");
 
