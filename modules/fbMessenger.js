@@ -24,7 +24,7 @@ module.exports = {
      var score={
       "senderID":senderID,
       "quiz_id":res[0],
-      "answer_right":valid;
+      "answer_right":valid
      }
     var game_score= global.user_game_score;
     if(game_score!=null && game_score!=undefined){
