@@ -23,6 +23,7 @@ module.exports = function() {
 	        "code":           req.query.code
 	   	 }, function (err, facebookRes) {
 	   	 	    console.log(facebookRes)
+	   	 	    console.log("-----------");
 		    	var options = {
 		        	    timeout:  3000,
 		        	    pool:{ maxSockets:  Infinity }, 
@@ -31,7 +32,7 @@ module.exports = function() {
 		      	 var graphObject = graph
 		     		 .setOptions(options)
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
-		     		     console.log("here");
+		     		     console.log("Personal info");
 		     		     console.log(res); 
 		   		 });  
 
