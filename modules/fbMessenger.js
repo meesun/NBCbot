@@ -890,6 +890,9 @@ function playGames(senderID,quiz_id){
                     console.log("removing");
                     console.log(item)
                   }
+
+                  console.log(--------);
+                  console.log(global.user_games)
             });
 
        var quickReply = [];
@@ -909,7 +912,7 @@ function playGames(senderID,quiz_id){
       } else{
             //calculate score
            var game_score= global.user_game_score;
-           game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
           }
       
