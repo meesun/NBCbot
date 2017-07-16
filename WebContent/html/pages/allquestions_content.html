@@ -1,20 +1,128 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="box box-default collapsed-box">
-      <div class="box-header with-border">
-        <i class="fa fa-question-circle-o"></i>
-        <h3 class="box-title">What do Jon Snow know?</h3>
-
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
+    <div class="box box-default">
+      <div class="box-header">
+        <h3 class="box-title">Game Questions</h3>
+        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#newQuestionModal">Add Game Question</button>
       </div>
       <div class="box-body">
-        <p><i class="fa fa-fw"></i>Nothing</p>
-        <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
-        <p><i class="fa fa-fw"></i>Something</p>
+        <div class="box box-default collapsed-box">
+          <div class="box-header with-border">
+            <i class="fa fa-question-circle-o"></i>
+            <h3 class="box-title">What do Jon Snow know?</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- END BOX HEADER -->
+          <div class="box-body">
+            <p><i class="fa fa-fw"></i>Nothing</p>
+            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
+            <p><i class="fa fa-fw"></i>Something</p>
+          </div>
+          <!-- END box body -->
+        </div>
+        <!-- END QUESTION BOX -->
+        <div class="box box-default collapsed-box">
+          <div class="box-header with-border">
+            <i class="fa fa-question-circle-o"></i>
+            <h3 class="box-title">What do Jon Snow know?</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- END BOX HEADER -->
+          <div class="box-body">
+            <p><i class="fa fa-fw"></i>Nothing</p>
+            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
+            <p><i class="fa fa-fw"></i>Something</p>
+          </div>
+          <!-- END box body -->
+        </div>
+        <!-- END QUESTION BOX -->
+        <div class="box box-default collapsed-box">
+          <div class="box-header with-border">
+            <i class="fa fa-question-circle-o"></i>
+            <h3 class="box-title">What do Jon Snow know?</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- END BOX HEADER -->
+          <div class="box-body">
+            <p><i class="fa fa-fw"></i>Nothing</p>
+            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
+            <p><i class="fa fa-fw"></i>Something</p>
+          </div>
+          <!-- END box body -->
+        </div>
+        <!-- END QUESTION BOX -->
       </div>
+    </div>
+    <!-- END BOX -->
+  </div>
+  <!-- END COL -->
+</div>
+<!-- END ROW -->
+
+<!-- Modal -->
+<div class="modal fade" id="newQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- form start -->
+      <form role="form">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="box-body">
+            <div class="form-group">
+              <label for="gamequestion">Question</label>
+              <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
+            </div>
+            <label>Enter Answer Option 1</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                  <input type="radio" name="gameanswer">
+                </span>
+              <input type="text" class="form-control" id="gameanswer1" placeholder="Enter answer option 1">
+            </div>
+            <!-- /input-group -->
+            <label>Enter Answer Option 2</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                  <input type="radio" name="gameanswer">
+                </span>
+              <input type="text" class="form-control" id="gameanswer2" placeholder="Enter answer option 2">
+            </div>
+            <!-- /input-group -->
+            <label>Enter Answer Option 3</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                  <input type="radio" name="gameanswer">
+                </span>
+              <input type="text" class="form-control" id="gameanswer3" placeholder="Enter answer option 3">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.box-body -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        <!-- END FOOTER -->
+      </form>
     </div>
   </div>
 </div>
+<!-- END MODAL -->

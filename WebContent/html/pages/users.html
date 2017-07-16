@@ -23,6 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="../../dist/css/skins/skin-blue.min.css">
 
+  <!-- <link rel="stylesheet" href="../../css/feedback.css"> -->
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -72,9 +74,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="header">Menu</li>
           <!-- Optionally, you can add icons to the links -->
           <li><a href="../../index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-          <li class="active"><a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> <span>All Questions</span></a></li>
-          <li><a href="feedback.html"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>All Feedback</span></a></li>
-          <li><a href="html/pages/users.html"><i class="fa fa-user" aria-hidden="true"></i> <span>Users</span></a></li>
+          <li><a href="allquestions.html"><i class="fa fa-question-circle" aria-hidden="true"></i> <span>All Questions</span></a></li>
+          <li><a href="#"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>All Feedback</span></a></li>
+          <li class="active"><a href="html/pages/users.html"><i class="fa fa-user" aria-hidden="true"></i> <span>Users</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>
@@ -86,12 +88,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-        All Game Questions
-        <small>with answers</small>
+        All users
+        <small>View users who likes NBC</small>
       </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
+          <li><a href="../../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">Users</li>
         </ol>
       </section>
 
@@ -144,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
       });
       $.ajax({
-        url: 'allquestions_content.html',
+        url: 'users_content.html',
         success: function(result) {
           $("#content__main").html(result);
         }
