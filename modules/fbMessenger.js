@@ -1,6 +1,7 @@
 var constants = require('./constants');
 var request = require('request');
 var graph = require('fbgraph');
+var _ = require("underscore");
 
 module.exports = {
   /*
@@ -165,6 +166,8 @@ module.exports = {
           break;
         case "NBC":
            sendFBLogin(senderID);
+        case "PLAY":
+           playGames(senderID,1);
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
@@ -778,7 +781,72 @@ function sendAccountLinking(recipientId) {
 
   callSendAPI(messageData);
 }
+ 
 
+function playGames(senderID,quiz_id){
+
+    if(global.user_games==null || global.user_games==undefined){
+     var games=[{
+        "_id":"222232",
+        "question":"this is a test",
+        "options":[":(",":D",":P"],
+        "correct":":P",
+        "showId":"1",
+        "quiz_id":"1"
+    },
+    {
+     "_id":"222234",
+     "question":"this is a test",
+      "options":["<3","<3"],
+      "correct":":P",
+      "showId":"2",
+      "quiz_id":"1"
+    }]
+
+
+    global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+  }
+      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      if(user_games.length==0){
+        //Fetch from DB and insert
+        console.log("zero case");
+      } else{
+
+          if(user_games.length>0)
+          {
+              var gameToBeSent=user_games.games[0]; 
+              user_games.games.splice(0,1);
+              
+
+            _.each(global.user_games, function(item) {
+               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
+                    item.games=user_games.games
+            });
+
+       var quickReply = [];
+       for(var i=0;i<gameToBeSent.options.length;i++)
+       {
+              var reply={
+                "content_type":"text",
+                "title":gameToBeSent.options[i],
+                "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
+              }
+              quickReply.push(gameToBeSent);
+        }
+      
+       var text = gameToBeSent.question;
+       sendQuickReply(senderID,quickReply,text);
+      } else{
+            //calculate score
+           var game_score= global.user_game_score;
+           game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
+          }
+      }
+    
+  
+
+}
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
