@@ -162,7 +162,7 @@ module.exports = {
       // the text we received.
 
       //Change the options to intent
-      if(messageText.cotains('Shows me all the options') || messageText.cotains('What else do you have') ){
+      if(messageText.contains('Shows me all the options') || messageText.contains('What else do you have') ){
         //Add the configure
       }
       else {

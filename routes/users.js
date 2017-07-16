@@ -88,6 +88,7 @@ function getFavoriteList(senderId) {
 		console.log(shows);
 		console.log('2');
 		global.showsList = shows;
+		global.sId = senderId;
 		console.log('3');
 
 		
@@ -99,7 +100,8 @@ function getFavoriteList(senderId) {
 				finalLikesArr = [];
 				for(var j = 0; j< global.showsList.length; j++){
 					console.log(global.showsList[j].name);
-					if(likesList.includes(global.showsList[j].name)){
+					console.log(global.showsList[j].favUserList);
+					if(likesList.includes(global.showsList[j].name) && (typeof global.showsList[j].favUserList != 'undefined') && !global.showsList[j].favUserList.includes(global.sId)){
 						finalLikesArr.push(global.showsList[j]);
 					}
 				}
@@ -127,7 +129,7 @@ function getGenericList(senderId) {
 		console.log('2');
 		global.showsList = shows;
 		console.log('3');
-
+		global.sId = senderId;
 		
         var Users = require(__base + 'models/users');
         Users.find({fbId:senderId}, function(err, users) {
@@ -137,7 +139,8 @@ function getGenericList(senderId) {
 				finalLikesArr = [];
 				for(var j = 0; j< global.showsList.length; j++){
 					console.log(global.showsList[j].name);
-					if(!likesList.includes(global.showsList[j].name)){
+					console.log(global.showsList[j].favUserList);
+					if(!likesList.includes(global.showsList[j].name) && (typeof global.showsList[j].favUserList != 'undefined') && !global.showsList[j].favUserList.includes(global.sId)){
 						finalLikesArr.push(global.showsList[j]);
 					}
 				}
