@@ -1,7 +1,7 @@
 var constants = require('./constants');
 var request = require('request');
 var graph = require('fbgraph');
-var users = require('./routes/users');
+var users = require('../routes/users');
 
 module.exports = {
   /*
