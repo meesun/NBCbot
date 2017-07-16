@@ -822,8 +822,26 @@ function playGames(senderID,quiz_id){
 
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
+             var games=[{
+        "_id":"222232",
+        "question":"this is a test",
+        "options":[":(",":D",":P"],
+        "correct":":P",
+        "showId":"1",
+        "quiz_id":"1"
+    },
+    {
+     "_id":"222234",
+     "question":"this is a test",
+      "options":["<3","<3"],
+      "correct":":P",
+      "showId":"2",
+      "quiz_id":"1"
+    }]
+        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+
         console.log("zero case");
-      } else{
+      } 
           
           if(user_games!=undefined && user_games.length>0)
           {
@@ -856,7 +874,7 @@ function playGames(senderID,quiz_id){
            game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
           }
-      }
+      
     
   
 
