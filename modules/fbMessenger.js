@@ -27,7 +27,7 @@ module.exports = {
       "answer_right":valid
      }
     var game_score= global.user_game_score;
-    if(game_score!=null && game_score!=undefined){
+    if(game_score==null || game_score==undefined){
       var game_score_array=[];
       game_score_array.push(score);
       global.user_game_score=game_score_array;
