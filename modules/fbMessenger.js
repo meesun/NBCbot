@@ -17,7 +17,7 @@ module.exports = {
   updateQuizAnswer:function(payload,senderID){
      var res = payload.split("_");
      var valid=false;
-     if(res[1]==res[2]){
+     if(res[2]==res[3]){
         valid=true;
      }
 
@@ -34,8 +34,8 @@ module.exports = {
     } else{
             global.user_game_score.push(score);
     }
-    
-    playGames(senderID,res[0])
+    console.log(res[0]+"......"+res[1]+"......"+res[2]+"......"+res[3]+"...."+res[4]);
+    playGames(senderID,res[1])
   },
 
   
@@ -851,11 +851,12 @@ function playGames(senderID,quiz_id){
     global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
   }
       var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      console.log("user_games");
       console.log(user_games);
-
+      console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
-             var games=[{
+      var games=[{
         "_id":"222232",
         "question":"this is a test",
         "options":[":(",":D",":P"],
@@ -884,8 +885,14 @@ function playGames(senderID,quiz_id){
               
 
             _.each(global.user_games, function(item) {
-               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
-                    item.games=user_games[0].games
+               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) {
+                    item.games=user_games[0].games;
+                    console.log("removing");
+                    console.log(item)
+                  }
+
+                  console.log("--------");
+                  console.log(global.user_games)
             });
 
        var quickReply = [];
@@ -905,8 +912,8 @@ function playGames(senderID,quiz_id){
       } else{
             //calculate score
            var game_score= global.user_game_score;
-           game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
-           sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
           }
       
     
