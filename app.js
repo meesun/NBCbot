@@ -4,6 +4,7 @@ var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
 
 
+
 var mongoose = require('mongoose');
 var config = require('./config');
 
@@ -31,12 +32,14 @@ var facebook = require(__dirname + '/routes/facebook')();
 var dashboard = require(__dirname + '/routes/dashboard')();
 var shows = require(__dirname + '/routes/shows')();
 var fbProfile= require(__dirname + '/routes/fbprofile')();
+var users= require(__dirname + '/routes/users')();
 
 /* Mapping the requests to routes (controllers) */
 app.use('/facebook', facebook);
 app.use('/dashboard', dashboard);
 app.use('/shows', shows);
 app.use('/fbProfile',fbProfile);
+app.use('/users',users);
 
 
 app.get('/', function (req, res) {

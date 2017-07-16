@@ -4,6 +4,7 @@ var request = require('request');
 var express = require('express');
 var router = express.Router();
 var graph = require('fbgraph');
+var usersRouter = require('./users');
 var facebook = require('../modules/fbMessenger');
 
 module.exports = function() {
@@ -34,13 +35,24 @@ module.exports = function() {
 		      	 var graphObject = graph
 		     		 .setOptions(options)
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
-		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
-		     		     console.log("User data " + ":=" + res);
-                         facebook.sendWelcomeUser(global.senderIdFromOauth,res.name);
-		     		     console.log(res); 
+		     		    console.log("Personal id " + ":=" + global.senderIdFromOauth);
+		     		    console.log("User data " + ":=" + res);
+						console.log("Inserting the data into DB");
+		     		    usersRouter.saveUserProfileData(global.senderIdFromOauth,res);
+
+						facebook.sendWelcomeUser(global.senderIdFromOauth,res.name);
+						usersRouter.getFavoriteList(global.senderIdFromOauth).then(function(response) {
+				    	   console.log("final response");
+				           console.log(response);
+				           
+				           // Comment the below line and add the code to construct the list of fav - response
+				           facebook.sendLikedShows(global.senderIdFromOauth,response);
 
 
-
+				    	 }, function(error) {
+				        		console.error(error);
+				    	});
+		     		    console.log(res); 
 
 		   		 });  
 

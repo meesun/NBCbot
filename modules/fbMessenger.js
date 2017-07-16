@@ -53,8 +53,49 @@ module.exports = {
   sendWelcomeUser:function(senderID,name){
 
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
-
   },
+ sendLikedShows: function(senderID,shows){
+      for (i = 0; i < shows.length; i++) {
+            var show= shows[i];
+            var elements=[];
+            var showElement={
+              title: show.name,
+              subtitle:show.description,
+              item_url:show.videoURL,
+              image_url:show.imageURL,
+               buttons: [{
+               type: "postback",
+               title: "Add to favorites",
+               payload: "ADD_TO_FAVORITE_"+show._id,
+              }],
+            }
+            elements.push(showElement);
+        }
+
+ /*elements = [{
+      title: "Game of Thrones",
+      subtitle: "Valar Morghulis",
+      item_url: "https://www.youtube.com/watch?v=zQJRVSaR_vY",
+      image_url: "https://static.giantbomb.com/uploads/original/3/31685/2742670-game.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_1",
+      }],
+    }, {
+      title: "Sherlock",
+      subtitle: "The name is Sherlock and the address is 221B Baker's street",
+      item_url: "https://www.youtube.com/watch?v=uzyKkKB7mT4",
+      image_url: "https://www-tc.pbs.org/wgbh/masterpiece/wp-content/uploads/2017/01/mast-sherlock-s3-characters-sherlock-hires.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];*/
+      sendGenericMessage(senderID,elements);
+  },
+
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -217,7 +258,25 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+      
+       var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         },
+         {
+         "content_type": "text",
+         "title": "Trending Shows",
+         "payload": "WHATS_HOT"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+
+      /*var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
       var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
 
       console.log(showId + ": = " + userId);
@@ -236,12 +295,15 @@ module.exports = {
        function (err, place) {
           sendTextMessage(senderID, "Added to the favorite");
       });
-
-
-
+     */
+    } else if(payload.indexOf('EXPLORE') != -1){
+        sendRecommendedShows(senderID)
+    }
+    else if(payload.indexOf('WHATS_HOT') != -1){
+        sendTrendingShows(senderID)
     }
     else 
-      sendTextMessage(senderID, "Postback called");
+      sendTextMessage(senderID, "Postback called"+postback);
 
   },
 
@@ -716,7 +778,6 @@ function callSendAPI(messageData) {
     }
   });
 }
-
   function sendFBLogin(senderID) {
     var redirect_uri=constants.FB_REDIRECT_URI+senderID;
 
@@ -738,5 +799,67 @@ function callSendAPI(messageData) {
         sendButtonMessage(senderID, title, buttons);
 
 }
+   function addToFavorite(payload){
+
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+
+      console.log(showId + ": = " + userId);
+      var Shows = require(__base + 'models/shows');
+      var Users = require(__base + 'models/users');
+      Shows.find({_id:showId}, function(err, shows) {
+        if (err) console.log(err);
+        global._showDet = shows[0];
+      });
+
+      console.log("Show Details: " + global._showDet);
+
+      Users.findOneAndUpdate({fbId:userId},
+       {$push: {"favShows": global._showDet}},
+       {safe: true, upsert: true, new : true}, 
+       function (err, place) {
+          sendTextMessage(senderID, "Added to the favorite");
+      });
+   }
+
+  
+  function sendRecommendedShows(senderID){
+ elements = [{
+      title: "The Big Bang Theory",
+      subtitle: "Knock Knock Knock, Penny",
+      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];
+      sendGenericMessage(senderID,elements);
+  }
+  function sendTrendingShows(senderID){
+ elements = [{
+      title: "Suits",
+      subtitle: "Suits",
+      item_url: "https://www.youtube.com/watch?v=nYcxuZULwhg",
+      image_url: "http://www.usanetwork.com/sites/usanetwork/files/2017/01/Mike%20and%20Rachel%20Suits.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_1",
+      }],
+    }, {
+      title: "The Big Bang Theory",
+      subtitle: "Knock Knock Knock, Penny",
+      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];
+      sendGenericMessage(senderID,elements);
+  }
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
