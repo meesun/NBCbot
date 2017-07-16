@@ -53,7 +53,7 @@ module.exports = {
   sendWelcomeUser:function(senderID,name){
 
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
-
+        sendLikedShows(senderID);
   },
   receivedMessage: function(event) {
     var senderID = event.sender.id;
@@ -217,7 +217,20 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+
+       var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+
+      /*var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
       var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
 
       console.log(showId + ": = " + userId);
@@ -236,9 +249,7 @@ module.exports = {
        function (err, place) {
           sendTextMessage(senderID, "Added to the favorite");
       });
-
-
-
+     */
     }
     else 
       sendTextMessage(senderID, "Postback called");
@@ -716,7 +727,6 @@ function callSendAPI(messageData) {
     }
   });
 }
-
   function sendFBLogin(senderID) {
     var redirect_uri=constants.FB_REDIRECT_URI+senderID;
 
@@ -738,5 +748,29 @@ function callSendAPI(messageData) {
         sendButtonMessage(senderID, title, buttons);
 
 }
+  function sendLikedShows(senderID){
+ elements = [{
+      title: "Game of Thrones",
+      subtitle: "Valar Morghulis",
+      item_url: "https://www.youtube.com/watch?v=zQJRVSaR_vY",
+      image_url: "https://static.giantbomb.com/uploads/original/3/31685/2742670-game.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_1",
+      }],
+    }, {
+      title: "Sherlock",
+      subtitle: "The name is Sherlock and the address is 221B Baker's street",
+      item_url: "https://www.youtube.com/watch?v=uzyKkKB7mT4",
+      image_url: "https://www-tc.pbs.org/wgbh/masterpiece/wp-content/uploads/2017/01/mast-sherlock-s3-characters-sherlock-hires.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];
+      sendGenericMessage(senderID,elements);
+  }
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
