@@ -826,7 +826,7 @@ function playGames(senderID,quiz_id){
       } else{
           
           if(user_games!=undefined && user_games.length>0)
-          {.  
+          {
              console.log("user_games"+user_games.games);
               var gameToBeSent=user_games.games[0]; 
               user_games.games.splice(0,1);
