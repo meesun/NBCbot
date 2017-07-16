@@ -884,20 +884,41 @@ function callSendAPI(messageData) {
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message
     console.log("sendTrendingShows");
-    
     users.getGenericList(senderID).then(function(response) {
          console.log("final response");
          console.log(response);
          
-         // Comment the below line and add the code to construct the list of fav - response
-         facebook.sendWelcomeUser(global.senderIdFromOauth,response.length);
+         // Comment the below line and add the code to construct the list of fav - respons
 
+         var elements = [];
+
+        if(response.length>0){
+        for (i = 0; i < response.length; i++) {
+              var show= shows[i];
+              var elements=[];
+              var showElement={
+                title: response.name,
+                subtitle:response.description,
+                item_url:response.videoURL,
+                image_url:response.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+response._id,
+                }],
+              }
+              elements.push(showElement);
+          }
+              sendGenericMessage(senderID,elements);
+        } 
 
      }, function(error) {
           console.error(error);
     });
 
-      sendGenericMessage(senderID,elements);
+
+
+      
   }
 
   function sendHelpMessage(senderID) {
