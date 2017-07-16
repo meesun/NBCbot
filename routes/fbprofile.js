@@ -10,14 +10,15 @@ module.exports = function() {
 	router.get('/oauthCallBack/', function(req, res) {
 
 	    	var code=req.query['code'];
+            var senderId=req.query['senderId'];
 	    	console.log(code);
-	    	
+	    	var redirect_uri=constants.FB_REDIRECT_URI+senderId;
 	 
 	    // after user click, auth `code` will be set 
 	    // we'll send that and get the access token 
 	    graph.authorize({
 	        "client_id":      constants.FB_CLIENT_ID,
-	    	"redirect_uri":   constants.FB_REDIRECT_URI,
+	    	"redirect_uri":   redirect_uri,
 	       	"client_secret":  constants.FB_CLIENT_SECRET,
 	        "code":           req.query.code
 	   	 }, function (err, facebookRes) {
@@ -29,7 +30,7 @@ module.exports = function() {
 		      		 };
 		      	 var graphObject = graph
 		     		 .setOptions(options)
-		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender", function(err, res) {
+		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
 		     		     console.log("here");
 		     		     console.log(res); 
 		   		 });  

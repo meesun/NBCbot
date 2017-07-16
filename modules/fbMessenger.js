@@ -711,10 +711,12 @@ function callSendAPI(messageData) {
   });
 }
 
-function sendFBLogin(senderID) {
+  function sendFBLogin(senderID) {
+    var redirect_uri=constants.FB_REDIRECT_URI+senderID;
+
     var authUrl = graph.getOauthUrl({
           "client_id":     constants.FB_CLIENT_ID,
-          "redirect_uri":  constants.FB_REDIRECT_URI
+          "redirect_uri":  redirect_uri
         });
    
           // shows dialog 
@@ -728,6 +730,6 @@ function sendFBLogin(senderID) {
 
         sendButtonMessage(senderID, title, buttons);
 
-    }
+}
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
