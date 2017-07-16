@@ -167,6 +167,46 @@ app.listen(app.get('port'), function() {
 
 
 
+//Send push message
+app.get('/sendSample', function(req, res) {
+    // get all the shows
+        shows.getShowsList().then(function(response) {
+           console.log("final response");
+           console.log(response);
+           global.showResponse = response[0];
+        
+           
+        }, function(error) {
+                console.error(error);
+        });
+        
+
+
+        dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
+           console.log("final response");
+           console.log(respo);
+           global.quesResponse = respo; 
+        }, function(error) {
+                console.error(error);
+        });
+
+
+        
+        //Get the end time
+        var currTime = new Date(global.showResponse.endTime).getTime();
+        var currentTime = new Date().getTime();
+        if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
+        {
+            var userList = global.showResponse[k].favUserList;
+            for(var k = 0; k<global.quesResponse.length;k++){
+                for(var j = 0 ; j < userList.length; j++){
+                fbMessenger.sendTextMessage(userList[j],'Answer Question');
+                    dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                }
+            }
+
+        }
+});
 
 //Cron job 
 var myJob = new cronJob('5 * * * * *', function() {
@@ -175,30 +215,39 @@ var myJob = new cronJob('5 * * * * *', function() {
         shows.getShowsList().then(function(response) {
            console.log("final response");
            console.log(response);
+           global.showResponse = response[0];
         
-           for (var k = 0; k < response.length; k++) {
-                //Get the end time
-                var currTime = new Date(response[k].endTime).getTime();
-                var currentTime = new Date().getTime();
-                if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
-                {
-                    var userList = response[k].favUserList;
-                    for(var j = 0 ; j < userList.){
-
-                    }
-
-                }
+           
+        }, function(error) {
+                console.error(error);
+        });
+        
 
 
-            }   
+        dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
+           console.log("final response");
+           console.log(respo);
+           global.quesResponse = respo; 
         }, function(error) {
                 console.error(error);
         });
 
 
-        //
         
+        //Get the end time
+        var currTime = new Date(global.showResponse.endTime).getTime();
+        var currentTime = new Date().getTime();
+        if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
+        {
+            var userList = global.showResponse[k].favUserList;
+            for(var k = 0; k<global.quesResponse.length;k++){
+                for(var j = 0 ; j < userList.length; j++){
+                fbMessenger.sendTextMessage(userList[j],'Answer Question');
+                    dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                }
+            }
 
+        }
 
 });
 

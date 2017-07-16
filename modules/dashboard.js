@@ -173,14 +173,14 @@ module.exports = {
     
     saveShows:function(req,res)
     {
-        var shows= new shows({
+        var shows = shows({
             name: req.query.name,
             startTime: req.query.startTime,
             endTime: req.query.endTime,
             imageURL: req.query.imageURL,
             videoURL: req.query.videoURL,
             favUserList: req.query.favUserList,
-            description: req.query.description.
+            description: req.query.description
         });
         shows.save(function(err){
             if(err==undefined)
