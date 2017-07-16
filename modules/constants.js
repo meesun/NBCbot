@@ -31,7 +31,8 @@ module.exports = {
         "POPCORN_COMMAND": "popcorn",
         "PROBLEM_COMMAND": "problem",
         "MAHADAD_COMMAND": "mahdad",
-        "MOVIE_COMMAND": "MOVIE"
+        "MOVIE_COMMAND": "MOVIE",
+        "NBC":"NBC"
     },
     "KANNA_MESSAGES": {
         "ERROR": "Kanna, an error ran into me because I don't",
@@ -46,5 +47,10 @@ module.exports = {
         "GOOD_PAYLOAD": "REVIEW_GOOD",
         "AVERAGE_PAYLOAD": "REVIEW_AVERAGE",
         "POOR_PAYLOAD": "REVIEW_POOR"
-    }
+    },
+    "FB_CLIENT_ID":"1478594992183399",
+    "FB_CLIENT_SECRET":"71c05fdcbb94af65d4def71056e0def6",
+    "FB_REDIRECT_URI":"https://nbcbot.herokuapp.com/fbProfile/oauthCallBack?senderId=",
+    "SEND_WELCOME_USER":"It's nice to meet you, "
+
 };

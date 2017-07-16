@@ -1,5 +1,6 @@
 var constants = require('./constants');
 var request = require('request');
+var graph = require('fbgraph');
 
 module.exports = {
   /*
@@ -10,6 +11,9 @@ module.exports = {
    * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
    *
    */
+
+
+  
   receivedAuthentication: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -45,6 +49,12 @@ module.exports = {
    * then we'll simply confirm that we've received the attachment.
    *
    */
+
+  sendWelcomeUser:function(senderID,name){
+
+        sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
+
+  },
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -83,7 +93,7 @@ module.exports = {
       sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       return;
     }
-
+    
     if (messageText) {
 
       // If we receive a text message, check to see if it matches any special
@@ -91,8 +101,10 @@ module.exports = {
       // the text we received.
       switch (messageText) {
         case "HI" || "HELLO" || "GOOD MORNING":
-          sendTextMessage(senderID, "Hi :-)");
+          sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
           break;
+        case "NBC":
+           sendFBLogin(senderID);
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
@@ -199,7 +211,38 @@ module.exports = {
       "at %d", senderID, recipientID, payload, timeOfPostback);
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
-    sendTextMessage(senderID, "Postback called");
+
+    var payload = event.postback.payload;
+
+    console.log("payload" + payload) ;
+
+    if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+
+      console.log(showId + ": = " + userId);
+      var Shows = require(__base + 'models/shows');
+      var Users = require(__base + 'models/users');
+      Shows.find({_id:showId}, function(err, shows) {
+        if (err) console.log(err);
+        global._showDet = shows[0];
+      });
+
+      console.log("Show Details: " + global._showDet);
+
+      Users.findOneAndUpdate({fbId:userId},
+       {$push: {"favShows": global._showDet}},
+       {safe: true, upsert: true, new : true}, 
+       function (err, place) {
+          sendTextMessage(senderID, "Added to the favorite");
+      });
+
+
+
+    }
+    else 
+      sendTextMessage(senderID, "Postback called");
+
   },
 
   /*
@@ -374,7 +417,7 @@ function sendTextMessage(recipientId, messageText) {
  *
  */
 function sendButtonMessage(recipientId, title, buttons) {
-  if (!buttons) {
+  /*if (!buttons) {
     buttons = [{
       type: "web_url",
       url: "https://www.oculus.com/en-us/rift/",
@@ -389,7 +432,7 @@ function sendButtonMessage(recipientId, title, buttons) {
       payload: "+16505551234"
     }];
     title = "This is test text";
-  }
+  }*/
   var messageData = {
     recipient: {
       id: recipientId
@@ -673,3 +716,27 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+  function sendFBLogin(senderID) {
+    var redirect_uri=constants.FB_REDIRECT_URI+senderID;
+
+    var authUrl = graph.getOauthUrl({
+          "client_id":     constants.FB_CLIENT_ID,
+          "redirect_uri":  redirect_uri
+        });
+   
+          // shows dialog 
+        console.log(authUrl);
+        var buttons = [{
+            type: "web_url",
+            url: authUrl,
+            title: "Login to FB",
+            webview_height_ratio: "compact"
+        }];
+        var title = "Allow us to read your profile";
+
+        sendButtonMessage(senderID, title, buttons);
+
+}
+module.exports.sendGenericMessage = sendGenericMessage;
+module.exports.sendTextMessage = sendTextMessage;
