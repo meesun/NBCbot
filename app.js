@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+var shows = require(__dirname + '/routes/shows');
+var dashboard = require(__dirname + '/routes/dashboard');
 var config = require('./config');
 var cronJob = require('cron').CronJob;
 
@@ -31,8 +33,7 @@ mongoose.connect(config.database.mlabs);
 
 /* Router Declarations */
 var facebook = require(__dirname + '/routes/facebook')();
-var dashboard = require(__dirname + '/routes/dashboard')();
-var shows = require(__dirname + '/routes/shows')();
+
 var fbProfile= require(__dirname + '/routes/fbprofile')();
 var users= require(__dirname + '/routes/users')();
 
@@ -171,83 +172,129 @@ app.listen(app.get('port'), function() {
 app.get('/sendSample', function(req, res) {
     // get all the shows
         shows.getShowsList().then(function(response) {
-           console.log("final response");
-           console.log(response);
-           global.showResponse = response[0];
-        
-           
+            var promise = new Promise(function(resolve, reject) {
+                global.showResponse = response[0];
+                console.log('sap1' + global.showResponse);
+                resolve(response[0]);    
+            })
+           return promise;
         }, function(error) {
                 console.error(error);
-        });
-        
-
-
-        dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
-           console.log("final response");
-           console.log(respo);
-           global.quesResponse = respo; 
+        }).then(function(respo) {
+            var promise = new Promise(function(resolve, reject) {
+                console.log('sap2');
+               console.log(global.showResponse.name);
+               dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
+                console.log('sap2.1');
+                   console.log(respo);
+                   global.quesResponse = respo; 
+                   resolve(respo);
+                })
+            });
+            return promise;
         }, function(error) {
                 console.error(error);
-        });
+        }).then(function(rspn){
+            console.log('sap3');
+            var currTime = new Date('2017-07-16T15:41:09.667Z').getTime();
+            var currentTime = new Date().getTime();
+            console.log(currTime);
+            console.log(currentTime);
+            console.log(global.showResponse.favUserList);
+            if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) <= 5)
+            {
+                var userList = global.showResponse.favUserList;
+                for(var k = 0; k<global.quesResponse.length;k++){
+                    for(var j = 0 ; j < userList.length; j++){
+                        if(global.quesResponse[k].options.length > 0){
 
+                            var buttons = [];
 
-        
-        //Get the end time
-        var currTime = new Date(global.showResponse.endTime).getTime();
-        var currentTime = new Date().getTime();
-        if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
-        {
-            var userList = global.showResponse[k].favUserList;
-            for(var k = 0; k<global.quesResponse.length;k++){
-                for(var j = 0 ; j < userList.length; j++){
-                fbMessenger.sendTextMessage(userList[j],'Answer Question');
-                    dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                            
+                            for(var m=0 ; m < global.quesResponse[k].options.length ; m++){
+                                var element = {
+                                    "content_type": "text",
+                                    "title": global.quesResponse[k].options[m],
+                                    payload: "OPTION_PAYLOAD_"+global.quesResponse[k]._id+"_"+userList[j]+"_"+global.quesResponse[k].options[m],
+                                }
+                                buttons.push(element);
+                            }
+                            console.log(buttons);
+                            fbMessenger.sendQuickReply(userList[j], buttons,global.quesResponse[k].qn);
+                        }
+                        dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                    }
                 }
+
             }
 
-        }
+        });       
+        //Get the end time
+        
 });
 
 //Cron job 
 var myJob = new cronJob('5 * * * * *', function() {
 
         // get all the shows
-        // shows.getShowsList().then(function(response) {
-        //    console.log("final response");
-        //    console.log(response);
-        //    global.showResponse = response[0];
-        
-           
-        // }, function(error) {
-        //         console.error(error);
-        // });
-        
+        shows.getShowsList().then(function(response) {
+            var promise = new Promise(function(resolve, reject) {
+                global.showResponse = response[0];
+                console.log('sap1' + global.showResponse);
+                resolve(response[0]);    
+            })
+           return promise;
+        }, function(error) {
+                console.error(error);
+        }).then(function(respo) {
+            var promise = new Promise(function(resolve, reject) {
+                console.log('sap2');
+               console.log(global.showResponse.name);
+               dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
+                console.log('sap2.1');
+                   console.log(respo);
+                   global.quesResponse = respo; 
+                   resolve(respo);
+                })
+            });
+            return promise;
+        }, function(error) {
+                console.error(error);
+        }).then(function(rspn){
+            console.log('sap3');
+            var currTime = new Date('2017-07-16T15:41:09.667Z').getTime();
+            var currentTime = new Date().getTime();
+            console.log(currTime);
+            console.log(currentTime);
+            console.log(global.showResponse.favUserList);
+            if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) <= 5)
+            {
+                var userList = global.showResponse.favUserList;
+                for(var k = 0; k<global.quesResponse.length;k++){
+                    for(var j = 0 ; j < userList.length; j++){
+                        if(global.quesResponse[k].options.length > 0){
 
+                            var buttons = [];
 
-        // dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
-        //    console.log("final response");
-        //    console.log(respo);
-        //    global.quesResponse = respo; 
-        // }, function(error) {
-        //         console.error(error);
-        // });
+                            
+                            for(var m=0 ; m < global.quesResponse[k].options.length ; m++){
+                                var element = {
+                                    "content_type": "text",
+                                    "title": global.quesResponse[k].options[m],
+                                    payload: "OPTION_PAYLOAD_"+global.quesResponse[k]._id+"_"+userList[j]+"_"+global.quesResponse[k].options[m],
+                                }
+                                buttons.push(element);
+                            }
+                            console.log(buttons);
+                            fbMessenger.sendQuickReply(userList[j], buttons,global.quesResponse[k].qn);
+                        }
+                        dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                    }
+                }
 
+            }
 
-        
-        // //Get the end time
-        // var currTime = new Date(global.showResponse.endTime).getTime();
-        // var currentTime = new Date().getTime();
-        // if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
-        // {
-        //     var userList = global.showResponse[k].favUserList;
-        //     for(var k = 0; k<global.quesResponse.length;k++){
-        //         for(var j = 0 ; j < userList.length; j++){
-        //         fbMessenger.sendTextMessage(userList[j],'Answer Question');
-        //             dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
-        //         }
-        //     }
-
-        // }
+        });       
 
 });
 

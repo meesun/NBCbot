@@ -1,6 +1,7 @@
 var dashboard = require('../modules/dashboard');
 var request = require('request');
 var express = require('express');
+var q = require('q');
 var router = express.Router();
 
 module.exports = function() {
@@ -52,9 +53,9 @@ function getFeedbackQuestionList(showName) {
 
 	var Qnas = require(__base + 'models/qna');
 	var deferred = q.defer();
-
-	Qnas.find({name:showName,type:"feedback"}, function(err, qnas) {
+	Qnas.find({show:showName,type:"feedback"}, function(err, qnas) {
 		if (err) console.log(err);
+		console.log(qnas);
 		deferred.resolve(qnas);
 	});
 	return deferred.promise;
