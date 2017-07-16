@@ -820,7 +820,7 @@ function playGames(senderID,quiz_id){
       var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
       console.log(user_games);
 
-      if(user_games!=undefined&& user_games.length==0){
+      if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
         console.log("zero case");
       } else{
