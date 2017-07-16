@@ -851,8 +851,9 @@ function playGames(senderID,quiz_id){
     global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
   }
       var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      console.log("user_games");
       console.log(user_games);
-
+      console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
       var games=[{
