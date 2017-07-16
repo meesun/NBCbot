@@ -36,5 +36,10 @@ module.exports = function() {
         dashboard.getShowReviews(req,res);
     });
     
+    router.get('/getShowDataByCountry', function(req,res){
+        dashboard.getgeographicaldataByShow(req,res);
+    });
+    
+    
      return router;
 }

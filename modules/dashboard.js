@@ -5,7 +5,13 @@ var emotional = require("emotional");
 var shows = require('../models/shows');
 var reviews = require('../models/reviews');
 var q = require('q');
+var NodeGeocoder = require('node-geocoder');
+var users = require('../models/users');
+var watson = require('watson-developer-cloud');
+var qna = require('../models/qna');
 module.exports = {
+    
+    //deprecated
     getQuestionById:function(req, res){
          userQn.find({_id: id}, function(err, data) {
             console.log(data[0].qn)
@@ -16,6 +22,7 @@ module.exports = {
                              }
          });
     },
+    //deprecated
     getQnAnsByUser:function(req, res){
         var respArr=[];
                      userAns.find({userId: req.query.userId}, function(err, data) {
@@ -44,6 +51,7 @@ module.exports = {
             
         });
     },
+    //deprecated
     saveQuestion:function(req, res){
 
         console.log("saveQuestion hit");
@@ -58,6 +66,7 @@ module.exports = {
         });
         
     },
+    //deprecated
     saveAnswer:function(req, res){
         
                      userAnsSchema = new userAns({
@@ -70,7 +79,7 @@ module.exports = {
             res.sendStatus(200);
         });
     },
-    
+    //deprecated
     getAnswer:function(req, res){
                      userAns.find({qnId: req.query.qnId, userId: req.query.userId}, function(err, data) {
                         if(err==undefined)
@@ -95,9 +104,9 @@ module.exports = {
        
         
         reviews.find({},function(err,data){
-             var reviewMap=new Object();
+             var reviewMap = new Object();
             console.log(data);
-            var promises=[];
+            var promises = [];
             for(var i=0;i<data.length;i++){
                      
                 var show=data[i].show;
@@ -118,6 +127,70 @@ module.exports = {
             q.all(promises).then(function(data){res.send(reviewMap)});
         });
 
+    },
+    
+    
+    
+    getgeographicaldataByShow: function(req,res)
+    {
+        users.find({},function(err,data){
+            var countryMap = new Object();
+            var promises = [];
+            for(var i=0;i<data.length;i++){
+                 var location = data[i].location;
+                var country=location.split(",")[1].trim();
+                if(country)
+                    {
+                        if(countryMap[country])
+                            {
+                                 countryMap[country]++;
+                            }
+                       else{
+                           countryMap[country]=1;
+                       }
+                    }
+            }
+            res.send(countryMap);
+        });
+    },
+    getTagsfromReviews:function(req,res)
+    {
+        var alchemy_language = watson.alchemy_language({
+          api_key: 'API_KEY'
+        })
+
+        var parameters = {
+          text: 'http://news.ycombinator.com'
+        };
+
+        alchemy_language.feeds(parameters, function (err, response) {
+          if (err)
+            console.log('error:', err);
+          else
+            console.log(JSON.stringify(response, null, 2));
+        });
+    },
+    
+    saveShows:function(req,res)
+    {
+        var shows= new shows({
+            name: req.query.name,
+            startTime: req.query.startTime,
+            endTime: req.query.endTime,
+            imageURL: req.query.imageURL,
+            videoURL: req.query.videoURL,
+            favUserList: req.query.favUserList,
+            description: req.query.description.
+        });
+        shows.save(function(err){
+            if(err==undefined)
+                {
+                    console.log("show ")
+                    res.sendStatus(200);
+                }
+            
+        })
+        
     }
 }
     
@@ -142,5 +215,8 @@ function getSentiment(review,obj)
                 });
     return defer.promise;
 }
+
+
+
 
 
