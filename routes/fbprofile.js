@@ -44,7 +44,11 @@ module.exports = function() {
 						usersRouter.getFavoriteList(global.senderIdFromOauth).then(function(response) {
 				    	   console.log("final response");
 				           console.log(response);
+				           
+				           // Comment the below line and add the code to construct the list of fav - response
 				           facebook.sendWelcomeUser(global.senderIdFromOauth,response.length);
+
+
 				    	 }, function(error) {
 				        		console.error(error);
 				    	});
