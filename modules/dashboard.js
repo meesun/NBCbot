@@ -11,7 +11,7 @@ var watson = require('watson-developer-cloud');
 var qna = require('../models/qna');
 var lookup = require('country-data').lookup;
 module.exports = {
-    
+
     //deprecated
     getQuestionById:function(req, res){
          userQn.find({_id: id}, function(err, data) {
@@ -31,7 +31,7 @@ module.exports = {
                         if(err==undefined)
                         {
                             data.forEach(function(ans){
-                                
+
                                 userQn.find({_id: ans.qnId}, function(err, data) {
                                 console.log(data[0].qn)
                                 if(err==undefined)
@@ -41,15 +41,15 @@ module.exports = {
                                     respArr.push(respObj);
                                 }
                                 });
-                                
-                                
-                                
+
+
+
                             });
                             res.send(respArr);
-                            
+
                         }
-                        
-            
+
+
         });
     },
     //deprecated
@@ -65,11 +65,11 @@ module.exports = {
             console.log("question saved in db");
             res.sendStatus(200);
         });
-        
+
     },
     //deprecated
     saveAnswer:function(req, res){
-        
+
                      userAnsSchema = new userAns({
                          "qnId": req.query.qnId,
                         "userId": req.query.userId,
@@ -80,7 +80,7 @@ module.exports = {
             res.sendStatus(200);
         });
     },
-    
+
     getAnswer:function(req, res){
         var ansArr=[];
          qna.find({qn: req.query.qn},{answer:1,'_id':0}, function(err, data) {
@@ -96,25 +96,25 @@ module.exports = {
 
         });
     },
-    
+
     getShows:function(req,res){
         shows.find({}, function(err, data) {
                         if(err==undefined)
                              res.send(data);
-            
+
         });
     },
-    
+
     getQuizQuestions:function(req,res){
         qna.find({type:'quiz'}, function(err,data){
                  if(err==undefined)
                     res.send(data);
                  });
     },
-    
+
     getAllQuestions:function(req,res)
     {
-        qna.find({type:'feedack'},{'qn':1,'_id':0},function(err,data){
+        qna.find({type:'feedback'},{'qn':1,'_id':0},function(err,data){
             var ques=[];
             for(var i=0;i<data.length;i++)
                 {
@@ -124,14 +124,14 @@ module.exports = {
         });
     },
     getShowReviews:function(req,res){
-       
-        
+
+
         reviews.find({},function(err,data){
              var reviewMap = new Object();
             console.log(data);
             var promises = [];
             for(var i=0;i<data.length;i++){
-                     
+
                 var show=data[i].show;
                 var reviewCount = reviewMap[show];
                 var reviewobj=new Object();
@@ -144,14 +144,14 @@ module.exports = {
                 }
                 var promise=getSentiment(data[i].review,reviewMap[show]);
                 promises.push(promise);
-             
+
                 console.log(reviewMap);
             }
             q.all(promises).then(function(data){res.send(reviewMap)});
         });
 
     },
-    
+
     getAgeDataByShow: function(req,res)
     {
         users.find({},function(err,data){
@@ -173,7 +173,7 @@ module.exports = {
             res.send(countryMap);
         });
     },
-    
+
     getgeographicaldataByShow: function(req,res)
     {
         users.find({},function(err,data){
@@ -226,14 +226,14 @@ module.exports = {
                       }
                     };
                     var promise=getTags(natural_language_understanding,parameters,tagArr);
-                    promises.push(promise);        
+                    promises.push(promise);
                 }
                 q.all(promises).then(function(data){res.send(tagArr)});
             }
         });
-        
+
     },
-    
+
     saveShows:function(req,res)
     {
         var shows= new shows({
@@ -252,13 +252,13 @@ module.exports = {
                     console.log("show ")
                     res.sendStatus(200);
                 }
-            
+
         })
-        
+
     }
 }
-    
-    
+
+
 function getTags(nlu,parameters,obj)
 {
     var defer = q.defer();
@@ -278,7 +278,7 @@ function getTags(nlu,parameters,obj)
                                     }
                                 else{
                                        obj[keywordsArr[i].text]=1;
- 
+
                                 }
                             }
                         defer.resolve(obj);
@@ -291,7 +291,7 @@ function getSentiment(review,obj)
 {
     var defer = q.defer();
     emotional.load(function () {
-                    
+
                     var positive = emotional.positive(review);
                     if(positive)
                     {
@@ -299,7 +299,7 @@ function getSentiment(review,obj)
                     }
                     else{
                         obj.negative++;
-                    } 
+                    }
                     defer.resolve(positive);
                 });
     return defer.promise;
@@ -315,8 +315,3 @@ function getAge(dateString) {
     }
     return age;
 }
-
-
-
-
-

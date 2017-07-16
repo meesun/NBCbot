@@ -414,46 +414,6 @@
     barChartOptions.datasetFill = false
     barChart.Bar(barChartData, barChartOptions)
 
-    /* jQCloud Word Cloud
-     * ------------
-     * Create an array of word objects, each representing a word in the cloud
-     */
-    var word_array = [{
-        text: "Lorem",
-        weight: 15
-      }, {
-        text: "Ipsum",
-        weight: 9,
-        link: "http://jquery.com/"
-      }, {
-        text: "Dolor",
-        weight: 6
-      }, {
-        text: "Sit",
-        weight: 7
-      },
-      {
-        text: "Sapna",
-        weight: 17
-      }, {
-        text: "Mani",
-        weight: 12
-      }, {
-        text: "Fish",
-        weight: 18
-      }, {
-        text: "Janani",
-        weight: 15
-      }, {
-        text: "Amet",
-        weight: 5
-      }
-
-      // ...as many words as you want
-    ];
-
-    $("#wordcloud").jQCloud(word_array);
-
     $('#questionformbutton').on('click', function(e) {
       e.preventDefault();
       console.log('button clicked');
@@ -492,6 +452,28 @@
             el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
         }
       });
+    });
+
+    $.ajax({
+      url: 'dashboard/getTagsfromReviews'
+    }).then(function(response) {
+      console.log(response);
+      /* jQCloud Word Cloud
+       * ------------
+       * Create an array of word objects, each representing a word in the cloud
+       */
+      var word_array = [];
+      for (var key in response) {
+        if (response.hasOwnProperty(key)) {
+          word_array.push({
+            text: key,
+            weight: response[key]
+          })
+        }
+      }
+
+      $("#wordcloud").jQCloud(word_array);
+
     });
 
 
