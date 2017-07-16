@@ -39,7 +39,7 @@ module.exports = function() {
 		     		     console.log(res); 
 		   		 });  
 
-		        graph.get("me/likes", {limit: 1000, access_token: token}, function(err, res) {
+		        graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
 		         	console.log("likes");
 		        	 console.log(res);
 		     	 });
