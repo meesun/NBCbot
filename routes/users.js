@@ -1,12 +1,19 @@
 var express = require('express');
 var request = require('request');
 var router = express.Router();
+var q = require('q');
 
 module.exports = function() {
 
-
-	router.get('/sendPushMessage', function(req, res) {
-    	var result='Say Kevin to start';
+	router.get('/getFavoriteList', function(req, res) {
+    	var senderId = req.query.senderId;
+    	getFavoriteList(senderId).then(function(response) {
+    		console.log("final response");
+           console.log(response);
+    	 }, function(error) {
+        		console.error(error);
+    	});
+    	
 
     });
 
@@ -64,4 +71,45 @@ function saveUserProfileData(senderId, senderData) {
 	});
 }
 
+
+/*
+ * Save the user details
+ *
+ */
+function getFavoriteList(senderId) {
+    console.log("Getting the favorite show for the user: " + senderId );
+
+	var Shows = require(__base + 'models/shows');
+	var deferred = q.defer();
+
+	Shows.find({}, function(err, shows) {
+		if (err) console.log(err);
+		console.log('1');
+		console.log(shows);
+		console.log('2');
+		global.showsList = shows;
+		console.log('3');
+
+		
+        var Users = require(__base + 'models/users');
+        Users.find({fbId:senderId}, function(err, users) {
+				if (err) console.log(err);
+				var likesList = users[0].likes;
+				console.log(likesList);
+				finalLikesArr = [];
+				for(var j = 0; j< global.showsList.length; j++){
+					console.log(global.showsList[j].name);
+					if(likesList.includes(global.showsList[j].name)){
+						finalLikesArr.push(global.showsList[j]);
+					}
+				}
+				deferred.resolve(finalLikesArr);
+		});
+	});
+	return deferred.promise;
+    
+}
+
+
 module.exports.saveUserProfileData = saveUserProfileData;
+module.exports.getFavoriteList = getFavoriteList;

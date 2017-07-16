@@ -35,17 +35,20 @@ module.exports = function() {
 		      	 var graphObject = graph
 		     		 .setOptions(options)
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
-		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
-		     		     console.log("User data " + ":=" + res);
+		     		    console.log("Personal id " + ":=" + global.senderIdFromOauth);
+		     		    console.log("User data " + ":=" + res);
 						console.log("Inserting the data into DB");
 		     		    usersRouter.saveUserProfileData(global.senderIdFromOauth,res);
 
 						facebook.sendWelcomeUser(global.senderIdFromOauth,res.name);
-
-		     		     console.log(res); 
-
-
-
+						usersRouter.getFavoriteList(senderId).then(function(response) {
+				    	   console.log("final response");
+				           console.log(response);
+				           facebook.sendWelcomeUser(global.senderIdFromOauth,response.length);
+				    	 }, function(error) {
+				        		console.error(error);
+				    	});
+		     		    console.log(res); 
 
 		   		 });  
 
