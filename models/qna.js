@@ -1,7 +1,7 @@
 var mongoose=require("mongoose");
 var schema=mongoose.Schema;
 
-var qna=new schema({
+var qnaSchema=new schema({
     "userId": Array,
     "show": String,
     "options": Array,
@@ -11,6 +11,6 @@ var qna=new schema({
     "qn": String
 });
 
-var qna = mongoose.model('qna', qna);
+var qna = mongoose.model('qna', qnaSchema);
 
 module.exports = qna;

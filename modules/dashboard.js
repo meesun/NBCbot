@@ -155,20 +155,51 @@ module.exports = {
     },
     getTagsfromReviews:function(req,res)
     {
-        var alchemy_language = watson.alchemy_language({
-          api_key: 'API_KEY'
-        })
+        var tagArr=new Object();
+        var promises=[];
+        qna.find({type:'feedack'},{'response.response':1,'_id':0},function(err,data){
+            if(err)
+                res.send(err);
+            else{
+                for(var i=0;i<data.length;i++)
+                {
+                    var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+                    var natural_language_understanding = new NaturalLanguageUnderstandingV1({
+                      "username": "a3b43ba0-0ea4-4de6-8993-05f9bb7e3cae",
+                      "password": "jjjfrpQooMyw",
+                      'version_date': '2017-02-27'
+                    });
 
-        var parameters = {
-          text: 'http://news.ycombinator.com'
-        };
-
-        alchemy_language.feeds(parameters, function (err, response) {
-          if (err)
-            console.log('error:', err);
-          else
-            console.log(JSON.stringify(response, null, 2));
+                    var parameters = {
+                      'text': data[i].response[0].response,
+                      'features': {
+                        'keywords': {
+                          'sentiment': true,
+                          'emotion': true,
+                          'limit': 3
+                        }
+                      }
+                    };
+                    var promise=getTags(natural_language_understanding,parameters,tagArr);
+                    promises.push(promise);
+                   /* natural_language_understanding.analyze(parameters, function(err, response) {
+                      if (err)
+                        console.log('error:', err);
+                      else
+                        var tagRes=JSON.stringify(response, null, 2);
+                        var keywords = tagRes.keywords;
+                        for(var i=0;i<keywords.length;i++)
+                            {
+                                tagArr.push(keywords[i].text);
+                            }
+                        res.send(tagArr);
+                    });*/
+                        
+                }
+                q.all(promises).then(function(data){res.send(tagArr)});
+            }
         });
+        
     },
     
     saveShows:function(req,res)
@@ -180,7 +211,8 @@ module.exports = {
             imageURL: req.query.imageURL,
             videoURL: req.query.videoURL,
             favUserList: req.query.favUserList,
-            description: req.query.description.
+            description: req.query.description,
+            tags:req.query.tags
         });
         shows.save(function(err){
             if(err==undefined)
@@ -195,7 +227,32 @@ module.exports = {
 }
     
     
-
+function getTags(nlu,parameters,obj)
+{
+    var defer = q.defer();
+    nlu.analyze(parameters, function(err, response) {
+                      if (err)
+                        console.log('error:', err);
+                      else
+                        var tagRes=response;
+        console.log("22");
+        console.log(tagRes)
+                        var keywordsArr = tagRes.keywords;
+                        for(var i=0;i<keywordsArr.length;i++)
+                            {
+                                if(obj[keywordsArr[i].text])
+                                    {
+                                        obj[keywordsArr[i].text]++;
+                                    }
+                                else{
+                                       obj[keywordsArr[i].text]=1;
+ 
+                                }
+                            }
+                        defer.resolve(obj);
+                    });
+    return defer.promise;
+}
 
 
 function getSentiment(review,obj)
