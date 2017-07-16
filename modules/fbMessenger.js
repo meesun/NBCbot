@@ -864,7 +864,7 @@ function playGames(senderID,quiz_id){
                 "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
               }
               console.log(reply);
-              quickReply.push(gameToBeSent);
+              quickReply.push(reply);
         }
       
        var text = gameToBeSent.question;
