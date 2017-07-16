@@ -222,6 +222,11 @@ module.exports = {
          "content_type": "text",
           "title": "Explore",
           "payload": "EXPLORE"
+         },
+         {
+         "content_type": "text",
+         "title": "Trending Shows",
+         "payload": "WHATS_HOT"
          }, {
          "content_type": "text",
          "title": "Game",
@@ -250,6 +255,11 @@ module.exports = {
           sendTextMessage(senderID, "Added to the favorite");
       });
      */
+    } else if(payload.indexOf('EXPLORE') != -1){
+        sendRecommendedShows(senderID)
+    }
+    else if(payload.indexOf('WHATS_HOT') != -1){
+        sendTrendingShows(senderID)
     }
     else 
       sendTextMessage(senderID, "Postback called");
@@ -787,6 +797,45 @@ function callSendAPI(messageData) {
       subtitle: "The name is Sherlock and the address is 221B Baker's street",
       item_url: "https://www.youtube.com/watch?v=uzyKkKB7mT4",
       image_url: "https://www-tc.pbs.org/wgbh/masterpiece/wp-content/uploads/2017/01/mast-sherlock-s3-characters-sherlock-hires.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];
+      sendGenericMessage(senderID,elements);
+  }
+
+  function sendRecommendedShows(senderID){
+ elements = [{
+      title: "The Big Bang Theory",
+      subtitle: "Knock Knock Knock, Penny",
+      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];
+      sendGenericMessage(senderID,elements);
+  }
+  function sendTrendingShows(senderID){
+ elements = [{
+      title: "Suits",
+      subtitle: "Suits",
+      item_url: "https://www.youtube.com/watch?v=nYcxuZULwhg",
+      image_url: "http://www.usanetwork.com/sites/usanetwork/files/2017/01/Mike%20and%20Rachel%20Suits.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_1",
+      }],
+    }, {
+      title: "The Big Bang Theory",
+      subtitle: "Knock Knock Knock, Penny",
+      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
       buttons: [{
         type: "postback",
         title: "Add to favorites",
