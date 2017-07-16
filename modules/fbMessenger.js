@@ -891,6 +891,7 @@ function playGames(senderID,quiz_id){
  *
  */
 function callSendAPI(messageData) {
+  console.log(messageData)
   request({
     uri: constants.FB_MESSAGES_URL,
     qs: {
