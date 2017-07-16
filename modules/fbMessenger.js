@@ -169,7 +169,7 @@ module.exports = {
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
         case "NBC":
            sendFBLogin(senderID);
-        case "PLAY":
+        case "TESTGAME":
            playGames(senderID,1);
         case 'IMAGE':
           sendImageMessage(senderID);
@@ -833,7 +833,7 @@ function playGames(senderID,quiz_id){
     {
      "_id":"222234",
      "question":"this is a test",
-      "options":["<3","<3"],
+      "options":["<3",":P"],
       "correct":":P",
       "showId":"2",
       "quiz_id":"1"
