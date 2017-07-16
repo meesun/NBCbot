@@ -30,12 +30,13 @@ mongoose.connect(config.database.mlabs);
 var facebook = require(__dirname + '/routes/facebook')();
 var dashboard = require(__dirname + '/routes/dashboard')();
 var shows = require(__dirname + '/routes/shows')();
+var fbProfile= require(__dirname + '/routes/fbprofile')();
 
 /* Mapping the requests to routes (controllers) */
 app.use('/facebook', facebook);
 app.use('/dashboard', dashboard);
 app.use('/shows', shows);
-
+app.use('/fbProfile',fbProfile);
 
 
 app.get('/', function (req, res) {
@@ -50,56 +51,6 @@ app.get('/webhook/', function(req, res) {
     res.send('Error, wrong token');
 });
 
-app.get('/oauthCallBack/', function(req, res) {
-
-    var code=req.query['code'];
-    console.log(code);
-
-    var params= 'client_id=1478594992183399&redirect_uri=https://nbcbot.herokuapp.com/oauthCallBack&client_secret=71c05fdcbb94af65d4def71056e0def6&code='+code;
-    if(code!=null){
-        request({
-         url: " https://graph.facebook.com/v2.9/oauth/access_token?"+params,
-         headers: {
-           'Content-Type': 'application/x-www-form-urlencoded'
-       },
-       method: "GET",
-   }, function (error, response, body){
-
-     console.log("inside body");
-     console.log(body);
-     var tokenJson=JSON.parse(body);
-     var token=tokenJson.access_token;
-     console.log("obtained"+token);
-     if(token!=null){
-        console.log(token);
-        var graph = require('fbgraph');
-        var options = {
-          timeout:  3000,
-          pool:{ maxSockets:  Infinity }, 
-          headers:  { connection:  "keep-alive" }
-      };
-      
-     graph.setAccessToken(token)
-
-     var graphObject = graph
-      .setOptions(options)
-      .get("me/?fields=id,name,timezone,birthday,location,locale,email,picture", function(err, res) {
-          console.log("here");
-          console.log(res); // { id: '4', name: 'Mark Zuckerberg'... } 
-    });  
-      //graphObject.request.abort();
-
-      graph.get("me/likes", {limit: 1000, access_token: token}, function(err, res) {
-        console.log("likes");
-         console.log(res);
-     });
-  } 
-
-  res.send("code");
-
-});
-    }
-});
 
 app.post('/webhook/', function(req, res) {
     var data = req.body;
