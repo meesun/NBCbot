@@ -53,8 +53,49 @@ module.exports = {
   sendWelcomeUser:function(senderID,name){
 
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
-        sendLikedShows(senderID);
   },
+ sendLikedShows: function(senderID,shows){
+      for (i = 0; i < shows.length; i++) {
+            var show= shows[i];
+            var elements=[];
+            var showElement={
+              title: show.name,
+              subtitle:show.description,
+              item_url:show.videoURL,
+              image_url:show.imageURL,
+               buttons: [{
+               type: "postback",
+               title: "Add to favorites",
+               payload: "ADD_TO_FAVORITE_"+show._id,
+              }],
+            }
+            elements.push(showElement);
+        }
+
+ /*elements = [{
+      title: "Game of Thrones",
+      subtitle: "Valar Morghulis",
+      item_url: "https://www.youtube.com/watch?v=zQJRVSaR_vY",
+      image_url: "https://static.giantbomb.com/uploads/original/3/31685/2742670-game.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_1",
+      }],
+    }, {
+      title: "Sherlock",
+      subtitle: "The name is Sherlock and the address is 221B Baker's street",
+      item_url: "https://www.youtube.com/watch?v=uzyKkKB7mT4",
+      image_url: "https://www-tc.pbs.org/wgbh/masterpiece/wp-content/uploads/2017/01/mast-sherlock-s3-characters-sherlock-hires.jpg",
+      buttons: [{
+        type: "postback",
+        title: "Add to favorites",
+        payload: "ADD_TO_FAVORITE_2",
+      }]
+    }];*/
+      sendGenericMessage(senderID,elements);
+  }
+
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -781,31 +822,7 @@ function callSendAPI(messageData) {
       });
    }
 
-  function sendLikedShows(senderID){
- elements = [{
-      title: "Game of Thrones",
-      subtitle: "Valar Morghulis",
-      item_url: "https://www.youtube.com/watch?v=zQJRVSaR_vY",
-      image_url: "https://static.giantbomb.com/uploads/original/3/31685/2742670-game.jpg",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_1",
-      }],
-    }, {
-      title: "Sherlock",
-      subtitle: "The name is Sherlock and the address is 221B Baker's street",
-      item_url: "https://www.youtube.com/watch?v=uzyKkKB7mT4",
-      image_url: "https://www-tc.pbs.org/wgbh/masterpiece/wp-content/uploads/2017/01/mast-sherlock-s3-characters-sherlock-hires.jpg",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_2",
-      }]
-    }];
-      sendGenericMessage(senderID,elements);
-  }
-
+  
   function sendRecommendedShows(senderID){
  elements = [{
       title: "The Big Bang Theory",
