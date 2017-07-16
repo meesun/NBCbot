@@ -54,7 +54,7 @@ module.exports = {
 
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
 
-  }
+  },
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
