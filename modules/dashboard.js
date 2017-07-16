@@ -114,7 +114,7 @@ module.exports = {
     
     getAllQuestions:function(req,res)
     {
-        qna.find({type:'feedack'},{'qn':1,'_id':0},function(err,data){
+        qna.find({type:'feedback'},{'qn':1,'_id':0},function(err,data){
             var ques=[];
             for(var i=0;i<data.length;i++)
                 {
@@ -123,10 +123,12 @@ module.exports = {
             res.send(ques);
         });
     },
+    
+    //TODO
     getShowReviews:function(req,res){
        
         
-        reviews.find({},function(err,data){
+        qna.find({type:'feedback'},function(err,data){
              var reviewMap = new Object();
             console.log(data);
             var promises = [];
@@ -142,9 +144,12 @@ module.exports = {
                     reviewCount.negative=0;
                     reviewMap[show]=reviewCount;
                 }
-                var promise=getSentiment(data[i].review,reviewMap[show]);
-                promises.push(promise);
-             
+                respArr=data[i].response;
+                for(var j=0;j<respArr.length;j++)
+                {
+                    var promise=getSentiment(respArr[j].response,reviewMap[show]);
+                    promises.push(promise);
+                }
                 console.log(reviewMap);
             }
             q.all(promises).then(function(data){res.send(reviewMap)});
@@ -159,18 +164,66 @@ module.exports = {
             for(var i=0;i<data.length;i++){
                  var birthday = data[i].birthday;
                 var age=getAge(birthday);
-                if(country)
+                if(age)
                     {
-                        if(countryMap[country])
-                            {
-                                 countryMap[country]++;
-                            }
-                       else{
-                           countryMap[country]=1;
-                       }
+                       if(age>0 && age<=5)
+                           {
+                               
+                                addAge(ageMap,'0-5');   
+                           }
+                        else if(age>5 && age<=10)
+                           {
+                               
+                                addAge(ageMap,'5-10');   
+                           }
+                        else if(age>10 && age<=15)
+                           {
+                               
+                                addAge(ageMap,'10-15');   
+                           }
+                        else if(age>15 && age<=20)
+                           {
+                               
+                                addAge(ageMap,'15-20');   
+                           }
+                        else if(age>20 && age<=25)
+                           {
+                               
+                                addAge(ageMap,'20-25');   
+                           }
+                        else if(age>25 && age<=30)
+                           {
+                               
+                                addAge(ageMap,'25-30');   
+                           }
+                        else if(age>30 && age<=35)
+                           {
+                               
+                                addAge(ageMap,'30-35');   
+                           }
+                        else if(age>35 && age<=40)
+                           {
+                               
+                                addAge(ageMap,'35-40');   
+                           }
+                        else if(age>40 && age<=45)
+                           {
+                               
+                                addAge(ageMap,'40-45');   
+                           }
+                        else if(age>45 && age<=50)
+                           {
+                               
+                                addAge(ageMap,'45-50');   
+                           }
+                        else if(age>50 && age<=55)
+                           {
+                               
+                                addAge(ageMap,'50-55');   
+                           }
                     }
             }
-            res.send(countryMap);
+            res.send(ageMap);
         });
     },
     
@@ -303,6 +356,18 @@ function getSentiment(review,obj)
                     defer.resolve(positive);
                 });
     return defer.promise;
+}
+
+function addAge(ageMap,range)
+{
+    if(ageMap[range])
+                               {
+                                 ageMap[range]++;
+                               }
+                               else
+                               {
+                                   ageMap[range]=1;
+                               }
 }
 
 function getAge(dateString) {

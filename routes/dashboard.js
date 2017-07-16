@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 module.exports = function() {
-    //deprecated
+    
     router.get('/getAns', function(req, res) {
 		dashboard.getAnswer(req,res);
 	});
@@ -46,6 +46,11 @@ module.exports = function() {
     router.get('/getAllQuestions', function(req,res){
         dashboard.getAllQuestions(req,res);
     });
+    
+    router.get('/getAgeDataByShow', function(req,res){
+        dashboard.getAgeDataByShow(req,res);
+    });
+    
     
     
     return router;
