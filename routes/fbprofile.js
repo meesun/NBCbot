@@ -13,7 +13,7 @@ module.exports = function() {
 	    	console.log(code);
 	    	var authUrl = graph.getOauthUrl({
 	        "client_id":     constants.CLIENT_ID,
-	        "redirect_uri":  constants.CLIENT_SECRET
+	        "redirect_uri":  constants.REDIRECT_URI
 	  	  });
 	 
 	  		  // shows dialog 
@@ -23,10 +23,11 @@ module.exports = function() {
 	    // we'll send that and get the access token 
 	    graph.authorize({
 	        "client_id":      constants.CLIENT_ID
-	      , "redirect_uri":   constants.CLIENT_SECRET
-	      , "client_secret":  constants.redirect_uri
+	      , "redirect_uri":   constants.REDIRECT_URI
+	      , "client_secret":  constants.CLIENT_SECRET
 	      , "code":           req.query.code
 	   	 }, function (err, facebookRes) {
+	   	 	    console.log(facebookRes)
 		    	var options = {
 		        	    timeout:  3000,
 		        	    pool:{ maxSockets:  Infinity }, 
