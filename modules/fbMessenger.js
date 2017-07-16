@@ -34,7 +34,8 @@ module.exports = {
     } else{
             global.user_game_score.push(score);
     }
-    this.playGames(senderID,res[0])
+    
+    playGames(senderID,res[0])
   },
 
   
