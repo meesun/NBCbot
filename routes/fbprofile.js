@@ -1,4 +1,4 @@
-var constans = require('../modules/constants');
+var constants = require('../modules/constants');
 
 var request = require('request');
 var express = require('express');
