@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
+var config = require('./config');
+var cronJob = require('cron').CronJob;
 
 
 
@@ -162,3 +164,42 @@ app.get('/sendPushMessages', function(req, res) {
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
 });
+
+
+
+
+//Cron job 
+var myJob = new cronJob('5 * * * * *', function() {
+
+        // get all the shows
+        shows.getShowsList().then(function(response) {
+           console.log("final response");
+           console.log(response);
+        
+           for (var k = 0; k < response.length; k++) {
+                //Get the end time
+                var currTime = new Date(response[k].endTime).getTime();
+                var currentTime = new Date().getTime();
+                if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) < 8)
+                {
+                    var userList = response[k].favUserList;
+                    for(var j = 0 ; j < userList.){
+
+                    }
+
+                }
+
+
+            }   
+        }, function(error) {
+                console.error(error);
+        });
+
+
+        //
+        
+
+
+});
+
+myJob.start();
