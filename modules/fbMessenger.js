@@ -55,6 +55,7 @@ module.exports = {
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
   },
  sendLikedShows: function(senderID,shows){
+      if(shows.length>0){
       for (i = 0; i < shows.length; i++) {
             var show= shows[i];
             var elements=[];
@@ -71,7 +72,26 @@ module.exports = {
             }
             elements.push(showElement);
         }
+            sendGenericMessage(senderID,elements);
 
+    } else{
+        var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         },
+         {
+         "content_type": "text",
+         "title": "Trending Shows",
+         "payload": "WHATS_HOT"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+    }
  /*elements = [{
       title: "Game of Thrones",
       subtitle: "Valar Morghulis",
@@ -93,7 +113,6 @@ module.exports = {
         payload: "ADD_TO_FAVORITE_2",
       }]
     }];*/
-      sendGenericMessage(senderID,elements);
   },
 
   receivedMessage: function(event) {
