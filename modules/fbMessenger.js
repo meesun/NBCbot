@@ -35,7 +35,7 @@ module.exports = {
             global.user_game_score.push(score);
     }
     this.playGames(senderID,res[0])
-  }
+  },
 
   
   receivedAuthentication: function(event) {
