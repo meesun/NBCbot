@@ -11,7 +11,7 @@ var usersSchema = new Schema({
   imageUrl: String,
   gender: String,
   likes: Array,
-  movies: Array
+  movies: Array,
   fbId: String,
   roles: String
 });
