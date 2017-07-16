@@ -8,7 +8,8 @@ var showsSchema = new Schema({
   imageURL: String,
   videoURL: String,
   favUserList: Array,
-  description: String
+  description: String,
+  tags: Array
 });
 
 var shows = mongoose.model('shows', showsSchema);

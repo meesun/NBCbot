@@ -1,6 +1,8 @@
 var constants = require('./constants');
 var request = require('request');
 var graph = require('fbgraph');
+var _ = require("underscore");
+var users = require('../routes/users');
 
 module.exports = {
   /*
@@ -55,6 +57,7 @@ module.exports = {
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
   },
  sendLikedShows: function(senderID,shows){
+      if(shows.length>0){
       for (i = 0; i < shows.length; i++) {
             var show= shows[i];
             var elements=[];
@@ -71,7 +74,26 @@ module.exports = {
             }
             elements.push(showElement);
         }
+            sendGenericMessage(senderID,elements);
 
+    } else{
+        var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         },
+         {
+         "content_type": "text",
+         "title": "Trending Shows",
+         "payload": "WHATS_HOT"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+    }
  /*elements = [{
       title: "Game of Thrones",
       subtitle: "Valar Morghulis",
@@ -93,7 +115,6 @@ module.exports = {
         payload: "ADD_TO_FAVORITE_2",
       }]
     }];*/
-      sendGenericMessage(senderID,elements);
   },
 
   receivedMessage: function(event) {
@@ -124,7 +145,7 @@ module.exports = {
     } else if (quickReply) {
       var quickReplyPayload = quickReply.payload;
       console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
-      sendTextMessage(senderID, "Quick reply tapped");
+      this.resolveQuickReplyPayload(senderID,quickReply.payload)
       return;
     }
 
@@ -144,8 +165,15 @@ module.exports = {
         case "HI" || "HELLO" || "GOOD MORNING":
           sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
           break;
+         case "OPTIONS" || "HELP":
+            sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
+          break;
         case "NBC":
            sendFBLogin(senderID);
+           break;
+        case "TESTGAME":
+           playGames(senderID,1);
+           break;
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
@@ -200,6 +228,7 @@ module.exports = {
         default:
           sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       }
+     
     } else if (messageAttachments) {
       sendTextMessage(senderID, "Message with attachment received");
     }
@@ -239,6 +268,19 @@ module.exports = {
    * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
    *
    */
+
+  resolveQuickReplyPayload: function(senderID,payload){
+     console.log("payload" + payload) ;
+      if(payload.indexOf('EXPLORE') != -1){
+        sendRecommendedShows(senderID)
+      }
+      else if(payload.indexOf('WHATS_HOT') != -1){
+         sendTrendingShows(senderID)
+       }
+     else 
+        sendTextMessage(senderID, "Postback called"+postback);
+
+  },
   receivedPostback: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -254,11 +296,17 @@ module.exports = {
     // let them know it was successful
 
     var payload = event.postback.payload;
-
+     
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
       
+
+
+      //Commenting out to check the error
+       //addToFavorite(payload,senderID);
+
+
        var quickReply = [{
          "content_type": "text",
           "title": "Explore",
@@ -300,7 +348,8 @@ module.exports = {
         sendRecommendedShows(senderID)
     }
     else if(payload.indexOf('WHATS_HOT') != -1){
-        sendTrendingShows(senderID)
+        sendTrendingShows(senderID);
+
     }
     else 
       sendTextMessage(senderID, "Postback called"+postback);
@@ -640,6 +689,11 @@ function sendReceiptMessage(recipientId) {
  *
  */
 function sendQuickReply(recipientId, quickReply, text) {
+  console.log("send Quick Reply");
+  console.log(recipientId);
+  console.log(quickReply);
+  console.log(text);
+
   if (!quickReply) {
     quickReply = [{
       "content_type": "text",
@@ -746,13 +800,101 @@ function sendAccountLinking(recipientId) {
 
   callSendAPI(messageData);
 }
+ 
 
+function playGames(senderID,quiz_id){
+
+    if(global.user_games==null || global.user_games==undefined){
+     var games=[{
+        "_id":"222232",
+        "question":"this is a test",
+        "options":[":(",":D",":P"],
+        "correct":":P",
+        "showId":"1",
+        "quiz_id":"1"
+    },
+    {
+     "_id":"222234",
+     "question":"this is a test",
+      "options":["<3","<3"],
+      "correct":":P",
+      "showId":"2",
+      "quiz_id":"1"
+    }]
+
+
+    global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+  }
+      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      console.log(user_games);
+
+      if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
+        //Fetch from DB and insert
+             var games=[{
+        "_id":"222232",
+        "question":"this is a test",
+        "options":[":(",":D",":P"],
+        "correct":":P",
+        "showId":"1",
+        "quiz_id":"1"
+    },
+    {
+     "_id":"222234",
+     "question":"this is a test",
+      "options":["<3",":P"],
+      "correct":":P",
+      "showId":"2",
+      "quiz_id":"1"
+    }]
+        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+
+        console.log("zero case");
+      } 
+          
+          if(user_games!=undefined && user_games.length>0)
+          {
+             console.log("user_games"+user_games[0].games);
+              var gameToBeSent=user_games[0].games[0]; 
+              user_games[0].games.splice(0,1);
+              
+
+            _.each(global.user_games, function(item) {
+               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
+                    item.games=user_games[0].games
+            });
+
+       var quickReply = [];
+       for(var i=0;i<gameToBeSent.options.length;i++)
+       {
+              var reply={
+                "content_type":"text",
+                "title":gameToBeSent.options[i],
+                "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
+              }
+              console.log(reply);
+              quickReply.push(reply);
+        }
+      
+       var text = gameToBeSent.question;
+       sendQuickReply(senderID,quickReply,text);
+      } else{
+            //calculate score
+           var game_score= global.user_game_score;
+           game_score=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           sendTextMessage(constants.YOUR_SCORE_IS+game_score.length);
+          }
+      
+    
+  
+
+}
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
  *
  */
 function callSendAPI(messageData) {
+  console.log(messageData)
   request({
     uri: constants.FB_MESSAGES_URL,
     qs: {
@@ -799,26 +941,18 @@ function callSendAPI(messageData) {
         sendButtonMessage(senderID, title, buttons);
 
 }
-   function addToFavorite(payload){
+   function addToFavorite(payload,senderId){
 
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
-      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
+      global.addFavUserId = senderId;
 
-      console.log(showId + ": = " + userId);
+      console.log(showId + ": = " + global.addFavUserId);
       var Shows = require(__base + 'models/shows');
-      var Users = require(__base + 'models/users');
-      Shows.find({_id:showId}, function(err, shows) {
-        if (err) console.log(err);
-        global._showDet = shows[0];
-      });
-
-      console.log("Show Details: " + global._showDet);
-
-      Users.findOneAndUpdate({fbId:userId},
-       {$push: {"favShows": global._showDet}},
+      Shows.findOneAndUpdate({_id:showId},
+       {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-          sendTextMessage(senderID, "Added to the favorite");
+          sendTextMessage(global.addFavUserId, "Added to the favorite");
       });
    }
 
@@ -838,28 +972,66 @@ function callSendAPI(messageData) {
       sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
- elements = [{
-      title: "Suits",
-      subtitle: "Suits",
-      item_url: "https://www.youtube.com/watch?v=nYcxuZULwhg",
-      image_url: "http://www.usanetwork.com/sites/usanetwork/files/2017/01/Mike%20and%20Rachel%20Suits.jpg",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_1",
-      }],
-    }, {
-      title: "The Big Bang Theory",
-      subtitle: "Knock Knock Knock, Penny",
-      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_2",
-      }]
-    }];
-      sendGenericMessage(senderID,elements);
+    // Get the content from DB and send a text message along with Generic Message
+    console.log("sendTrendingShows");
+    users.getGenericList(senderID).then(function(response) {
+         console.log("final response");
+         console.log(response);
+         
+         // Comment the below line and add the code to construct the list of fav - respons
+
+         var elements = [];
+
+        if(response.length>0){
+        for (i = 0; i < response.length; i++) {
+              var show= shows[i];
+              var elements=[];
+              var showElement={
+                title: response.name,
+                subtitle:response.description,
+                item_url:response.videoURL,
+                image_url:response.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+response._id,
+                }],
+              }
+              elements.push(showElement);
+          }
+              sendGenericMessage(senderID,elements);
+        } 
+
+     }, function(error) {
+          console.error(error);
+    });
+
+
+
+      
   }
+
+  function sendHelpMessage(senderID) {
+    console.log('sendHelpMessage method called');
+    var quickReply = [{
+            "content_type": "text",
+            "title": "Movies",
+            "payload": constants.RECOMMEND_PAYLOAD
+        },
+        {
+            "content_type": "text",
+            "title": "Play",
+            "payload": constants.PLAY_PAYLOAD
+        },
+        {
+            "content_type": "text",
+            "title": "Contact",
+            "payload": constants.LOG_PAYLOAD
+        }
+    ];
+    var title = "I'm Baasha.. Maaanik Baasha!! Kanna how can I help you? ";
+    sendQuickReply(senderID, quickReply, title);
+  }
+
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;

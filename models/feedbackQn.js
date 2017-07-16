@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var feedbackQn = new Schema({
     "qn": String,
-    "qnOptions": Array
+    "qnOptions": Array,
+    "type":String
 });
 
 var feedbackQn = mongoose.model('feedback_qn', feedbackQn);

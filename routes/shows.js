@@ -22,3 +22,25 @@ module.exports = function() {
 
 	return router;
 }
+
+
+/*
+ * Get the generic list
+ *
+ */
+function getShowsList() {
+    console.log("Getting the favorite show for the user: " + senderId );
+
+	var Shows = require(__base + 'models/shows');
+	var deferred = q.defer();
+
+	Shows.find({}, function(err, shows) {
+		if (err) console.log(err);
+		
+				deferred.resolve(shows);
+	});
+	return deferred.promise;
+    
+}
+
+module.exports.getShowsList = getShowsList;
