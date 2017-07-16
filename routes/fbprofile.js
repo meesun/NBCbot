@@ -35,15 +35,23 @@ module.exports = function() {
 		      		 };
 		      	 var graphObject = graph
 		     		 .setOptions(options)
-		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,books,movies,likes", function(err, res) {
+		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender", function(err, res) {
 		     		     console.log("here");
 		     		     console.log(res); 
 		   		 });  
 
-		        /*graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
+		        graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
 		         	console.log("likes");
+		        	 console.log(res); //res.name
+		     	 });
+		        graph.get("me/books", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
+		         	console.log("books");
 		        	 console.log(res);
-		     	 });*/
+		     	 });
+		        graph.get("me/movies", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
+		         	console.log("movies");
+		        	 console.log(res);
+		     	 });
 		      		console.log("logged in");
 	    });
 
