@@ -10,9 +10,10 @@ module.exports = function() {
 	router.get('/oauthCallBack/', function(req, res) {
 
 	    	var code=req.query['code'];
-            var senderId=req.query['senderId'];
+            global.senderIdFromOauth=req.query['senderId'];
 	    	console.log(code);
 	    	var redirect_uri=constants.FB_REDIRECT_URI+senderId;
+
 	 
 	    // after user click, auth `code` will be set 
 	    // we'll send that and get the access token 
@@ -32,8 +33,14 @@ module.exports = function() {
 		      	 var graphObject = graph
 		     		 .setOptions(options)
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
-		     		     console.log("Personal info");
+		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
+		     		     console.log("User data " + ":=" + res);
+
 		     		     console.log(res); 
+
+
+
+
 		   		 });  
 
 		        graph.get("me/likes", {limit: 1000, access_token: graph.getAccessToken()}, function(err, res) {
