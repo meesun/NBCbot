@@ -167,10 +167,13 @@ module.exports = {
           break;
          case "OPTIONS" || "HELP":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
+          break;
         case "NBC":
            sendFBLogin(senderID);
+           break;
         case "TESTGAME":
            playGames(senderID,1);
+           break;
         case 'IMAGE':
           sendImageMessage(senderID);
           break;
