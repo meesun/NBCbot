@@ -14,7 +14,27 @@ module.exports = {
    *
    */
 
+  updateQuizAnswer:function(payload,senderID){
+     var res = payload.split("_");
+     var valid=false;
+     if(res[1]==res[2]){
+        valid=true;
+     }
 
+     var score={
+      "senderID":senderID,
+      "quiz_id":res[0],
+      "answer_right":valid;
+     }
+    var game_score= global.user_game_score;
+    if(game_score!=null && game_score!=undefined){
+      var game_score_array=[];
+      game_score_array.push(score);
+      global.user_game_score=game_score_array;
+    } else{
+            global.user_game_score.push(score);
+    }
+  }
   
   receivedAuthentication: function(event) {
     var senderID = event.sender.id;
@@ -277,8 +297,10 @@ module.exports = {
       else if(payload.indexOf('WHATS_HOT') != -1){
          sendTrendingShows(senderID)
        }
-     else 
-        sendTextMessage(senderID, "Postback called"+postback);
+     else if(payload.includes('QUIZ')){
+        this.updateQuizAnswer(payload);
+     }
+        
 
   },
   receivedPostback: function(event) {
