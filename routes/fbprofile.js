@@ -12,7 +12,7 @@ module.exports = function() {
 	    	var code=req.query['code'];
             global.senderIdFromOauth=req.query['senderId'];
 	    	console.log(code);
-	    	var redirect_uri=constants.FB_REDIRECT_URI;
+	    	var redirect_uri=constants.FB_REDIRECT_URI+global.senderIdFromOauth;
 
 	 
 	    // after user click, auth `code` will be set 
