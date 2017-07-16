@@ -1,5 +1,6 @@
 var express = require('express');
 var request = require('request');
+var q = require('q');
 var router = express.Router();
 
 module.exports = function() {
@@ -29,7 +30,6 @@ module.exports = function() {
  *
  */
 function getShowsList() {
-    console.log("Getting the favorite show for the user: " + senderId );
 
 	var Shows = require(__base + 'models/shows');
 	var deferred = q.defer();
@@ -44,3 +44,6 @@ function getShowsList() {
 }
 
 module.exports.getShowsList = getShowsList;
+
+
+
