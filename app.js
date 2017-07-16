@@ -84,11 +84,13 @@ app.get('/oauthCallBack/', function(req, res) {
      var graphObject = graph
       .setOptions(options)
       .get("me", function(err, res) {
+          console.log("here");
           console.log(res); // { id: '4', name: 'Mark Zuckerberg'... } 
     });  
-      graphObject.request.abort();
+      //graphObject.request.abort();
 
-      graph.get('likes', {limit: 1000, access_token: token}, function(err, res) {
+      graph.get("me/likes", {limit: 1000, access_token: token}, function(err, res) {
+        console.log("likes");
          console.log(res);
      });
   } 
