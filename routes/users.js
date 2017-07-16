@@ -60,9 +60,7 @@ function saveUserProfileData(senderId, senderData) {
 
 	users.save(function(err) {
 		if (err) next(err);
-
 		console.log('user created!');
-		res.send('user created!');
 	});
 }
 
