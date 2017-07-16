@@ -827,14 +827,14 @@ function playGames(senderID,quiz_id){
           
           if(user_games!=undefined && user_games.length>0)
           {
-             console.log("user_games"+user_games.games);
-              var gameToBeSent=user_games.games[0]; 
-              user_games.games.splice(0,1);
+             console.log("user_games"+user_games[0].games);
+              var gameToBeSent=user_games[0].games[0]; 
+              user_games[0].games.splice(0,1);
               
 
             _.each(global.user_games, function(item) {
                if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
-                    item.games=user_games.games
+                    item.games=user_games[0].games
             });
 
        var quickReply = [];
