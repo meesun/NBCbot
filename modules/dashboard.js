@@ -124,7 +124,7 @@ module.exports = {
         });
     },
     
-    //TODO
+   
     getShowReviews:function(req,res){
        
         

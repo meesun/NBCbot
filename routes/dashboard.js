@@ -51,6 +51,13 @@ module.exports = function() {
         dashboard.getAgeDataByShow(req,res);
     });
     
+    router.get('/saveShows', function(req,res){
+        dashboard.saveShows(req,res);
+    });
+    router.get('/getQuizQuestions', function(req,res){
+        dashboard.getQuizQuestions(req,res);
+    });
+    
     
     
     return router;
