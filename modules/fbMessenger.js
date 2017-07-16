@@ -270,7 +270,7 @@ module.exports = {
      else 
         sendTextMessage(senderID, "Postback called"+postback);
 
-  }
+  },
   receivedPostback: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
