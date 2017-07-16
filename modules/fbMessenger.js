@@ -217,6 +217,19 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
+
+       var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+
       var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
       var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
 
@@ -236,8 +249,6 @@ module.exports = {
        function (err, place) {
           sendTextMessage(senderID, "Added to the favorite");
       });
-
-
 
     }
     else 
@@ -746,7 +757,7 @@ function callSendAPI(messageData) {
       buttons: [{
         type: "postback",
         title: "Add to favorites",
-        payload: "ADD_GOT",
+        payload: "ADD_TO_FAVORITE_1",
       }],
     }, {
       title: "Sherlock",
@@ -756,7 +767,7 @@ function callSendAPI(messageData) {
       buttons: [{
         type: "postback",
         title: "Add to favorites",
-        payload: "ADD_SHERLOCK",
+        payload: "ADD_TO_FAVORITE_2",
       }]
     }];
       sendGenericMessage(senderID,elements);
