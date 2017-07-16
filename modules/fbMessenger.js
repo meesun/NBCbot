@@ -143,7 +143,7 @@ module.exports = {
     } else if (quickReply) {
       var quickReplyPayload = quickReply.payload;
       console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
-      sendTextMessage(senderID, "Quick reply tapped");
+      this.resolveQuickReplyPayload(senderID,quickReply.payload)
       return;
     }
 
@@ -258,6 +258,19 @@ module.exports = {
    * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
    *
    */
+
+  resolveQuickReplyPayload: function(payload){
+     console.log("payload" + payload) ;
+      if(payload.indexOf('EXPLORE') != -1){
+        sendRecommendedShows(senderID)
+      }
+      else if(payload.indexOf('WHATS_HOT') != -1){
+         sendTrendingShows(senderID)
+       }
+     else 
+        sendTextMessage(senderID, "Postback called"+postback);
+
+  }
   receivedPostback: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -273,7 +286,7 @@ module.exports = {
     // let them know it was successful
 
     var payload = event.postback.payload;
-
+     
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
