@@ -12,8 +12,8 @@ module.exports = function() {
 	    	var code=req.query['code'];
 	    	console.log(code);
 	    	var authUrl = graph.getOauthUrl({
-	        "client_id":     constants.CLIENT_ID,
-	        "redirect_uri":  constants.REDIRECT_URI
+	        "client_id":     constants.FB_CLIENT_ID,
+	        "redirect_uri":  constants.FB_REDIRECT_URI
 	  	  });
 	 
 	  		  // shows dialog 
@@ -22,10 +22,10 @@ module.exports = function() {
 	    // after user click, auth `code` will be set 
 	    // we'll send that and get the access token 
 	    graph.authorize({
-	        "client_id":      constants.CLIENT_ID
-	      , "redirect_uri":   constants.REDIRECT_URI
-	      , "client_secret":  constants.CLIENT_SECRET
-	      , "code":           req.query.code
+	        "client_id":      constants.FB_CLIENT_ID,
+	    	"redirect_uri":   constants.FB_REDIRECT_URI,
+	       	"client_secret":  constants.FB_CLIENT_SECRET,
+	        "code":           req.query.code
 	   	 }, function (err, facebookRes) {
 	   	 	    console.log(facebookRes)
 		    	var options = {
