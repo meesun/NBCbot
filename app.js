@@ -78,10 +78,11 @@ app.get('/oauthCallBack/', function(req, res) {
           pool:{ maxSockets:  Infinity }, 
           headers:  { connection:  "keep-alive" }
       };
+      
+     graph.setAccessToken(token)
 
      var graphObject = graph
       .setOptions(options)
-      graph.setAccessToken(token);
       .get("me", function(err, res) {
           console.log(res); // { id: '4', name: 'Mark Zuckerberg'... } 
     });  
