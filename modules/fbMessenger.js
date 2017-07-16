@@ -686,6 +686,11 @@ function sendReceiptMessage(recipientId) {
  *
  */
 function sendQuickReply(recipientId, quickReply, text) {
+  console.log("send Quick Reply");
+  console.log(recipientId);
+  console.log(quickReply);
+  console.log(text);
+
   if (!quickReply) {
     quickReply = [{
       "content_type": "text",
