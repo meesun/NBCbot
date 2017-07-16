@@ -17,7 +17,7 @@ module.exports = {
   updateQuizAnswer:function(payload,senderID){
      var res = payload.split("_");
      var valid=false;
-     if(res[1]==res[2]){
+     if(res[2]==res[3]){
         valid=true;
      }
 
@@ -34,8 +34,8 @@ module.exports = {
     } else{
             global.user_game_score.push(score);
     }
-    
-    playGames(senderID,res[0])
+    console.log(res[0]+"......"+res[1]+"......"+res[2]+"......"+res[3]+"...."+res[4]);
+    playGames(senderID,res[1])
   },
 
   
