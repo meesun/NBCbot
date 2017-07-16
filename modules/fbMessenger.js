@@ -262,7 +262,7 @@ module.exports = {
         sendTrendingShows(senderID)
     }
     else 
-      sendTextMessage(senderID, "Postback called");
+      sendTextMessage(senderID, "Postback called"+postback);
 
   },
 
