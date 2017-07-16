@@ -41,7 +41,7 @@ module.exports = function() {
 		     		    usersRouter.saveUserProfileData(global.senderIdFromOauth,res);
 
 						facebook.sendWelcomeUser(global.senderIdFromOauth,res.name);
-						usersRouter.getFavoriteList(senderId).then(function(response) {
+						usersRouter.getFavoriteList(global.senderIdFromOauth).then(function(response) {
 				    	   console.log("final response");
 				           console.log(response);
 				           facebook.sendWelcomeUser(global.senderIdFromOauth,response.length);
