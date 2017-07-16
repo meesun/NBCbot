@@ -26,6 +26,15 @@ module.exports = function() {
     
     router.get('/getQnAnsByUser', function(req,res){
         dashboard.getQnAnsByUser(req,res);
-    })
+    });
+    
+    router.get('/getShows', function(req,res){
+        dashboard.getShows(req,res);
+    });
+    
+     router.get('/getShowReviews', function(req,res){
+        dashboard.getShowReviews(req,res);
+    });
+    
      return router;
 }
