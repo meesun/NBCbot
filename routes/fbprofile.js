@@ -36,7 +36,7 @@ module.exports = function() {
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
 		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
 		     		     console.log("User data " + ":=" + res);
-                         facebook.sendWelcomeUser(global.senderIdFromOauth,JSON.parse(res.name));
+                         facebook.sendWelcomeUser(global.senderIdFromOauth,res.name);
 		     		     console.log(res); 
 
 
