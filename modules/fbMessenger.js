@@ -854,7 +854,7 @@ function callSendAPI(messageData) {
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-          sendTextMessage(lobal.addFavUserId, "Added to the favorite");
+          sendTextMessage(global.addFavUserId, "Added to the favorite");
       });
    }
 
