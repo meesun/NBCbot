@@ -855,7 +855,7 @@ function playGames(senderID,quiz_id){
 
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         //Fetch from DB and insert
-             var games=[{
+      var games=[{
         "_id":"222232",
         "question":"this is a test",
         "options":[":(",":D",":P"],
@@ -884,8 +884,11 @@ function playGames(senderID,quiz_id){
               
 
             _.each(global.user_games, function(item) {
-               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) 
-                    item.games=user_games[0].games
+               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) {
+                    item.games=user_games[0].games;
+                    console.log("removing");
+                    console.log(item)
+                  }
             });
 
        var quickReply = [];
