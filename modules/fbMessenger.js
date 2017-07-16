@@ -2,6 +2,7 @@ var constants = require('./constants');
 var request = require('request');
 var graph = require('fbgraph');
 var _ = require("underscore");
+var users = require('../routes/users');
 
 module.exports = {
   /*
@@ -164,6 +165,8 @@ module.exports = {
         case "HI" || "HELLO" || "GOOD MORNING":
           sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
           break;
+         case "OPTIONS" || "HELP":
+            sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
         case "NBC":
            sendFBLogin(senderID);
         case "PLAY":
@@ -222,6 +225,7 @@ module.exports = {
         default:
           sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       }
+     
     } else if (messageAttachments) {
       sendTextMessage(senderID, "Message with attachment received");
     }
@@ -294,6 +298,12 @@ module.exports = {
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
       
+
+
+      //Commenting out to check the error
+       //addToFavorite(payload,senderID);
+
+
        var quickReply = [{
          "content_type": "text",
           "title": "Explore",
@@ -335,7 +345,8 @@ module.exports = {
         sendRecommendedShows(senderID)
     }
     else if(payload.indexOf('WHATS_HOT') != -1){
-        sendTrendingShows(senderID)
+        sendTrendingShows(senderID);
+
     }
     else 
       sendTextMessage(senderID, "Postback called"+postback);
@@ -899,26 +910,18 @@ function callSendAPI(messageData) {
         sendButtonMessage(senderID, title, buttons);
 
 }
-   function addToFavorite(payload){
+   function addToFavorite(payload,senderId){
 
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
-      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
+      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
+      global.addFavUserId = senderId;
 
-      console.log(showId + ": = " + userId);
+      console.log(showId + ": = " + global.addFavUserId);
       var Shows = require(__base + 'models/shows');
-      var Users = require(__base + 'models/users');
-      Shows.find({_id:showId}, function(err, shows) {
-        if (err) console.log(err);
-        global._showDet = shows[0];
-      });
-
-      console.log("Show Details: " + global._showDet);
-
-      Users.findOneAndUpdate({fbId:userId},
-       {$push: {"favShows": global._showDet}},
+      Shows.findOneAndUpdate({_id:showId},
+       {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-          sendTextMessage(senderID, "Added to the favorite");
+          sendTextMessage(global.addFavUserId, "Added to the favorite");
       });
    }
 
@@ -938,28 +941,66 @@ function callSendAPI(messageData) {
       sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
- elements = [{
-      title: "Suits",
-      subtitle: "Suits",
-      item_url: "https://www.youtube.com/watch?v=nYcxuZULwhg",
-      image_url: "http://www.usanetwork.com/sites/usanetwork/files/2017/01/Mike%20and%20Rachel%20Suits.jpg",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_1",
-      }],
-    }, {
-      title: "The Big Bang Theory",
-      subtitle: "Knock Knock Knock, Penny",
-      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_2",
-      }]
-    }];
-      sendGenericMessage(senderID,elements);
+    // Get the content from DB and send a text message along with Generic Message
+    console.log("sendTrendingShows");
+    users.getGenericList(senderID).then(function(response) {
+         console.log("final response");
+         console.log(response);
+         
+         // Comment the below line and add the code to construct the list of fav - respons
+
+         var elements = [];
+
+        if(response.length>0){
+        for (i = 0; i < response.length; i++) {
+              var show= shows[i];
+              var elements=[];
+              var showElement={
+                title: response.name,
+                subtitle:response.description,
+                item_url:response.videoURL,
+                image_url:response.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+response._id,
+                }],
+              }
+              elements.push(showElement);
+          }
+              sendGenericMessage(senderID,elements);
+        } 
+
+     }, function(error) {
+          console.error(error);
+    });
+
+
+
+      
   }
+
+  function sendHelpMessage(senderID) {
+    console.log('sendHelpMessage method called');
+    var quickReply = [{
+            "content_type": "text",
+            "title": "Movies",
+            "payload": constants.RECOMMEND_PAYLOAD
+        },
+        {
+            "content_type": "text",
+            "title": "Play",
+            "payload": constants.PLAY_PAYLOAD
+        },
+        {
+            "content_type": "text",
+            "title": "Contact",
+            "payload": constants.LOG_PAYLOAD
+        }
+    ];
+    var title = "I'm Baasha.. Maaanik Baasha!! Kanna how can I help you? ";
+    sendQuickReply(senderID, quickReply, title);
+  }
+
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;

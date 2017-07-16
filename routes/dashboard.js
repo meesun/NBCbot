@@ -10,7 +10,7 @@ module.exports = function() {
 
 	router.get('/getQues', function(req, res, next) {
 		
-        dashboard.getQuestion(req,res);
+        dashboard.getQuestionById(req,res);
             
         
 	});
@@ -22,8 +22,24 @@ module.exports = function() {
 	router.get('/saveQues', function(req, res, next) {
 		
         dashboard.saveQuestion(req,res);
-            
-       
 	});
+    
+    router.get('/getQnAnsByUser', function(req,res){
+        dashboard.getQnAnsByUser(req,res);
+    });
+    
+    router.get('/getShows', function(req,res){
+        dashboard.getShows(req,res);
+    });
+    
+     router.get('/getShowReviews', function(req,res){
+        dashboard.getShowReviews(req,res);
+    });
+    
+    router.get('/getShowDataByCountry', function(req,res){
+        dashboard.getgeographicaldataByShow(req,res);
+    });
+    
+    
      return router;
 }
