@@ -891,7 +891,7 @@ function playGames(senderID,quiz_id){
                     console.log(item)
                   }
 
-                  console.log(--------);
+                  console.log("--------");
                   console.log(global.user_games)
             });
 
