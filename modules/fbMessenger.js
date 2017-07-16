@@ -12,24 +12,7 @@ module.exports = {
    *
    */
 
-  sendFBLogin: function(senderID) {
-    var authUrl = graph.getOauthUrl({
-          "client_id":     constants.FB_CLIENT_ID,
-          "redirect_uri":  constants.FB_REDIRECT_URI
-        });
-   
-          // shows dialog 
-        console.log(authUrl);
-        var buttons = [{
-             type: "web_url",
-            url: authUrl,
-            title: "Login to FB"
-        }];
-        var title = "Allow us to read your profile";
 
-        sendButtonMessage(senderID, title, buttons);
-
-    },
   
   receivedAuthentication: function(event) {
     var senderID = event.sender.id;
@@ -728,6 +711,23 @@ function callSendAPI(messageData) {
   });
 }
 
+function sendFBLogin(senderID) {
+    var authUrl = graph.getOauthUrl({
+          "client_id":     constants.FB_CLIENT_ID,
+          "redirect_uri":  constants.FB_REDIRECT_URI
+        });
+   
+          // shows dialog 
+        console.log(authUrl);
+        var buttons = [{
+             type: "web_url",
+            url: authUrl,
+            title: "Login to FB"
+        }];
+        var title = "Allow us to read your profile";
 
+        sendButtonMessage(senderID, title, buttons);
+
+    }
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
