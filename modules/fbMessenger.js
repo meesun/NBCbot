@@ -230,7 +230,7 @@ module.exports = {
        var text = "I can help you find new shows and play games";
        sendQuickReply(senderID,quickReply,text);
 
-      var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
+      /*var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
       var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
 
       console.log(showId + ": = " + userId);
@@ -249,7 +249,7 @@ module.exports = {
        function (err, place) {
           sendTextMessage(senderID, "Added to the favorite");
       });
-
+     */
     }
     else 
       sendTextMessage(senderID, "Postback called");
