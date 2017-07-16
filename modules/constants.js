@@ -31,7 +31,8 @@ module.exports = {
         "POPCORN_COMMAND": "popcorn",
         "PROBLEM_COMMAND": "problem",
         "MAHADAD_COMMAND": "mahdad",
-        "MOVIE_COMMAND": "MOVIE"
+        "MOVIE_COMMAND": "MOVIE",
+        "NBC":"NBC"
     },
     "KANNA_MESSAGES": {
         "ERROR": "Kanna, an error ran into me because I don't",

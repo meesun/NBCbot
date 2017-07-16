@@ -11,13 +11,7 @@ module.exports = function() {
 
 	    	var code=req.query['code'];
 	    	console.log(code);
-	    	var authUrl = graph.getOauthUrl({
-	        "client_id":     constants.FB_CLIENT_ID,
-	        "redirect_uri":  constants.FB_REDIRECT_URI
-	  	  });
-	 
-	  		  // shows dialog 
-	      console.log(authUrl);
+	    	
 	 
 	    // after user click, auth `code` will be set 
 	    // we'll send that and get the access token 
