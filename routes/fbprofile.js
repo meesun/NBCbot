@@ -4,6 +4,7 @@ var request = require('request');
 var express = require('express');
 var router = express.Router();
 var graph = require('fbgraph');
+var facebook = require('../modules/fbMessenger');
 
 module.exports = function() {
 
@@ -35,7 +36,7 @@ module.exports = function() {
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
 		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
 		     		     console.log("User data " + ":=" + res);
-
+                         facebook.sendWelcomeUser(global.senderIdFromOauth,JSON.parse(res.name));
 		     		     console.log(res); 
 
 
@@ -57,9 +58,8 @@ module.exports = function() {
 		     	 });
 		      		console.log("logged in");
 	    });
-
  	 res.send("thanks");
-
+     
 	});
     
 

@@ -49,6 +49,12 @@ module.exports = {
    * then we'll simply confirm that we've received the attachment.
    *
    */
+
+  sendWelcomeUser:function(senderID,name){
+
+        sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
+
+  }
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -411,7 +417,7 @@ function sendTextMessage(recipientId, messageText) {
  *
  */
 function sendButtonMessage(recipientId, title, buttons) {
-  if (!buttons) {
+  /*if (!buttons) {
     buttons = [{
       type: "web_url",
       url: "https://www.oculus.com/en-us/rift/",
@@ -426,7 +432,7 @@ function sendButtonMessage(recipientId, title, buttons) {
       payload: "+16505551234"
     }];
     title = "This is test text";
-  }
+  }*/
   var messageData = {
     recipient: {
       id: recipientId
@@ -722,9 +728,10 @@ function callSendAPI(messageData) {
           // shows dialog 
         console.log(authUrl);
         var buttons = [{
-             type: "web_url",
+            type: "web_url",
             url: authUrl,
-            title: "Login to FB"
+            title: "Login to FB",
+            webview_height_ratio: "compact"
         }];
         var title = "Allow us to read your profile";
 
