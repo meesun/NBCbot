@@ -17,25 +17,45 @@ module.exports = function() {
 
 
 /*
- * Send a read receipt to indicate the message has been read
+ * Save the user details
  *
  */
-function saveUserProfileDate(senderId, senderData) {
+function saveUserProfileData(senderId, senderData) {
     console.log("SAving the user data: " + senderId + ":=" + senderData);
 
 
     var Users = require(__base + 'models/users');
 
+    var listOfLikes = senderData.likes.data;
+    console.log(listOfLikes);
+    var likesArr = [];
+    for(var i = 0 ; i < listOfLikes.length ; i++){
+    	likesArr.push(listOfLikes[i].name);
+    }
+    console.log(likesArr);
+
+    var listOfMovies = senderData.movies.data;
+    console.log(listOfMovies);
+
+    var moviesArr = [];
+    for(var i = 0 ; i < listOfMovies.length ; i++){
+    	moviesArr.push(listOfMovies[i].name);
+    }
+
+    console.log(moviesArr);
 	var users = Users({
-		id: '100',
-			ques: 'Who acted in Bahubali?',
-			option: [
-				{'optId':'A','optVal':'Shahrukh'},
-				{'optId':'B','optVal':'Pawan Kalyan'},
-				{'optId':'C','optVal':'Prabhas'},
-				{'optId':'D','optVal':'Rajesh'}
-			],
-			answer: 'C'
+		  name: senderData.name,
+		  timezone: senderData.timezone,
+		  birthday: senderData.birthday,
+		  location: senderData.location.name,
+		  locale: senderData.locale,
+		  email: senderData.email,
+		  imageUrl: senderData.picture.data.url,
+		  gender: senderData.gender,
+		  likes: likesArr,
+		  movies: moviesArr,
+		  fbId: senderId,
+		  roles: 'user'
 	});
 
 	users.save(function(err) {
@@ -46,4 +66,4 @@ function saveUserProfileDate(senderId, senderData) {
 	});
 }
 
-module.saveUserProfileDate = saveUserProfileDate;
+module.exports.saveUserProfileData = saveUserProfileData;

@@ -4,6 +4,7 @@ var request = require('request');
 var express = require('express');
 var router = express.Router();
 var graph = require('fbgraph');
+var usersRouter = require('users');
 
 module.exports = function() {
 
@@ -35,6 +36,9 @@ module.exports = function() {
 		     		 .get("me?fields=id,name,timezone,birthday,location,locale,email,picture,gender,likes,books,movies", function(err, res) {
 		     		     console.log("Personal id " + ":=" + global.senderIdFromOauth);
 		     		     console.log("User data " + ":=" + res);
+		     		     console.log("Inserting the data into DB");
+		     		     usersRouter.saveUserProfileData(global.senderIdFromOauth,res);
+
 
 		     		     console.log(res); 
 
