@@ -94,7 +94,7 @@ module.exports = {
       }]
     }];*/
       sendGenericMessage(senderID,elements);
-  }
+  },
 
   receivedMessage: function(event) {
     var senderID = event.sender.id;
