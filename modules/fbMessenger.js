@@ -34,7 +34,9 @@ module.exports = {
     } else{
             global.user_game_score.push(score);
     }
+    this.playGames(senderID,res[0])
   }
+
   
   receivedAuthentication: function(event) {
     var senderID = event.sender.id;
@@ -298,7 +300,7 @@ module.exports = {
          sendTrendingShows(senderID)
        }
      else if(payload.includes('QUIZ')){
-        this.updateQuizAnswer(payload);
+        this.updateQuizAnswer(payload,senderID);
      }
         
 
