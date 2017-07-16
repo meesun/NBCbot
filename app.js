@@ -83,7 +83,7 @@ app.get('/oauthCallBack/', function(req, res) {
 
      var graphObject = graph
       .setOptions(options)
-      .get("me", function(err, res) {
+      .get("me/?fields=id,name,timezone,birthday,location,locale,email,picture", function(err, res) {
           console.log("here");
           console.log(res); // { id: '4', name: 'Mark Zuckerberg'... } 
     });  
