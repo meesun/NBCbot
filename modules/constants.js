@@ -50,5 +50,5 @@ module.exports = {
     },
     "FB_CLIENT_ID":"1478594992183399",
     "FB_CLIENT_SECRET":"71c05fdcbb94af65d4def71056e0def6",
-    "FB_REDIRECT_URI":"https://nbcbot.herokuapp.com/fbProfile/oauthCallBack"
+    "FB_REDIRECT_URI":"https://nbcbot.herokuapp.com/fbProfile/oauthCallBack?senderId="
 };
