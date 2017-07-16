@@ -9,6 +9,7 @@ var NodeGeocoder = require('node-geocoder');
 var users = require('../models/users');
 var watson = require('watson-developer-cloud');
 var qna = require('../models/qna');
+var lookup = require('country-data').lookup;
 module.exports = {
     
     //deprecated
@@ -79,12 +80,20 @@ module.exports = {
             res.sendStatus(200);
         });
     },
-    //deprecated
+    
     getAnswer:function(req, res){
-                     userAns.find({qnId: req.query.qnId, userId: req.query.userId}, function(err, data) {
-                        if(err==undefined)
-                             res.send(data[0].answer);
-            
+        var ansArr=[];
+         qna.find({qn: req.query.qn},{answer:1,'_id':0}, function(err, data) {
+            if(err==undefined)
+                {
+                    for(var i=0;i<data.length;i++)
+                    {
+                        ansArr.push(data[i].answer)
+                    }
+                 res.send(ansArr);
+
+                }
+
         });
     },
     
@@ -96,9 +105,23 @@ module.exports = {
         });
     },
     
+    getQuizQuestions:function(req,res){
+        qna.find({type:'quiz'}, function(err,data){
+                 if(err==undefined)
+                    res.send(data);
+                 });
+    },
+    
     getAllQuestions:function(req,res)
     {
-        
+        qna.find({type:'feedack'},{'qn':1,'_id':0},function(err,data){
+            var ques=[];
+            for(var i=0;i<data.length;i++)
+                {
+                    ques.push(data[i].qn)
+                }
+            res.send(ques);
+        });
     },
     getShowReviews:function(req,res){
        
@@ -129,16 +152,13 @@ module.exports = {
 
     },
     
-    
-    
-    getgeographicaldataByShow: function(req,res)
+    getAgeDataByShow: function(req,res)
     {
         users.find({},function(err,data){
-            var countryMap = new Object();
-            var promises = [];
+            var ageMap = new Object();
             for(var i=0;i<data.length;i++){
-                 var location = data[i].location;
-                var country=location.split(",")[1].trim();
+                 var birthday = data[i].birthday;
+                var age=getAge(birthday);
                 if(country)
                     {
                         if(countryMap[country])
@@ -153,11 +173,36 @@ module.exports = {
             res.send(countryMap);
         });
     },
+    
+    getgeographicaldataByShow: function(req,res)
+    {
+        users.find({},function(err,data){
+            var countryMap = new Object();
+            var promises = [];
+            for(var i=0;i<data.length;i++){
+                 var location = data[i].location;
+                var country=location.split(",")[1].trim();
+                if(country)
+                    {
+                        var code=lookup.countries({name: country})[0].alpha2;
+                        console.log(code);
+                        if(countryMap[code])
+                            {
+                                 countryMap[code]++;
+                            }
+                       else{
+                           countryMap[code]=1;
+                       }
+                    }
+            }
+            res.send(countryMap);
+        });
+    },
     getTagsfromReviews:function(req,res)
     {
         var tagArr=new Object();
         var promises=[];
-        qna.find({type:'feedack'},{'response.response':1,'_id':0},function(err,data){
+        qna.find({type:'feedback'},{'response.response':1,'_id':0},function(err,data){
             if(err)
                 res.send(err);
             else{
@@ -181,20 +226,7 @@ module.exports = {
                       }
                     };
                     var promise=getTags(natural_language_understanding,parameters,tagArr);
-                    promises.push(promise);
-                   /* natural_language_understanding.analyze(parameters, function(err, response) {
-                      if (err)
-                        console.log('error:', err);
-                      else
-                        var tagRes=JSON.stringify(response, null, 2);
-                        var keywords = tagRes.keywords;
-                        for(var i=0;i<keywords.length;i++)
-                            {
-                                tagArr.push(keywords[i].text);
-                            }
-                        res.send(tagArr);
-                    });*/
-                        
+                    promises.push(promise);        
                 }
                 q.all(promises).then(function(data){res.send(tagArr)});
             }
@@ -271,6 +303,17 @@ function getSentiment(review,obj)
                     defer.resolve(positive);
                 });
     return defer.promise;
+}
+
+function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
 }
 
 

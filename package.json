@@ -9,6 +9,7 @@
   "dependencies": {
     "async": "*",
     "body-parser": "^1.17.2",
+    "country-data": "0.0.31",
     "cron": "^1.2.1",
     "emotional": "0.0.3",
     "express": "~4.15.2",
