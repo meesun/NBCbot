@@ -1,31 +1,15 @@
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <!-- small box -->
-    <div class="small-box bg-yellow">
-      <div class="inner">
-        <h3>44</h3>
-        <p>User Registrations</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-person-add"></i>
-      </div>
-      <a href="#" class="small-box-footer">
-        More info <i class="fa fa-arrow-circle-right"></i>
-      </a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-xs-6">
-    <!-- small box -->
     <div class="small-box bg-red">
       <div class="inner">
         <h3>65</h3>
-        <p>Unique Visitors</p>
+        <p>Current Users</p>
       </div>
       <div class="icon">
         <i class="ion ion-pie-graph"></i>
       </div>
-      <a href="#" class="small-box-footer">
+      <a href="html/pages/users.html" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
@@ -36,11 +20,11 @@
     <!-- small box -->
     <div class="small-box bg-aqua">
       <div class="inner">
-        <h3>150</h3>
-        <p>New Orders</p>
+        <h3>10</h3>
+        <p>Number of Shows</p>
       </div>
       <div class="icon">
-        <i class="fa fa-shopping-cart"></i>
+        <i class="fa fa-film"></i>
       </div>
       <a href="#" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
@@ -52,20 +36,34 @@
     <!-- small box -->
     <div class="small-box bg-green">
       <div class="inner">
-        <h3>53<sup style="font-size: 20px">%</sup></h3>
-        <p>Bounce Rate</p>
+        <h3>70<sup style="font-size: 20px">%</sup></h3>
+        <p>Feedback responses</p>
       </div>
       <div class="icon">
-        <i class="ion ion-stats-bars"></i>
+        <i class="fa fa-comments"></i>
       </div>
-      <a href="#" class="small-box-footer">
+      <a href="html/pages/feedback.html" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
   </div>
   <!-- ./col -->
-
-
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h3>94</h3>
+        <p>Total Users</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-person-add"></i>
+      </div>
+      <a href="html/pages/users.html" class="small-box-footer">
+        More info <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  <!-- ./col -->
 </div>
 <!-- /.row -->
 
@@ -92,7 +90,7 @@
     <!-- /.box -->
 
     <!-- DONUT CHART -->
-    <div class="box box-danger">
+    <!-- <div class="box box-danger">
       <div class="box-header with-border">
         <h3 class="box-title">Donut Chart</h3>
 
@@ -106,12 +104,13 @@
         <canvas id="pieChart" style="height:250px"></canvas>
       </div>
       <!-- /.box-body -->
-    </div>
+    <!-- </div> -->
     <!-- /.box -->
 
+    <!-- Map CHART -->
     <div class="box box-success">
       <div class="box-header with-border">
-        <h3 class="box-title">Visitors Report</h3>
+        <h3 class="box-title">Users by country</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -123,6 +122,27 @@
         <div class="pad">
           <!-- Map will be created here -->
           <div id="world-map-markers" style="height: 325px;"></div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- Word cloud CHART -->
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">Feedback analysis</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+        <div class="pad">
+          <!-- You should explicitly specify the dimensions of the container element -->
+          <div id="wordcloud" style="width: 100%; height: 350px;"></div>
         </div>
       </div>
       <!-- /.box-body -->
@@ -144,41 +164,41 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="questionform" name="questionform">
         <div class="box-body">
           <div class="form-group">
             <label for="gamequestion">Question</label>
-            <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
+            <input type="text" class="form-control" name="gamequestion" placeholder="Enter question">
           </div>
           <label>Enter Answer Option 1</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer">
+                <input type="radio" name="gameanswer" value="1">
               </span>
-            <input type="text" class="form-control" id="gameanswer1" placeholder="Enter answer option 1">
+            <input type="text" class="form-control" name="gameanswer1" placeholder="Enter answer option 1">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 2</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer">
+                <input type="radio" name="gameanswer" value="2">
               </span>
-            <input type="text" class="form-control" id="gameanswer2" placeholder="Enter answer option 2">
+            <input type="text" class="form-control" name="gameanswer2" placeholder="Enter answer option 2">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 3</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer">
+                <input type="radio" name="gameanswer" value="3">
               </span>
-            <input type="text" class="form-control" id="gameanswer3" placeholder="Enter answer option 3">
+            <input type="text" class="form-control" name="gameanswer3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
         <!-- /.box-body -->
 
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" id="questionformbutton">Submit</button>
         </div>
       </form>
     </div>
@@ -197,6 +217,17 @@
       <!-- form start -->
       <form role="form">
         <div class="box-body">
+          <!-- select -->
+          <div class="form-group">
+            <label>Select the show</label>
+            <select class="form-control">
+              <option>Game of Thrones</option>
+              <option>Friends</option>
+              <option>The Big Bang Theory</option>
+              <option>Suits</option>
+              <option>The Mentalist</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="gamequestion">Question</label>
             <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
@@ -214,7 +245,7 @@
     <!-- FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">Push trailer for show</h3>
+        <h3 class="box-title">Push event notification for show</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -229,15 +260,15 @@
           <div class="form-group">
             <label>Select the show</label>
             <select class="form-control">
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
-              <option>option 4</option>
-              <option>option 5</option>
+              <option>Game of Thrones</option>
+              <option>Friends</option>
+              <option>The Big Bang Theory</option>
+              <option>Suits</option>
+              <option>The Mentalist</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="gamequestion">Enter the video link here</label>
+            <label for="gamequestion">Enter the link here</label>
             <input type="url" class="form-control" id="gamequestion" placeholder="Enter question">
           </div>
         </div>
@@ -248,6 +279,66 @@
         </div>
       </form>
     </div>
+
+    <!-- FORM -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Add a new show?</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <!-- /.box-header -->
+
+      <!-- form start -->
+      <form role="form" name="addshowform" id="addshowform">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="gamequestion">Enter the show name</label>
+            <input type="text" class="form-control" id="showname" placeholder="Enter Show Name">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="gamequestion">Enter the show start timing</label>
+                <input type="time" class="form-control" id="starttime" placeholder="Enter Show start time">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="gamequestion">Enter the show end timing</label>
+                <input type="time" class="form-control" id="endtime" placeholder="Enter Show end time">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="gamequestion">Enter the show image</label>
+            <input type="url" class="form-control" id="showimage" placeholder="Enter show image link here">
+          </div>
+
+          <div class="form-group">
+            <label for="gamequestion">Enter the show trailer link</label>
+            <input type="url" class="form-control" id="showtrailer" placeholder="Enter Show trailer link">
+          </div>
+
+          <div class="form-group">
+            <label for="gamequestion">Enter the show tags</label>
+            <input type="text" class="form-control" id="showtag" placeholder="Enter Show tags seperated by tags">
+          </div>
+
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <!-- END FORM QUESTION -->
   </div>
 
 </div>
@@ -323,210 +414,68 @@
     barChartOptions.datasetFill = false
     barChart.Bar(barChartData, barChartOptions)
 
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieChart = new Chart(pieChartCanvas)
-    var PieData = [{
-        value: 700,
-        color: '#f56954',
-        highlight: '#f56954',
-        label: 'Chrome'
-      },
-      {
-        value: 500,
-        color: '#00a65a',
-        highlight: '#00a65a',
-        label: 'IE'
-      },
-      {
-        value: 400,
-        color: '#f39c12',
-        highlight: '#f39c12',
-        label: 'FireFox'
-      },
-      {
-        value: 600,
-        color: '#00c0ef',
-        highlight: '#00c0ef',
-        label: 'Safari'
-      },
-      {
-        value: 300,
-        color: '#3c8dbc',
-        highlight: '#3c8dbc',
-        label: 'Opera'
-      },
-      {
-        value: 100,
-        color: '#d2d6de',
-        highlight: '#d2d6de',
-        label: 'Navigator'
+    $('#questionformbutton').on('click', function(e) {
+      e.preventDefault();
+      console.log('button clicked');
+      var data = $("#questionform").serializeArray();
+      console.log(data); //use the console for debugging, F12 in Chrome, not alerts
+    });
+
+    $.ajax({
+      url: '/dashboard/getShowDataByCountry'
+    }).then(function(response) {
+      // jvectormap data
+      var visitorsData = response;
+
+      // World map by jvectormap
+      $('#world-map-markers').vectorMap({
+        map: 'world_mill_en',
+        backgroundColor: 'transparent',
+        regionStyle: {
+          initial: {
+            fill: '#e4e4e4',
+            'fill-opacity': 1,
+            stroke: 'none',
+            'stroke-width': 0,
+            'stroke-opacity': 1
+          }
+        },
+        series: {
+          regions: [{
+            values: visitorsData,
+            scale: ['#92c1dc', '#ebf4f9'],
+            normalizeFunction: 'polynomial'
+          }]
+        },
+        onRegionLabelShow: function(e, el, code) {
+          if (typeof visitorsData[code] != 'undefined')
+            el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
+        }
+      });
+    });
+
+    $.ajax({
+      url: 'dashboard/getTagsfromReviews'
+    }).then(function(response) {
+      console.log(response);
+      /* jQCloud Word Cloud
+       * ------------
+       * Create an array of word objects, each representing a word in the cloud
+       */
+      var word_array = [];
+      for (var key in response) {
+        if (response.hasOwnProperty(key)) {
+          word_array.push({
+            text: key,
+            weight: response[key]
+          })
+        }
       }
-    ]
-    var pieOptions = {
-      //Boolean - Whether we should show a stroke on each segment
-      segmentShowStroke: true,
-      //String - The colour of each segment stroke
-      segmentStrokeColor: '#fff',
-      //Number - The width of each segment stroke
-      segmentStrokeWidth: 2,
-      //Number - The percentage of the chart that we cut out of the middle
-      percentageInnerCutout: 50, // This is 0 for Pie charts
-      //Number - Amount of animation steps
-      animationSteps: 100,
-      //String - Animation easing effect
-      animationEasing: 'easeOutBounce',
-      //Boolean - Whether we animate the rotation of the Doughnut
-      animateRotate: true,
-      //Boolean - Whether we animate scaling the Doughnut from the centre
-      animateScale: false,
-      //Boolean - whether to make the chart responsive to window resizing
-      responsive: true,
-      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-      maintainAspectRatio: true,
-      //String - A legend template
-      legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    pieChart.Doughnut(PieData, pieOptions);
-  });
-  /* jVector Maps
-   * ------------
-   * Create a world map with markers
-   */
-  $('#world-map-markers').vectorMap({
-    map: 'world_mill_en',
-    normalizeFunction: 'polynomial',
-    hoverOpacity: 0.7,
-    hoverColor: false,
-    backgroundColor: 'transparent',
-    regionStyle: {
-      initial: {
-        fill: 'rgba(210, 214, 222, 1)',
-        'fill-opacity': 1,
-        stroke: 'none',
-        'stroke-width': 0,
-        'stroke-opacity': 1
-      },
-      hover: {
-        'fill-opacity': 0.7,
-        cursor: 'pointer'
-      },
-      selected: {
-        fill: 'yellow'
-      },
-      selectedHover: {}
-    },
-    markerStyle: {
-      initial: {
-        fill: '#00a65a',
-        stroke: '#111'
-      }
-    },
-    markers: [{
-        latLng: [41.90, 12.45],
-        name: 'Vatican City'
-      },
-      {
-        latLng: [43.73, 7.41],
-        name: 'Monaco'
-      },
-      {
-        latLng: [-0.52, 166.93],
-        name: 'Nauru'
-      },
-      {
-        latLng: [-8.51, 179.21],
-        name: 'Tuvalu'
-      },
-      {
-        latLng: [43.93, 12.46],
-        name: 'San Marino'
-      },
-      {
-        latLng: [47.14, 9.52],
-        name: 'Liechtenstein'
-      },
-      {
-        latLng: [7.11, 171.06],
-        name: 'Marshall Islands'
-      },
-      {
-        latLng: [17.3, -62.73],
-        name: 'Saint Kitts and Nevis'
-      },
-      {
-        latLng: [3.2, 73.22],
-        name: 'Maldives'
-      },
-      {
-        latLng: [35.88, 14.5],
-        name: 'Malta'
-      },
-      {
-        latLng: [12.05, -61.75],
-        name: 'Grenada'
-      },
-      {
-        latLng: [13.16, -61.23],
-        name: 'Saint Vincent and the Grenadines'
-      },
-      {
-        latLng: [13.16, -59.55],
-        name: 'Barbados'
-      },
-      {
-        latLng: [17.11, -61.85],
-        name: 'Antigua and Barbuda'
-      },
-      {
-        latLng: [-4.61, 55.45],
-        name: 'Seychelles'
-      },
-      {
-        latLng: [7.35, 134.46],
-        name: 'Palau'
-      },
-      {
-        latLng: [42.5, 1.51],
-        name: 'Andorra'
-      },
-      {
-        latLng: [14.01, -60.98],
-        name: 'Saint Lucia'
-      },
-      {
-        latLng: [6.91, 158.18],
-        name: 'Federated States of Micronesia'
-      },
-      {
-        latLng: [1.3, 103.8],
-        name: 'Singapore'
-      },
-      {
-        latLng: [1.46, 173.03],
-        name: 'Kiribati'
-      },
-      {
-        latLng: [-21.13, -175.2],
-        name: 'Tonga'
-      },
-      {
-        latLng: [15.3, -61.38],
-        name: 'Dominica'
-      },
-      {
-        latLng: [-20.2, 57.5],
-        name: 'Mauritius'
-      },
-      {
-        latLng: [26.02, 50.55],
-        name: 'Bahrain'
-      },
-      {
-        latLng: [0.33, 6.73],
-        name: 'São Tomé and Príncipe'
-      }
-    ]
+
+      $("#wordcloud").jQCloud(word_array);
+
+    });
+
+
   });
 </script>
