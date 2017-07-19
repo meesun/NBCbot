@@ -167,6 +167,38 @@ app.listen(app.get('port'), function() {
 });
 
 
+app.get('/getQuestion', function(req, res) {
+    var Shows = require(__base + 'models/shows');
+    var Qnas = require(__base + 'models/qna');
+    var senderID='1128081597293753';
+    var questionID = '596a62e2f36d281eb44048d4';
+    var answerID = 'optiona';
+
+    var ansUser = {
+      userId: senderID,
+      response: answerID
+    }
+    console.log(ansUser);
+
+    console.log(questionID);
+    
+    global.sendMsg = senderID;
+
+    // Qnas.findOneAndUpdate({_id:questionID},
+    //  {$push: {"response": ansUser}},
+    //  {safe: true, upsert: true, new : true}, 
+    //  function (err, place) {
+    //     console.log(place);
+    //     //sendTextMessage(global.sendMsg, "Noted :)");
+    // });
+
+    Qnas.find({_id:questionID}, function(err, shows) {
+        if (err) console.log(err);
+        
+                console.log(shows);
+    });
+}
+);
 
 //Send push message
 app.get('/sendSample', function(req, res) {
@@ -196,7 +228,7 @@ app.get('/sendSample', function(req, res) {
                 console.error(error);
         }).then(function(rspn){
             console.log('sap3');
-            var currTime = new Date('2017-07-19T18:17:28.456Z').getTime();
+            var currTime = new Date('2017-07-19T18:31:31.698Z').getTime();
             var currentTime = new Date().getTime();
             console.log(currTime);
             console.log(currentTime);
