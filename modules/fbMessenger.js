@@ -1097,6 +1097,9 @@ function callSendAPI(messageData) {
       response: answerID
     }
     console.log(ansUser);
+
+    console.log(questionID);
+    
     global.sendMsg = senderID;
 
     Qnas.findOneAndUpdate({_id:questionID},

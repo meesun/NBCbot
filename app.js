@@ -196,7 +196,7 @@ app.get('/sendSample', function(req, res) {
                 console.error(error);
         }).then(function(rspn){
             console.log('sap3');
-            var currTime = new Date('2017-07-19T18:13:44.462Z').getTime();
+            var currTime = new Date('2017-07-19T18:17:28.456Z').getTime();
             var currentTime = new Date().getTime();
             console.log(currTime);
             console.log(currentTime);
