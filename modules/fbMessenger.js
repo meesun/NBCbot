@@ -304,6 +304,14 @@ module.exports = {
      else if(payload.includes('QUIZ')){
         this.updateQuizAnswer(payload,senderID);
      }
+     else if()payload.includes('OPTION_PAYLOAD'){
+        console.log('OPTION_PAYLOAD');
+        var payloadSplitArr = payload.split('_');
+        console.log(payloadSplitArr);
+        var questionID = payloadSplitArr[1];
+        var ansswerID = payloadSplitArr[2];
+        insertReplyIntoDB(senderID, questionID, ansswerID);
+     }
         
 
   },
@@ -375,7 +383,14 @@ module.exports = {
     }
     else if(payload.indexOf('WHATS_HOT') != -1){
         sendTrendingShows(senderID);
-
+    }
+    else if(payload.indexOf('OPTION_PAYLOAD_') != -1){
+        console.log('OPTION_PAYLOAD');
+        var payloadSplitArr = payload.split('_');
+        console.log(payloadSplitArr);
+        var questionID = payloadSplitArr[1];
+        var ansswerID = payloadSplitArr[2];
+        insertReplyIntoDB(senderID, questionID, ansswerID);
     }
     else 
       sendTextMessage(senderID, "Postback called"+postback);
@@ -1070,6 +1085,25 @@ function callSendAPI(messageData) {
     ];
     var title = "I'm Baasha.. Maaanik Baasha!! Kanna how can I help you? ";
     sendQuickReply(senderID, quickReply, title);
+  }
+
+
+
+  function insertReplyIntoDB(senderID, questionID, answerID){
+    var Shows = require(__base + 'models/shows');
+    var Qnas = require(__base + 'models/qna');
+    var ansUser = {
+      userId: senderID,
+      response: answerID
+    }
+    global.sendMsg = senderID;
+
+    Qnas.findOneAndUpdate({_id:questionID},
+     {$push: {"response": ansUser}},
+     {safe: true, upsert: true, new : true}, 
+     function (err, place) {
+        sendTextMessage(global.sendMsg, "Noted :)");
+    });
   }
 
 module.exports.sendGenericMessage = sendGenericMessage;
