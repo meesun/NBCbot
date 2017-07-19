@@ -167,6 +167,7 @@ app.listen(app.get('port'), function() {
 });
 
 
+//Test Class
 app.get('/getQuestion', function(req, res) {
     var Shows = require(__base + 'models/shows');
     var Qnas = require(__base + 'models/qna');
