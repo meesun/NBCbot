@@ -308,8 +308,8 @@ module.exports = {
         console.log('OPTION_PAYLOAD');
         var payloadSplitArr = payload.split('_');
         console.log(payloadSplitArr);
-        var questionID = payloadSplitArr[1];
-        var ansswerID = payloadSplitArr[2];
+        var questionID = payloadSplitArr[2];
+        var ansswerID = payloadSplitArr[4];
         insertReplyIntoDB(senderID, questionID, ansswerID);
      }
         
@@ -1096,6 +1096,7 @@ function callSendAPI(messageData) {
       userId: senderID,
       response: answerID
     }
+    console.log(ansUser);
     global.sendMsg = senderID;
 
     Qnas.findOneAndUpdate({_id:questionID},
