@@ -1099,14 +1099,14 @@ function callSendAPI(messageData) {
     console.log(ansUser);
 
     console.log(questionID);
-
+    
     global.sendMsg = senderID;
 
     Qnas.findOneAndUpdate({_id:questionID},
      {$push: {"response": ansUser}},
      {safe: true, upsert: true, new : true}, 
      function (err, place) {
-        //sendTextMessage(global.sendMsg, "Noted :)");
+        sendTextMessage(global.sendMsg, "Noted :)");
     });
   }
 
