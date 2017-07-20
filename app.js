@@ -168,6 +168,39 @@ app.listen(app.get('port'), function() {
 });
 
 
+//Test Class
+app.get('/getQuestion', function(req, res) {
+    var Shows = require(__base + 'models/shows');
+    var Qnas = require(__base + 'models/qna');
+    var senderID='1128081597293753';
+    var questionID = '596a62e2f36d281eb44048d4';
+    var answerID = 'optiona';
+
+    var ansUser = {
+      userId: senderID,
+      response: answerID
+    }
+    console.log(ansUser);
+
+    console.log(questionID);
+    
+    global.sendMsg = senderID;
+
+    // Qnas.findOneAndUpdate({_id:questionID},
+    //  {$push: {"response": ansUser}},
+    //  {safe: true, upsert: true, new : true}, 
+    //  function (err, place) {
+    //     console.log(place);
+    //     //sendTextMessage(global.sendMsg, "Noted :)");
+    // });
+
+    Qnas.find({_id:questionID}, function(err, shows) {
+        if (err) console.log(err);
+        
+                console.log(shows);
+    });
+}
+);
 
 //Send push message
 app.get('/sendSample', function(req, res) {
@@ -197,7 +230,7 @@ app.get('/sendSample', function(req, res) {
                 console.error(error);
         }).then(function(rspn){
             console.log('sap3');
-            var currTime = new Date('2017-07-16T15:41:09.667Z').getTime();
+            var currTime = new Date('2017-07-19T18:46:38.519Z').getTime();
             var currentTime = new Date().getTime();
             console.log(currTime);
             console.log(currentTime);
@@ -238,64 +271,67 @@ app.get('/sendSample', function(req, res) {
 var myJob = new cronJob('5 * * * * *', function() {
 
         // get all the shows
-        shows.getShowsList().then(function(response) {
-            var promise = new Promise(function(resolve, reject) {
-                global.showResponse = response[0];
-                console.log('sap1' + global.showResponse);
-                resolve(response[0]);    
-            })
-           return promise;
-        }, function(error) {
-                console.error(error);
-        }).then(function(respo) {
-            var promise = new Promise(function(resolve, reject) {
-                console.log('sap2');
-               console.log(global.showResponse.name);
-               dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
-                console.log('sap2.1');
-                   console.log(respo);
-                   global.quesResponse = respo; 
-                   resolve(respo);
-                })
-            });
-            return promise;
-        }, function(error) {
-                console.error(error);
-        }).then(function(rspn){
-            console.log('sap3');
-            var currTime = new Date('2017-07-16T15:41:09.667Z').getTime();
-            var currentTime = new Date().getTime();
-            console.log(currTime);
-            console.log(currentTime);
-            console.log(global.showResponse.favUserList);
-            if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) <= 5)
-            {
-                var userList = global.showResponse.favUserList;
-                for(var k = 0; k<global.quesResponse.length;k++){
-                    for(var j = 0 ; j < userList.length; j++){
-                        if(global.quesResponse[k].options.length > 0){
 
-                            var buttons = [];
+
+        //Comment this when all data is setup - tested with sample data
+        // shows.getShowsList().then(function(response) {
+        //     var promise = new Promise(function(resolve, reject) {
+        //         global.showResponse = response[0];
+        //         console.log('sap1' + global.showResponse);
+        //         resolve(response[0]);    
+        //     })
+        //    return promise;
+        // }, function(error) {
+        //         console.error(error);
+        // }).then(function(respo) {
+        //     var promise = new Promise(function(resolve, reject) {
+        //         console.log('sap2');
+        //        console.log(global.showResponse.name);
+        //        dashboard.getFeedbackQuestionList(global.showResponse.name).then(function(respo) {
+        //         console.log('sap2.1');
+        //            console.log(respo);
+        //            global.quesResponse = respo; 
+        //            resolve(respo);
+        //         })
+        //     });
+        //     return promise;
+        // }, function(error) {
+        //         console.error(error);
+        // }).then(function(rspn){
+        //     console.log('sap3');
+        //     var currTime = new Date('2017-07-16T15:41:09.667Z').getTime();
+        //     var currentTime = new Date().getTime();
+        //     console.log(currTime);
+        //     console.log(currentTime);
+        //     console.log(global.showResponse.favUserList);
+        //     if(currentTime > currTime && ((currentTime-currTime)/(1000*60)) <= 5)
+        //     {
+        //         var userList = global.showResponse.favUserList;
+        //         for(var k = 0; k<global.quesResponse.length;k++){
+        //             for(var j = 0 ; j < userList.length; j++){
+        //                 if(global.quesResponse[k].options.length > 0){
+
+        //                     var buttons = [];
 
                             
-                            for(var m=0 ; m < global.quesResponse[k].options.length ; m++){
-                                var element = {
-                                    "content_type": "text",
-                                    "title": global.quesResponse[k].options[m],
-                                    payload: "OPTION_PAYLOAD_"+global.quesResponse[k]._id+"_"+userList[j]+"_"+global.quesResponse[k].options[m],
-                                }
-                                buttons.push(element);
-                            }
-                            console.log(buttons);
-                            fbMessenger.sendQuickReply(userList[j], buttons,global.quesResponse[k].qn);
-                        }
-                        dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
-                    }
-                }
+        //                     for(var m=0 ; m < global.quesResponse[k].options.length ; m++){
+        //                         var element = {
+        //                             "content_type": "text",
+        //                             "title": global.quesResponse[k].options[m],
+        //                             payload: "OPTION_PAYLOAD_"+global.quesResponse[k]._id+"_"+userList[j]+"_"+global.quesResponse[k].options[m],
+        //                         }
+        //                         buttons.push(element);
+        //                     }
+        //                     console.log(buttons);
+        //                     fbMessenger.sendQuickReply(userList[j], buttons,global.quesResponse[k].qn);
+        //                 }
+        //                 dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+        //             }
+        //         }
 
-            }
+        //     }
 
-        });       
+        // });       
 
 });
 
