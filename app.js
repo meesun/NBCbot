@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
 var shows = require(__dirname + '/routes/shows');
-var dashboard = require(__dirname + '/routes/dashboard');
+
 var config = require('./config');
 var cronJob = require('cron').CronJob;
 
@@ -35,6 +35,7 @@ mongoose.connect(config.database.mlabs);
 var facebook = require(__dirname + '/routes/facebook')();
 
 var fbProfile= require(__dirname + '/routes/fbprofile')();
+var dashboard = require(__dirname + '/routes/dashboard')();
 var users= require(__dirname + '/routes/users')();
 
 /* Mapping the requests to routes (controllers) */
