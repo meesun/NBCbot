@@ -1164,6 +1164,7 @@ function callSendAPI(messageData) {
 
 
   function findShows(senderID){
+    console.log("FINDINGS SHOWS")
     var shows = require(__base + 'models/shows');
     shows.distinct( "tags", { "favUserList": "1447422121990282"},function(err,data){
       console.log(data);
