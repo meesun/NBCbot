@@ -1038,7 +1038,7 @@ function callSendAPI(messageData) {
       global.addFavUserId = senderId;
 
       console.log(showId + ": = " + global.addFavUserId);
-      var Shows = require(_s_base + 'models/shows');
+      var Shows = require(_base + 'models/shows');
       Shows.findOneAndUpdate({_id:showId},
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
