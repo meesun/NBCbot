@@ -220,17 +220,27 @@
           <!-- select -->
           <div class="form-group">
             <label>Select the show</label>
-            <select class="form-control">
-              <option>Game of Thrones</option>
-              <option>Friends</option>
-              <option>The Big Bang Theory</option>
-              <option>Suits</option>
-              <option>The Mentalist</option>
+            <select class="form-control" id="selectShows1" name="showName">
             </select>
           </div>
           <div class="form-group">
             <label for="gamequestion">Question</label>
-            <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
+            <input type="text" class="form-control" id="gamequestion" placeholder="Enter your feedback question">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 1</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="answer1" placeholder="Enter answer option 1">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 2</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="answer2" placeholder="Enter answer option 2">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 3</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="answer3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
@@ -259,12 +269,7 @@
           <!-- select -->
           <div class="form-group">
             <label>Select the show</label>
-            <select class="form-control">
-              <option>Game of Thrones</option>
-              <option>Friends</option>
-              <option>The Big Bang Theory</option>
-              <option>Suits</option>
-              <option>The Mentalist</option>
+            <select class="form-control" id="selectShows2" name="showName">
             </select>
           </div>
           <div class="form-group">
@@ -468,6 +473,37 @@
       $("#wordcloud").jQCloud(word_array);
 
     });
+
+    $.ajax({
+      url: 'dashboard/getShows'
+    }).then(function(response) {
+      console.log(response);
+      $("#selectShows1").populate(response);
+      $("#selectShows2").populate(response);
+    });
+
+    $('#questionform').on('submit', function(e) {
+      var dataArray = $("#questionform").serializeArray();
+      var data = objectifyForm(dataArray);
+      console.log(data); //use the console for debugging, F12 in Chrome, not alerts
+      e.preventDefault();
+    });
+
+    function objectifyForm(formArray) { //serialize data function
+
+      var returnArray = {};
+      for (var i = 0; i < formArray.length; i++) {
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+      }
+      return returnArray;
+    }
+
+    $.fn.populate = function(optionArray) {
+      for (var i = 0; i < optionArray.length; i++) {
+        var option = optionArray[i]["name"];
+        $(this).append('<option value="' + option + '">' + option + '</option>');
+      }
+    }
 
 
   });
