@@ -897,7 +897,7 @@ function playGames(senderID,quiz_id){
   }  
       console.log("+++++++++++");
       console.log(global.user_games);
-      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":1});
       console.log("user games");
       console.log(user_games);
       console.log("-----------");
