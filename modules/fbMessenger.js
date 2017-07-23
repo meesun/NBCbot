@@ -362,43 +362,7 @@ module.exports = {
        addToFavorite(payload,senderID);
 
 
-       var quickReply = [{
-         "content_type": "text",
-          "title": "Explore",
-          "payload": "EXPLORE"
-         },
-         {
-         "content_type": "text",
-         "title": "Trending Shows",
-         "payload": "WHATS_HOT"
-         }, {
-         "content_type": "text",
-         "title": "Game",
-         "payload": "GAME"
-      }];
-       var text = "I can help you find new shows and play games";
-       sendQuickReply(senderID,quickReply,text);
 
-      /*var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
-      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
-
-      console.log(showId + ": = " + userId);
-      var Shows = require(__base + 'models/shows');
-      var Users = require(__base + 'models/users');
-      Shows.find({_id:showId}, function(err, shows) {
-        if (err) console.log(err);
-        global._showDet = shows[0];
-      });
-
-      console.log("Show Details: " + global._showDet);
-
-      Users.findOneAndUpdate({fbId:userId},
-       {$push: {"favShows": global._showDet}},
-       {safe: true, upsert: true, new : true}, 
-       function (err, place) {
-          sendTextMessage(senderID, "Added to the favorite");
-      });
-     */
     } else if(payload.indexOf('EXPLORE') != -1){
         sendRecommendedShows(senderID)
     }
@@ -1073,7 +1037,24 @@ function callSendAPI(messageData) {
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-          sendTextMessage(global.addFavUserId, "Added to the favorite");
+        sendTextMessage(global.addFavUserId, "Added to the favorite");
+
+         var quickReply = [{
+           "content_type": "text",
+            "title": "Explore",
+            "payload": "EXPLORE"
+           },
+           {
+           "content_type": "text",
+           "title": "Trending Shows",
+           "payload": "WHATS_HOT"
+           }, {
+           "content_type": "text",
+           "title": "Game",
+           "payload": "GAME"
+        }];
+         var text = "I can help you find new shows and play games";
+         sendQuickReply(senderID,quickReply,text);
       });
    }
 
