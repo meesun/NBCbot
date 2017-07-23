@@ -242,12 +242,12 @@ $(document).ready(function() {
       "tags": data.showtags.split(',')
     }
 
-    console.log(body);
+    console.log(JSON.stringify(body));
 
     var settings = {
       "async": true,
       "url": "dashboard/saveShows",
-      "method": "GET",
+      "method": "POST",
       "headers": {
         "content-type": "application/json",
         "cache-control": "no-cache"
