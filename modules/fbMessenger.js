@@ -1140,3 +1140,5 @@ module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
 module.exports.sendButtonMessage = sendButtonMessage;
 module.exports.sendQuickReply = sendQuickReply;
+module.exports.sendVideoMessageWithData = sendVideoMessageWithData;
+

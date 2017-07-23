@@ -42,22 +42,22 @@ module.exports = function() {
            for(var k = 0 ; k < global.showUserResponse.length ; k++)
 			{
     			console.log(global.showUserResponse[k]);
-    			var messageData = {
-			      recipient: {
-			        id: global.showUserResponse[k]
-			      },
-			      message: {
-			        attachment: {
-			          type: "video",
-			          payload: {
-			            url: global.videoLink 
-			          }
-			        }
-			      }
-			    }
-			    console.log(messageData);
-			    //facebook.sendTextMessage(global.showUserResponse[k],'Watch this video: '+ global.videoLink );
-    			facebook.sendVideoMessageWithData(messageData);
+    			// var messageData = {
+			    //   recipient: {
+			    //     id: global.showUserResponse[k]
+			    //   },
+			    //   message: {
+			    //     attachment: {
+			    //       type: "video",
+			    //       payload: {
+			    //         url: global.videoLink 
+			    //       }
+			    //     }
+			    //   }
+			    // }
+			    // console.log(messageData);
+			    facebook.sendTextMessage(global.showUserResponse[k],'Watch this video: '+ global.videoLink );
+    			//facebook.sendVideoMessageWithData(messageData);
     			if(k == global.showUserResponse[k].length)
     			{
     				console.log('finalResp');
