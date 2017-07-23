@@ -1054,7 +1054,7 @@ function callSendAPI(messageData) {
            "payload": "GAME"
         }];
          var text = "I can help you find new shows and play games";
-         sendQuickReply(senderID,quickReply,text);
+         sendQuickReply(global.addFavUserId,quickReply,text);
       });
    }
 
