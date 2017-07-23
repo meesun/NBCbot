@@ -20,7 +20,26 @@ module.exports = function() {
 		});
 	});
 
+	//Get favorite shows - most favorite
+	router.get('/getMostFavoriteShows', function(req, res) {
+		getShowsList().then(function(response) {
+                global.showResponse = response;
+                var temp = 0;        
+                var mostFavShow = "";        
+                for(var m = 0; m < global.showResponse.length; m++){
+                    if( temp < global.showResponse[m].favUserList.length){
+                        temp = global.showResponse[m].favUserList.length;
+                        mostFavShow = global.showResponse[m];
+                    }
+                }
+                console.log(mostFavShow);
+                console.log(mostFavShow);
+                res.send(mostFavShow);  
+                
+            })
+	});
 
+	
 	router.get('/sendTrailerLink', function(req, res) {
 
 		var showId = req.query.showId;
