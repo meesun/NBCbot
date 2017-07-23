@@ -345,6 +345,7 @@ module.exports = {
     // button for Structured Messages.
     var payload = event.postback.payload;
 
+    global.finalUserId = senderID;
     console.log("Received postback for user %d and page %d with payload '%s' " +
       "at %d", senderID, recipientID, payload, timeOfPostback);
     // When a postback is called, we'll send a message back to the sender to
@@ -355,13 +356,28 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
-      
-
+      addToFavorite(payload,global.finalUserId).then(function(response) {
+                var quickReply = [{
+                   "content_type": "text",
+                    "title": "Explore",
+                    "payload": "EXPLORE"
+                   },
+                   {
+                   "content_type": "text",
+                   "title": "Trending Shows",
+                   "payload": "WHATS_HOT"
+                   }, {
+                   "content_type": "text",
+                   "title": "Game",
+                   "payload": "GAME"
+                }];
+                 var text = "I can help you find new shows and play games";
+                 sendQuickReply(senderID,quickReply,text);
+                
+            })
 
       //Commenting out to check the error
-       addToFavorite(payload,senderID);
-
-
+       //addToFavorite(payload,senderID);  
 
     } else if(payload.indexOf('EXPLORE') != -1){
         sendRecommendedShows(senderID)
@@ -1028,6 +1044,7 @@ function callSendAPI(messageData) {
 }
    function addToFavorite(payload,senderId){
 
+      var deferred = q.defer(); 
       var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
       global.addFavUserId = senderId;
 
@@ -1037,25 +1054,10 @@ function callSendAPI(messageData) {
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
-        sendTextMessage(global.addFavUserId, "Added to the favorite");
-
-         var quickReply = [{
-           "content_type": "text",
-            "title": "Explore",
-            "payload": "EXPLORE"
-           },
-           {
-           "content_type": "text",
-           "title": "Trending Shows",
-           "payload": "WHATS_HOT"
-           }, {
-           "content_type": "text",
-           "title": "Game",
-           "payload": "GAME"
-        }];
-         var text = "I can help you find new shows and play games";
-         sendQuickReply(global.addFavUserId,quickReply,text);
+          sendTextMessage(global.addFavUserId, "Added to the favorite");
+          deferred.resolve(global.addFavUserId);
       });
+      return deferred.promise;
    }
 
   
