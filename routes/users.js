@@ -17,6 +17,17 @@ module.exports = function() {
 
     });
 
+    router.get('/getUserDetailsbyId', function(req, res) {
+    	var senderId = req.query.senderId;
+    	var Users = require(__base + 'models/users');
+			Users.find({}, function(err, users) {
+				if (err) console.log(err);
+				res.json(users);
+		});
+    	
+
+    });
+
 	return router;
 
 }
