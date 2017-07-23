@@ -24,7 +24,9 @@ module.exports = {
      var score={
       "senderID":senderID,
       "quiz_id":res[1],
-      "answer_right":valid
+      "answer_right":valid,
+      "question":res[1],
+      "answer":res[2]
      }
 
     var game_score= global.user_game_score;
@@ -877,18 +879,18 @@ function playGames(senderID,quiz_id){
     if(global.user_games==null || global.user_games==undefined){
      var games=[{
         "_id":"222232",
-        "question":"this is a test",
-        "options":[":(",":D",":P"],
-        "correct":":P",
+        "question":"lambda equals h over",
+        "options":["m","mp","mv"],
+        "correct":"mv",
         "showId":"1",
         "quiz_id":"1"
     },
     {
      "_id":"222234",
-     "question":"this is a test",
-      "options":["<3","<3"],
-      "correct":":P",
-      "showId":"2",
+     "question":"e quals",
+      "options":["mc2","hc2"],
+      "correct":"mc2",
+      "showId":"1",
       "quiz_id":"1"
     }]
    console.log("populating game");
@@ -946,6 +948,19 @@ function playGames(senderID,quiz_id){
            var game_score= global.user_game_score;
            game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
+
+           var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+                if(wrong.length>0){
+                  var wrong_answer_list='';
+                 for(var i=0;i<wrong.length;i++)
+                    {
+                      var wrong_answer="question"+wrong[i].question+"Answer:"+wrong[i].answer+'\n';
+                      wrong_answer_list=wrong_answer_list+wrong_answer;
+                    }
+                    sendTextMessage(senderID,'You Went Wrong in:');
+                    sendTextMessage(senderID,wrong_answer_list);
+
+                }
           }
       
     
