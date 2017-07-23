@@ -1168,6 +1168,10 @@ function callSendAPI(messageData) {
     var shows = require(__base + 'models/shows');
     shows.distinct( "tags", { "favUserList": senderID},function(err,data){
       console.log("callback")
+      shows.find("tags":{"$in":data},"favUserList":{"$ne":senderID},function(err,data){
+              console.log("recommendedShows");
+              console.log(data);
+      });
       console.log(err)
       console.log(data);
     })
