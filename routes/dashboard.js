@@ -24,7 +24,7 @@ module.exports = function() {
   router.get('/saveQues', function(req, res, next) {
     dashboard.saveQuestion(req, res);
   });
-  
+
   //deprecated
   router.get('/getQnAnsByUser', function(req, res) {
     dashboard.getQnAnsByUser(req, res);
@@ -61,7 +61,7 @@ module.exports = function() {
   router.get('/getQuizQuestions', function(req, res) {
     dashboard.getQuizQuestions(req, res);
   });
-  
+
   router.post('/saveAllQuestions', function(req, res) {
     dashboard.saveAllQuestions(req, res);
   });

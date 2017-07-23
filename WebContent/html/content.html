@@ -67,8 +67,9 @@
 </div>
 <!-- /.row -->
 
+<!-- MAIN FORM -->
 <div class="row">
-  <!-- left column -->
+  <!-- left column for charts -->
   <div class="col-md-6">
     <!-- BAR CHART -->
     <div class="box box-success">
@@ -150,9 +151,9 @@
     <!-- /.box -->
   </div>
 
-  <!-- right column -->
+  <!-- right column for forms -->
   <div class="col-md-6">
-    <!-- FORM -->
+    <!-- add question for game FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add Questions for Game</h3>
@@ -173,25 +174,25 @@
           <label>Enter Answer Option 1</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="1">
+                <input type="radio" name="gameanswer" value="0">
               </span>
-            <input type="text" class="form-control" name="gameanswer1" placeholder="Enter answer option 1">
+            <input type="text" class="form-control" name="option1" placeholder="Enter answer option 1">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 2</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="2">
+                <input type="radio" name="gameanswer" value="1">
               </span>
-            <input type="text" class="form-control" name="gameanswer2" placeholder="Enter answer option 2">
+            <input type="text" class="form-control" name="option2" placeholder="Enter answer option 2">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 3</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="3">
+                <input type="radio" name="gameanswer" value="2">
               </span>
-            <input type="text" class="form-control" name="gameanswer3" placeholder="Enter answer option 3">
+            <input type="text" class="form-control" name="option3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
@@ -203,7 +204,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add feedback FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add a new feedback question</h3>
@@ -215,22 +216,32 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="feedbackForm">
         <div class="box-body">
           <!-- select -->
           <div class="form-group">
             <label>Select the show</label>
-            <select class="form-control">
-              <option>Game of Thrones</option>
-              <option>Friends</option>
-              <option>The Big Bang Theory</option>
-              <option>Suits</option>
-              <option>The Mentalist</option>
+            <select class="form-control" id="selectShows1" name="showName">
             </select>
           </div>
           <div class="form-group">
             <label for="gamequestion">Question</label>
-            <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
+            <input type="text" class="form-control" name="feedbackQuestion" placeholder="Enter your feedback question">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 1</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="option1" placeholder="Enter answer option 1">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 2</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="option2" placeholder="Enter answer option 2">
+          </div>
+          <!-- /input-group -->
+          <label>Enter Answer Option 3</label>
+          <div class="form-group">
+            <input type="text" class="form-control" name="option3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
@@ -242,7 +253,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add push event FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Push event notification for show</h3>
@@ -254,22 +265,17 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="pushEventForm">
         <div class="box-body">
           <!-- select -->
           <div class="form-group">
             <label>Select the show</label>
-            <select class="form-control">
-              <option>Game of Thrones</option>
-              <option>Friends</option>
-              <option>The Big Bang Theory</option>
-              <option>Suits</option>
-              <option>The Mentalist</option>
+            <select class="form-control" id="selectShows2" name="showName">
             </select>
           </div>
           <div class="form-group">
             <label for="gamequestion">Enter the link here</label>
-            <input type="url" class="form-control" id="gamequestion" placeholder="Enter question">
+            <input type="url" class="form-control" name="trailerLink" placeholder="Enter trailer link">
           </div>
         </div>
         <!-- /.box-body -->
@@ -280,7 +286,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add new show FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add a new show?</h3>
@@ -297,37 +303,39 @@
         <div class="box-body">
           <div class="form-group">
             <label for="gamequestion">Enter the show name</label>
-            <input type="text" class="form-control" id="showname" placeholder="Enter Show Name">
+            <input type="text" class="form-control" name="showName" placeholder="Enter Show Name">
           </div>
 
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="gamequestion">Enter the show start timing</label>
-                <input type="time" class="form-control" id="starttime" placeholder="Enter Show start time">
+                <input type="time" class="form-control" name="starttime" placeholder="Enter Show start time">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="gamequestion">Enter the show end timing</label>
-                <input type="time" class="form-control" id="endtime" placeholder="Enter Show end time">
+                <input type="time" class="form-control" name="endtime" placeholder="Enter Show end time">
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show image</label>
-            <input type="url" class="form-control" id="showimage" placeholder="Enter show image link here">
+            <input type="url" class="form-control" name="showimage" placeholder="Enter show image link here">
           </div>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show trailer link</label>
-            <input type="url" class="form-control" id="showtrailer" placeholder="Enter Show trailer link">
+            <input type="url" class="form-control" name="showtrailer" placeholder="Enter Show trailer link">
           </div>
+
+          <textarea class="form-control" rows="3" name="description" placeholder="Enter show description"></textarea>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show tags</label>
-            <input type="text" class="form-control" id="showtag" placeholder="Enter Show tags seperated by tags">
+            <input type="text" class="form-control" name="showtags" placeholder="Enter Show tags seperated by tags">
           </div>
 
         </div>
@@ -338,144 +346,12 @@
         </div>
       </form>
     </div>
-    <!-- END FORM QUESTION -->
+
   </div>
 
 </div>
-
+<script src="js/homepage.js"></script>
 
 <script>
-  $(function() {
-    /* ChartJS
-     * -------
-     * Here we will create a few charts using ChartJS
-     */
 
-    //-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChart = new Chart(barChartCanvas)
-    var barChartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [{
-          label: 'Electronics',
-          fillColor: 'rgba(210, 214, 222, 1)',
-          strokeColor: 'rgba(210, 214, 222, 1)',
-          pointColor: 'rgba(210, 214, 222, 1)',
-          pointStrokeColor: '#c1c7d1',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'Digital Goods',
-          fillColor: 'rgba(60,141,188,0.9)',
-          strokeColor: 'rgba(60,141,188,0.8)',
-          pointColor: '#3b8bba',
-          pointStrokeColor: 'rgba(60,141,188,1)',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
-      ]
-    }
-    barChartData.datasets[1].fillColor = '#00a65a'
-    barChartData.datasets[1].strokeColor = '#00a65a'
-    barChartData.datasets[1].pointColor = '#00a65a'
-    var barChartOptions = {
-      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-      scaleBeginAtZero: true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines: true,
-      //String - Colour of the grid lines
-      scaleGridLineColor: 'rgba(0,0,0,.05)',
-      //Number - Width of the grid lines
-      scaleGridLineWidth: 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines: true,
-      //Boolean - If there is a stroke on each bar
-      barShowStroke: true,
-      //Number - Pixel width of the bar stroke
-      barStrokeWidth: 2,
-      //Number - Spacing between each of the X value sets
-      barValueSpacing: 5,
-      //Number - Spacing between data sets within X values
-      barDatasetSpacing: 1,
-      //String - A legend template
-      legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-      //Boolean - whether to make the chart responsive
-      responsive: true,
-      maintainAspectRatio: true
-    }
-
-    barChartOptions.datasetFill = false
-    barChart.Bar(barChartData, barChartOptions)
-
-    $('#questionformbutton').on('click', function(e) {
-      e.preventDefault();
-      console.log('button clicked');
-      var data = $("#questionform").serializeArray();
-      console.log(data); //use the console for debugging, F12 in Chrome, not alerts
-    });
-
-    $.ajax({
-      url: '/dashboard/getShowDataByCountry'
-    }).then(function(response) {
-      // jvectormap data
-      var visitorsData = response;
-
-      // World map by jvectormap
-      $('#world-map-markers').vectorMap({
-        map: 'world_mill_en',
-        backgroundColor: 'transparent',
-        regionStyle: {
-          initial: {
-            fill: '#e4e4e4',
-            'fill-opacity': 1,
-            stroke: 'none',
-            'stroke-width': 0,
-            'stroke-opacity': 1
-          }
-        },
-        series: {
-          regions: [{
-            values: visitorsData,
-            scale: ['#92c1dc', '#ebf4f9'],
-            normalizeFunction: 'polynomial'
-          }]
-        },
-        onRegionLabelShow: function(e, el, code) {
-          if (typeof visitorsData[code] != 'undefined')
-            el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
-        }
-      });
-    });
-
-    $.ajax({
-      url: 'dashboard/getTagsfromReviews'
-    }).then(function(response) {
-      console.log(response);
-      /* jQCloud Word Cloud
-       * ------------
-       * Create an array of word objects, each representing a word in the cloud
-       */
-      var word_array = [];
-      for (var key in response) {
-        if (response.hasOwnProperty(key)) {
-          word_array.push({
-            text: key,
-            weight: response[key]
-          })
-        }
-      }
-
-      $("#wordcloud").jQCloud(word_array);
-
-    });
-
-
-  });
 </script>

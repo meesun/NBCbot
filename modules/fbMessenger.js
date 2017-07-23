@@ -3,6 +3,7 @@ var request = require('request');
 var graph = require('fbgraph');
 var _ = require("underscore");
 var users = require('../routes/users');
+var q = require('q');
 
 module.exports = {
   /*
@@ -1070,6 +1071,7 @@ function callSendAPI(messageData) {
             payload: "ADD_TO_FAVORITE_2",
           }]
         }];
+          findShows(senderID);
           sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
@@ -1157,6 +1159,21 @@ function callSendAPI(messageData) {
         sendTextMessage(global.sendMsg, "Noted :)");
     });
   }
+  
+
+
+
+  function findShows(senderID){
+    console.log("FINDINGS SHOWS")
+    var shows = require(__base + 'models/shows');
+    shows.find({ "favUserList": senderID},function(err,data){
+      console.log("call back")
+      console.log(err)
+      console.log(data);
+    })
+
+  }
+
 
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
