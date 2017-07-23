@@ -132,8 +132,9 @@ function getFavoriteList(senderId) {
 					if(likesList.includes(global.showsList[j].name) && (typeof global.showsList[j].favUserList != 'undefined') && !global.showsList[j].favUserList.includes(global.sId)){
 						finalLikesArr.push(global.showsList[j]);
 					}
+					console.log("Final likes")
+					console.log(finalLikesArr)
 				}
-				console.log(finalLikesArr);
 				deferred.resolve(finalLikesArr);
 		});
 	});
