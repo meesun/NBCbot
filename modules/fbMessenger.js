@@ -1159,10 +1159,10 @@ function callSendAPI(messageData) {
       shows.find({"tags":{"$in":data},"favUserList":{"$ne":senderID}},function(err,data){
               console.log("recommendedShows");
               console.log(data);
+              var elements=[];
         if(data.length>0){
               for (i = 0; i < data.length; i++) {
               var show= data[i];
-              var elements=[];
               var showElement={
                 title: show.name,
                 subtitle:show.description,
@@ -1175,7 +1175,7 @@ function callSendAPI(messageData) {
                 }],
               }
               elements.push(showElement);
-            }
+            }   console.log(elements)
                 sendGenericMessage(senderID,elements);
 
         }
