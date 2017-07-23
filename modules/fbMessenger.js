@@ -186,7 +186,7 @@ module.exports = {
       sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       return;
     }
-    
+    console.log(messageText)
     if (messageText) {
 
       // If we receive a text message, check to see if it matches any special
@@ -205,7 +205,7 @@ module.exports = {
         case "YES":
             sendTextMessage(senderID, "Got it! I will send in a reminder.");  
           break;
-        case "Midnight Texas promo":
+        case "MIDNIGHT TEXAS PROMO":
             sendTextMessage(senderID, "https://www.youtube.com/watch?v=rSjtrj-zFgo");  
           break;
         case "NBC":
