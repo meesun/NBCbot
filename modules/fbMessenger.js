@@ -1079,65 +1079,7 @@ function callSendAPI(messageData) {
          
          // Comment the below line and add the code to construct the list of fav - respons
 
-         var elements = [];
-
-       response = data = [{
-    "_id": {
-        "$oid": "5974c8530fb00e367e62edae"
-    },
-    "name": "America's Got Talent",
-    "startTime": "19:00",
-    "endTime": "20:00",
-    "imageURL": "http://digitalspyuk.cdnds.net/16/21/980x490/landscape-1464273876-agt-s11-key-art.jpg",
-    "videoURL": "https://www.youtube.com/watch?v=0Opr_uoVlF8",
-    "description": "A nationwide search among a pool of amateurs for the best talent in singing, dancing, comedy and novelty acts. Viewers choose who will advance to the next round to ultimately win a huge prize.",
-    "tags": [
-        "reality",
-        " talent",
-        " comedy",
-        " fun"
-    ],
-    "favUserList": [],
-    "__v": 0
-},
-{
-    "_id": {
-        "$oid": "5974c8a60fb00e367e62edaf"
-    },
-    "name": "American Ninja Warrior",
-    "startTime": "22:00",
-    "endTime": "23:00",
-    "imageURL": "https://img.nbc.com/sites/nbcunbc/files/files/styles/640x360/public/images/2017/6/27/ANW-Girl-ShowImage-1920x1080-KO.jpg?itok=ybBkBBrl&impolicy=nbc_com&imwidth=320",
-    "videoURL": "https://www.youtube.com/watch?v=jCUsHAgxPbc",
-    "description": "Several competitors try to accomplish difficult feats in order to win the coveted title.",
-    "tags": [
-        "reality",
-        " fun",
-        " adventure"
-    ],
-    "favUserList": [],
-    "__v": 0
-},
-{
-    "_id": {
-        "$oid": "5974c8fb0fb00e367e62edb0"
-    },
-    "name": "Blindspot",
-    "startTime": "10:00",
-    "endTime": "11:00",
-    "imageURL": "https://img.nbc.com/sites/nbcunbc/files/files/styles/640x360/public/images/2016/7/27/2016-0718-Blindspot-AboutImage-1920x1080-KO1.jpg?itok=wj2x8PEn&impolicy=nbc_com&imwidth=320",
-    "videoURL": "https://www.youtube.com/watch?v=biSRZM1NLDs",
-    "description": "When a strange woman finds herself in Times Square with absolutely no memory of her past and mysterious tattoos all over her body, she embarks on a journey to determine her identity.",
-    "tags": [
-        "thriller",
-        " fantasy",
-        " adventure"
-    ],
-    "favUserList": [],
-    "__v": 0
-}
-
-];
+        var elements = [];
         if(response.length>0){
           console.log("looping through")
         for (i = 0; i < response.length; i++) {
