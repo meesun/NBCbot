@@ -46,10 +46,10 @@ module.exports = function() {
 		global.videoLink = req.query.videoLink;
 		
 
-    	getShowsListById(showId).then(function(response) {
+    	getShowsListByIdWithName(showId).then(function(response) {
             var promise = new Promise(function(resolve, reject) {
                 console.log(response[0].favUserList.length);
-                global.showUserResponse = response[0].favUserList;
+                global.showUserResponse = response[0];
                 resolve(response[0]);    
             })
            return promise;
@@ -58,9 +58,10 @@ module.exports = function() {
         }).then(function(respo) {
             
            console.log(global.showUserResponse);
-           for(var k = 0 ; k < global.showUserResponse.length ; k++)
+           for(var k = 0 ; k < global.showUserResponse.favUserList.length ; k++)
 			{
-    			console.log(global.showUserResponse[k]);
+				console.log('SApna');
+    			console.log(global.showUserResponse);
     			// var messageData = {
 			    //   recipient: {
 			    //     id: global.showUserResponse[k]
@@ -75,9 +76,9 @@ module.exports = function() {
 			    //   }
 			    // }
 			    // console.log(messageData);
-			    facebook.sendTextMessage(global.showUserResponse[k],'Watch this video: '+ global.videoLink );
+			    facebook.sendTextMessage(global.showUserResponse.favUserList[k],global.showUserResponse.name+' is about to start. Click on the link to watch the trailer ! ' + global.videoLink );
     			//facebook.sendVideoMessageWithData(messageData);
-    			if(k == global.showUserResponse[k].length)
+    			if(k == global.showUserResponse.favUserList[k].length)
     			{
     				console.log('finalResp');
     				var finalResp = {"status": "success"};
@@ -127,6 +128,24 @@ function getShowsListById(showId) {
 	var deferred = q.defer();
 
 	Shows.find({_id:showId},{'favUserList':1}, function(err, shows) {
+		if (err) console.log(err);
+			deferred.resolve(shows);
+	});
+	return deferred.promise;
+    
+}
+
+
+/*
+ * Get the show list for a list of users
+ *
+ */
+function getShowsListByIdWithName(showId) {
+
+	var Shows = require(__base + 'models/shows');
+	var deferred = q.defer();
+
+	Shows.find({_id:showId}, function(err, shows) {
 		if (err) console.log(err);
 			deferred.resolve(shows);
 	});
