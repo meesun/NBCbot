@@ -918,7 +918,7 @@ function playGames(senderID,showid){
 }
 
 function gamePlay(senderID,showid){
-  console.log("+++++++++++");
+  console.log("gamePlay");
       console.log(global.user_games);
 
       var user_games=_.where(global.user_games, {"senderID":senderID,"show":showid});
