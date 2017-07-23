@@ -11,7 +11,7 @@ var watson = require('watson-developer-cloud');
 var qna = require('../models/qna');
 var lookup = require('country-data').lookup;
 module.exports = {
-    
+
     //deprecated
     getQuestionById:function(req, res){
          userQn.find({_id: id}, function(err, data) {
@@ -31,7 +31,7 @@ module.exports = {
                         if(err==undefined)
                         {
                             data.forEach(function(ans){
-                                
+
                                 userQn.find({_id: ans.qnId}, function(err, data) {
                                 console.log(data[0].qn)
                                 if(err==undefined)
@@ -41,15 +41,15 @@ module.exports = {
                                     respArr.push(respObj);
                                 }
                                 });
-                                
-                                
-                                
+
+
+
                             });
                             res.send(respArr);
-                            
+
                         }
-                        
-            
+
+
         });
     },
     //deprecated
@@ -65,11 +65,11 @@ module.exports = {
             console.log("question saved in db");
             res.sendStatus(200);
         });
-        
+
     },
     //deprecated
     saveAnswer:function(req, res){
-        
+
                      userAnsSchema = new userAns({
                          "qnId": req.query.qnId,
                         "userId": req.query.userId,
@@ -80,7 +80,7 @@ module.exports = {
             res.sendStatus(200);
         });
     },
-    
+
     getAnswer:function(req, res){
         var ansArr=[];
          qna.find({qn: req.query.qn},{answer:1,'_id':0}, function(err, data) {
@@ -96,22 +96,22 @@ module.exports = {
 
         });
     },
-    
+
     getShows:function(req,res){
         shows.find({}, function(err, data) {
                         if(err==undefined)
                              res.send(data);
-            
+
         });
     },
-    
+
     getQuizQuestions:function(req,res){
         qna.find({type:'quiz'}, function(err,data){
                  if(err==undefined)
                     res.send(data);
                  });
     },
-    
+
     getAllQuestions:function(req,res)
     {
 
@@ -119,17 +119,17 @@ module.exports = {
             res.send(data);
         });
     },
-    
-   
+
+
     getShowReviews:function(req,res){
-       
-        
+
+
         qna.find({type:'feedback'},function(err,data){
              var reviewMap = new Object();
             console.log(data);
             var promises = [];
             for(var i=0;i<data.length;i++){
-                     
+
                 var show=data[i].show;
                 var reviewCount = reviewMap[show];
                 var reviewobj=new Object();
@@ -152,7 +152,7 @@ module.exports = {
         });
 
     },
-    
+
     getAgeDataByShow: function(req,res)
     {
         users.find({},function(err,data){
@@ -164,65 +164,65 @@ module.exports = {
                     {
                        if(age>0 && age<=5)
                            {
-                               
-                                addAge(ageMap,'0-5');   
+
+                                addAge(ageMap,'0-5');
                            }
                         else if(age>5 && age<=10)
                            {
-                               
-                                addAge(ageMap,'5-10');   
+
+                                addAge(ageMap,'5-10');
                            }
                         else if(age>10 && age<=15)
                            {
-                               
-                                addAge(ageMap,'10-15');   
+
+                                addAge(ageMap,'10-15');
                            }
                         else if(age>15 && age<=20)
                            {
-                               
-                                addAge(ageMap,'15-20');   
+
+                                addAge(ageMap,'15-20');
                            }
                         else if(age>20 && age<=25)
                            {
-                               
-                                addAge(ageMap,'20-25');   
+
+                                addAge(ageMap,'20-25');
                            }
                         else if(age>25 && age<=30)
                            {
-                               
-                                addAge(ageMap,'25-30');   
+
+                                addAge(ageMap,'25-30');
                            }
                         else if(age>30 && age<=35)
                            {
-                               
-                                addAge(ageMap,'30-35');   
+
+                                addAge(ageMap,'30-35');
                            }
                         else if(age>35 && age<=40)
                            {
-                               
-                                addAge(ageMap,'35-40');   
+
+                                addAge(ageMap,'35-40');
                            }
                         else if(age>40 && age<=45)
                            {
-                               
-                                addAge(ageMap,'40-45');   
+
+                                addAge(ageMap,'40-45');
                            }
                         else if(age>45 && age<=50)
                            {
-                               
-                                addAge(ageMap,'45-50');   
+
+                                addAge(ageMap,'45-50');
                            }
                         else if(age>50 && age<=55)
                            {
-                               
-                                addAge(ageMap,'50-55');   
+
+                                addAge(ageMap,'50-55');
                            }
                     }
             }
             res.send(ageMap);
         });
     },
-    
+
     getgeographicaldataByShow: function(req,res)
     {
         users.find({},function(err,data){
@@ -278,25 +278,25 @@ module.exports = {
                       var promise=getTags(natural_language_understanding,parameters,tagArr);
                       promises.push(promise);
 
-                    }        
+                    }
                 }
                 q.all(promises).then(function(data){res.send(tagArr)});
             }
         });
-        
+
     },
-    
+
     saveShows:function(req,res)
     {
         var shows= new shows({
-            name: req.query.name,
-            startTime: req.query.startTime,
-            endTime: req.query.endTime,
-            imageURL: req.query.imageURL,
-            videoURL: req.query.videoURL,
-            favUserList: req.query.favUserList,
-            description: req.query.description,
-            tags:req.query.tags
+            name: req.body.name,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
+            imageURL: req.body.imageURL,
+            videoURL: req.body.videoURL,
+            favUserList: req.body.favUserList,
+            description: req.body.description,
+            tags:req.body.tags
         });
         shows.save(function(err){
             if(err==undefined)
@@ -304,9 +304,9 @@ module.exports = {
                     console.log("show ")
                     res.sendStatus(200);
                 }
-            
+
         })
-        
+
     },
 
     saveAllQuestions:function(req, res){
@@ -332,11 +332,11 @@ module.exports = {
             console.log("question saved in db");
             res.sendStatus(200);
         });
-        
+
     }
 }
-    
-    
+
+
 function getTags(nlu,parameters,obj)
 {
     var defer = q.defer();
@@ -356,7 +356,7 @@ function getTags(nlu,parameters,obj)
                                     }
                                 else{
                                        obj[keywordsArr[i].text]=1;
- 
+
                                 }
                             }
                         defer.resolve(obj);
@@ -369,7 +369,7 @@ function getSentiment(review,obj)
 {
     var defer = q.defer();
     emotional.load(function () {
-                    
+
                     var positive = emotional.positive(review);
                     if(positive)
                     {
@@ -377,7 +377,7 @@ function getSentiment(review,obj)
                     }
                     else{
                         obj.negative++;
-                    } 
+                    }
                     defer.resolve(positive);
                 });
     return defer.promise;
@@ -405,8 +405,3 @@ function getAge(dateString) {
     }
     return age;
 }
-
-
-
-
-

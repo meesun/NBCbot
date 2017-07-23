@@ -54,7 +54,7 @@ module.exports = function() {
     dashboard.getAgeDataByShow(req, res);
   });
 
-  router.get('/saveShows', function(req, res) {
+  router.post('/saveShows', function(req, res) {
     dashboard.saveShows(req, res);
   });
 
