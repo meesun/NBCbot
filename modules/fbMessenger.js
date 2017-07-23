@@ -1171,10 +1171,32 @@ function callSendAPI(messageData) {
       shows.find({"tags":{"$in":data},"favUserList":{"$ne":senderID}},function(err,data){
               console.log("recommendedShows");
               console.log(data);
+        if(data.length>0){
+              for (i = 0; i < data.length; i++) {
+              var show= data[i];
+              var elements=[];
+              var showElement={
+                title: show.name,
+                subtitle:show.description,
+                item_url:show.videoURL,
+                image_url:show.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+show._id,
+                }],
+              }
+              elements.push(showElement);
+            }
+                sendGenericMessage(senderID,elements);
+
+        }
       });
       console.log(err)
       console.log(data);
     })
+
+
 
   }
 
