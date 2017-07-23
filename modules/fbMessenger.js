@@ -88,10 +88,12 @@ module.exports = {
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
   },
  sendLikedShows: function(senderID,shows){
+      console.log(shows);
       if(shows.length>0){
+        var elements=[];
       for (i = 0; i < shows.length; i++) {
+           console.log("show---"+i)
             var show= shows[i];
-            var elements=[];
             var showElement={
               title: show.name,
               subtitle:show.description,
@@ -102,8 +104,10 @@ module.exports = {
                title: "Add to favorites",
                payload: "ADD_TO_FAVORITE_"+show._id,
               }],
+
             }
             elements.push(showElement);
+            console.log(elements);
         }
             sendGenericMessage(senderID,elements);
 
@@ -345,6 +349,7 @@ module.exports = {
     // button for Structured Messages.
     var payload = event.postback.payload;
 
+    global.finalUserId = senderID;
     console.log("Received postback for user %d and page %d with payload '%s' " +
       "at %d", senderID, recipientID, payload, timeOfPostback);
     // When a postback is called, we'll send a message back to the sender to
@@ -355,50 +360,29 @@ module.exports = {
     console.log("payload" + payload) ;
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
-      
-
+      addToFavorite(payload,global.finalUserId).then(function(response) {
+                var quickReply = [{
+                   "content_type": "text",
+                    "title": "Explore",
+                    "payload": "EXPLORE"
+                   },
+                   {
+                   "content_type": "text",
+                   "title": "Trending Shows",
+                   "payload": "WHATS_HOT"
+                   }, {
+                   "content_type": "text",
+                   "title": "Game",
+                   "payload": "GAME"
+                }];
+                 var text = "I can help you find new shows and play games";
+                 sendQuickReply(senderID,quickReply,text);
+                
+            })
 
       //Commenting out to check the error
-       addToFavorite(payload,senderID);
+       //addToFavorite(payload,senderID);  
 
-
-       var quickReply = [{
-         "content_type": "text",
-          "title": "Explore",
-          "payload": "EXPLORE"
-         },
-         {
-         "content_type": "text",
-         "title": "Trending Shows",
-         "payload": "WHATS_HOT"
-         }, {
-         "content_type": "text",
-         "title": "Game",
-         "payload": "GAME"
-      }];
-       var text = "I can help you find new shows and play games";
-       sendQuickReply(senderID,quickReply,text);
-
-      /*var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.lastIndexOf('@') );
-      var userId = payload.substring(payload.lastIndexOf('@')+1 , payload.length);
-
-      console.log(showId + ": = " + userId);
-      var Shows = require(__base + 'models/shows');
-      var Users = require(__base + 'models/users');
-      Shows.find({_id:showId}, function(err, shows) {
-        if (err) console.log(err);
-        global._showDet = shows[0];
-      });
-
-      console.log("Show Details: " + global._showDet);
-
-      Users.findOneAndUpdate({fbId:userId},
-       {$push: {"favShows": global._showDet}},
-       {safe: true, upsert: true, new : true}, 
-       function (err, place) {
-          sendTextMessage(senderID, "Added to the favorite");
-      });
-     */
     } else if(payload.indexOf('EXPLORE') != -1){
         sendRecommendedShows(senderID)
     }
@@ -1064,6 +1048,7 @@ function callSendAPI(messageData) {
 }
    function addToFavorite(payload,senderId){
 
+      var deferred = q.defer(); 
       var showId = payload.substring(payload.lastIndexOf('_')+1 , payload.length );
       global.addFavUserId = senderId;
 
@@ -1074,7 +1059,9 @@ function callSendAPI(messageData) {
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
           sendTextMessage(global.addFavUserId, "Added to the favorite");
+          deferred.resolve(global.addFavUserId);
       });
+      return deferred.promise;
    }
 
   
