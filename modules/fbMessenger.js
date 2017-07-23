@@ -1088,17 +1088,17 @@ function callSendAPI(messageData) {
         if(response.length>0){
           console.log("looping through")
         for (i = 0; i < response.length; i++) {
-              var show= shows[i];
+              var show= response[i];
               var elements=[];
               var showElement={
-                title: response.name,
-                subtitle:response.description,
-                item_url:response.videoURL,
-                image_url:response.imageURL,
+                title: show.name,
+                subtitle:show.description,
+                item_url:show.videoURL,
+                image_url:show.imageURL,
                  buttons: [{
                  type: "postback",
                  title: "Add to favorites",
-                 payload: "ADD_TO_FAVORITE_"+response._id,
+                 payload: "ADD_TO_FAVORITE_"+show._id,
                 }],
               }
               elements.push(showElement);
