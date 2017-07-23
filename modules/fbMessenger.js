@@ -885,7 +885,7 @@ function sendAccountLinking(recipientId) {
 function findGames(senderID){
 
       var Qnas = require(__base + 'models/qna');
-      Qnas.find({type:"quiz"}function(err,data){
+      Qnas.find({type:"quiz"},function(err,data){
         for(var i=0;i<data.length;i++){
              var reply={
                 "content_type":"text",
@@ -905,7 +905,7 @@ function playGames(senderID,showid){
     console.log("********");
 
     if(global.user_games==null || global.user_games==undefined){
-            Qnas.find({type:"quiz",show:showId}function(err,data){
+            Qnas.find({type:"quiz",show:showId},function(err,data){
                     global.user_games=[{"senderID":senderID,"games":data,"show":showId}]
                     gamePlay(senderID,showId)
             })
