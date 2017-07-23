@@ -30,7 +30,7 @@ module.exports = {
       "quiz_id":res[1],
       "answer_right":valid,
       "question":res[1],
-      "answer":res[2]
+      "answer":res[4]
      }
 
     var game_score= global.user_game_score;
@@ -919,7 +919,7 @@ function playGames(senderID,quiz_id){
                   var wrong_answer_list='';
                  for(var i=0;i<wrong.length;i++)
                     {
-                      var wrong_answer="question"+wrong[i].question+"Answer:"+wrong[i].answer+'\n';
+                      var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
                     sendTextMessage(senderID,'You Went Wrong in:');
@@ -974,7 +974,7 @@ function playGames(senderID,quiz_id){
                   var wrong_answer_list='';
                  for(var i=0;i<wrong.length;i++)
                     {
-                      var wrong_answer="question"+wrong[i].question+"Answer:"+wrong[i].answer+'\n';
+                      var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
                     sendTextMessage(senderID,'You Went Wrong in:');
