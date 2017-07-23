@@ -28,7 +28,7 @@ module.exports = {
 
      var score={
       "senderID":senderID,
-      "quiz_id":res[1],
+      "show":res[1],
       "answer_right":valid,
       "question":res[4],
       "answer":res[2]
@@ -312,7 +312,12 @@ module.exports = {
         this.updateQuizAnswer(payload,senderID);
      }
      else if(payload.includes('GAME')){
-                 playGames(senderID,'1');
+                 findGames(senderID);
+                 // playGames(senderID,'1');
+     }
+     else if(payload.includes('SHOW')){
+          var payloadSplitArr = payload.split('_');
+          playGames(senderID,payloadSplitArr[1]);
      }
      else if(payload.includes('OPTION_PAYLOAD')){
         console.log('OPTION_PAYLOAD');
@@ -877,46 +882,54 @@ function sendAccountLinking(recipientId) {
   callSendAPI(messageData);
 }
  
+function findGames(senderID){
+      var Qnas = require(__base + 'models/qna');
 
-function playGames(senderID,quiz_id){
+      Qnas.find({type:"quiz"}).distinct("show",function(err,data){
+        var quickReply=[];
+        console.log(data);
+        for(var i=0;i<data.length;i++){
+             var reply={
+                "content_type":"text",
+                "title":data[i],
+                "payload":"SHOW_"+data[i]
+              }
+              console.log(reply);
+              quickReply.push(reply);
+        }
+        var txt="you can play one of these"
+        sendQuickReply(senderID,quickReply,txt)
+      })
+}
+function playGames(senderID,showid){
+    var Qnas = require(__base + 'models/qna');
     console.log(senderID);
-    console.log(quiz_id);
-      console.log("********");
-
+    console.log(showid);
+    console.log("********");
 
     if(global.user_games==null || global.user_games==undefined){
-     var games=[{
-        "_id":"222232",
-        "question":"lambda equals h over",
-        "options":["m","mp","mv"],
-        "correct":"mv",
-        "showId":"1",
-        "quiz_id":"1"
-    },
-    {
-     "_id":"222234",
-     "question":"e equals",
-      "options":["mc2","hc2"],
-      "correct":"mc2",
-      "showId":"1",
-      "quiz_id":"1"
-    }]
-   console.log("populating game");
+            Qnas.find({type:"quiz",show:showid},function(err,data){
+                    global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
+                    gamePlay(senderID,showid)
+            })
+      }  else{
+             gamePlay(senderID,showid)
+      }
+}
 
-    global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
-  }  
-      console.log("+++++++++++");
+function gamePlay(senderID,showid){
+  console.log("gamePlay");
       console.log(global.user_games);
 
-      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      var user_games=_.where(global.user_games, {"senderID":senderID,"show":showid});
       console.log("user games");
       console.log(user_games);
       console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         var game_score= global.user_game_score;
-           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
-            var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+            var wrong=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":false});
                 console.log("Wrong");
                 console.log(wrong);
                 if(wrong.length>0){
@@ -926,7 +939,7 @@ function playGames(senderID,quiz_id){
                       var wrong_answer="question: "+wrong[i].question+" Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
-                    sendTextMessage(senderID,'You went wrong in: '+wrong_answer_list);
+                    sendTextMessage(senderID,'You went wrong in: -'+wrong_answer_list);
 
                 }
             console.log("zero case");
@@ -940,7 +953,7 @@ function playGames(senderID,quiz_id){
               
 
             _.each(global.user_games, function(item) {
-               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) {
+               if (item.senderID === senderID && item.showid==gameToBeSent.showid ) {
                     item.games=user_games[0].games;
                     console.log("removing");
                     console.log(item)
@@ -956,21 +969,21 @@ function playGames(senderID,quiz_id){
               var reply={
                 "content_type":"text",
                 "title":gameToBeSent.options[i],
-                "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
+                "payload":"QUIZ_"+gameToBeSent.show+"_"+gameToBeSent.answer+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.qn
               }
               console.log(reply);
               quickReply.push(reply);
         }
       
-       var text = gameToBeSent.question;
+       var text = gameToBeSent.qn;
        sendQuickReply(senderID,quickReply,text);
       } else{
             //calculate score
            var game_score= global.user_game_score;
-           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
 
-           var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+           var wrong=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":false});
                 console.log("Wrong");
                 console.log(wrong);
                 if(wrong.length>0){
@@ -980,7 +993,7 @@ function playGames(senderID,quiz_id){
                       var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
-                    sendTextMessage(senderID,'You Went Wrong in:');
+                    sendTextMessage(senderID,'You Went Wrong in-');
                     sendTextMessage(senderID,wrong_answer_list);
 
                 }
@@ -988,7 +1001,6 @@ function playGames(senderID,quiz_id){
       
     
   
-
 }
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
@@ -1060,19 +1072,7 @@ function callSendAPI(messageData) {
 
   
   function sendRecommendedShows(senderID){
-     elements = [{
-          title: "The Big Bang Theory",
-          subtitle: "Knock Knock Knock, Penny",
-          item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-          image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-          buttons: [{
-            type: "postback",
-            title: "Add to favorites",
-            payload: "ADD_TO_FAVORITE_2",
-          }]
-        }];
           findShows(senderID);
-          sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message
@@ -1086,18 +1086,19 @@ function callSendAPI(messageData) {
          var elements = [];
 
         if(response.length>0){
+          console.log("looping through")
         for (i = 0; i < response.length; i++) {
-              var show= shows[i];
+              var show= response[i];
               var elements=[];
               var showElement={
-                title: response.name,
-                subtitle:response.description,
-                item_url:response.videoURL,
-                image_url:response.imageURL,
+                title: show.name,
+                subtitle:show.description,
+                item_url:show.videoURL,
+                image_url:show.imageURL,
                  buttons: [{
                  type: "postback",
                  title: "Add to favorites",
-                 payload: "ADD_TO_FAVORITE_"+response._id,
+                 payload: "ADD_TO_FAVORITE_"+show._id,
                 }],
               }
               elements.push(showElement);
@@ -1166,11 +1167,36 @@ function callSendAPI(messageData) {
   function findShows(senderID){
     console.log("FINDINGS SHOWS")
     var shows = require(__base + 'models/shows');
-    shows.find({ "favUserList": senderID},function(err,data){
-      console.log("call back")
-      console.log(err)
-      console.log(data);
+    shows.distinct("tags", { "favUserList": senderID},function(err,data){
+      console.log("callback")
+      shows.find({"tags":{"$in":data},"favUserList":{"$ne":senderID}},function(err,data){
+              console.log("recommendedShows");
+              console.log(data);
+              var elements=[];
+        if(data.length>0){
+              for (i = 0; i < data.length; i++) {
+              var show= data[i];
+              var showElement={
+                title: show.name,
+                subtitle:show.description,
+                item_url:show.videoURL,
+                image_url:show.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+show._id,
+                }],
+              }
+              elements.push(showElement);
+            }   console.log(elements)
+                sendGenericMessage(senderID,elements);
+
+        }
+      });
+     
     })
+
+
 
   }
 

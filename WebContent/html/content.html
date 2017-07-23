@@ -1,3 +1,13 @@
+<style>
+  .img-responsive {
+    width: 100%;
+  }
+
+  .user-block .username,
+  .user-block .description {
+    margin-left: 0px;
+  }
+</style>
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <!-- small box -->
@@ -72,10 +82,9 @@
   <!-- left column for charts -->
   <div class="col-md-6">
     <!-- BAR CHART -->
-    <div class="box box-success">
+    <!-- <div class="box box-success">
       <div class="box-header with-border">
         <h3 class="box-title">Bar Chart</h3>
-
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -86,8 +95,7 @@
           <canvas id="barChart" style="height:230px"></canvas>
         </div>
       </div>
-      <!-- /.box-body -->
-    </div>
+    </div> -->
     <!-- /.box -->
 
     <!-- DONUT CHART -->
@@ -104,12 +112,11 @@
       <div class="box-body">
         <canvas id="pieChart" style="height:250px"></canvas>
       </div>
-      <!-- /.box-body -->
-    <!-- </div> -->
+    </div> -->
     <!-- /.box -->
 
     <!-- Map CHART -->
-    <div class="box box-success">
+    <div class="box box-success" id="worldMap">
       <div class="box-header with-border">
         <h3 class="box-title">Users by country</h3>
 
@@ -130,7 +137,7 @@
     <!-- /.box -->
 
     <!-- Word cloud CHART -->
-    <div class="box box-success">
+    <div class="box box-success" id="feedbackSection">
       <div class="box-header with-border">
         <h3 class="box-title">Feedback analysis</h3>
 
@@ -147,6 +154,11 @@
         </div>
       </div>
       <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <div class="box box-widget" id="favShowBox">
+
     </div>
     <!-- /.box -->
   </div>
@@ -353,5 +365,4 @@
 <script src="js/homepage.js"></script>
 
 <script>
-
 </script>

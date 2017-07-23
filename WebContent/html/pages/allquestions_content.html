@@ -5,65 +5,7 @@
         <h3 class="box-title">Game Questions</h3>
         <button class="btn btn-success pull-right" data-toggle="modal" data-target="#newQuestionModal">Add Game Question</button>
       </div>
-      <div class="box-body">
-        <div class="box box-default collapsed-box">
-          <div class="box-header with-border">
-            <i class="fa fa-question-circle-o"></i>
-            <h3 class="box-title">What do Jon Snow know?</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <!-- END BOX HEADER -->
-          <div class="box-body">
-            <p><i class="fa fa-fw"></i>Nothing</p>
-            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
-            <p><i class="fa fa-fw"></i>Something</p>
-          </div>
-          <!-- END box body -->
-        </div>
-        <!-- END QUESTION BOX -->
-        <div class="box box-default collapsed-box">
-          <div class="box-header with-border">
-            <i class="fa fa-question-circle-o"></i>
-            <h3 class="box-title">What do Jon Snow know?</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <!-- END BOX HEADER -->
-          <div class="box-body">
-            <p><i class="fa fa-fw"></i>Nothing</p>
-            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
-            <p><i class="fa fa-fw"></i>Something</p>
-          </div>
-          <!-- END box body -->
-        </div>
-        <!-- END QUESTION BOX -->
-        <div class="box box-default collapsed-box">
-          <div class="box-header with-border">
-            <i class="fa fa-question-circle-o"></i>
-            <h3 class="box-title">What do Jon Snow know?</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <!-- END BOX HEADER -->
-          <div class="box-body">
-            <p><i class="fa fa-fw"></i>Nothing</p>
-            <p class="text-green"><i class="fa fa-check-square-o"></i> Everything</p>
-            <p><i class="fa fa-fw"></i>Something</p>
-          </div>
-          <!-- END box body -->
-        </div>
-        <!-- END QUESTION BOX -->
-      </div>
+      <div class="box-body" id="questionsSection"></div>
     </div>
     <!-- END BOX -->
   </div>
@@ -86,30 +28,30 @@
           <div class="box-body">
             <div class="form-group">
               <label for="gamequestion">Question</label>
-              <input type="text" class="form-control" id="gamequestion" placeholder="Enter question">
+              <input type="text" class="form-control" name="gamequestion" placeholder="Enter question">
             </div>
             <label>Enter Answer Option 1</label>
             <div class="input-group">
               <span class="input-group-addon">
-                  <input type="radio" name="gameanswer">
+                  <input type="radio" name="gameanswer" value="0">
                 </span>
-              <input type="text" class="form-control" id="gameanswer1" placeholder="Enter answer option 1">
+              <input type="text" class="form-control" name="option1" placeholder="Enter answer option 1">
             </div>
             <!-- /input-group -->
             <label>Enter Answer Option 2</label>
             <div class="input-group">
               <span class="input-group-addon">
-                  <input type="radio" name="gameanswer">
+                  <input type="radio" name="gameanswer" value="1">
                 </span>
-              <input type="text" class="form-control" id="gameanswer2" placeholder="Enter answer option 2">
+              <input type="text" class="form-control" name="option2" placeholder="Enter answer option 2">
             </div>
             <!-- /input-group -->
             <label>Enter Answer Option 3</label>
             <div class="input-group">
               <span class="input-group-addon">
-                  <input type="radio" name="gameanswer">
+                  <input type="radio" name="gameanswer" value="2">
                 </span>
-              <input type="text" class="form-control" id="gameanswer3" placeholder="Enter answer option 3">
+              <input type="text" class="form-control" name="option3" placeholder="Enter answer option 3">
             </div>
             <!-- /input-group -->
           </div>
@@ -126,3 +68,5 @@
   </div>
 </div>
 <!-- END MODAL -->
+
+<script src="allquestions.js"></script>
