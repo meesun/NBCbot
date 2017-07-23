@@ -28,7 +28,7 @@ module.exports = {
 
      var score={
       "senderID":senderID,
-      "quiz_id":res[1],
+      "show":res[1],
       "answer_right":valid,
       "question":res[4],
       "answer":res[2]
