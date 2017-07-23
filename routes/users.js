@@ -133,6 +133,7 @@ function getFavoriteList(senderId) {
 						finalLikesArr.push(global.showsList[j]);
 					}
 				}
+				console.log(finalLikesArr);
 				deferred.resolve(finalLikesArr);
 		});
 	});
