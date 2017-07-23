@@ -186,7 +186,7 @@ module.exports = {
       sendTextMessage(senderID, constants.KANNA_MESSAGES.UNKNOWN);
       return;
     }
-    
+    console.log(messageText)
     if (messageText) {
 
       // If we receive a text message, check to see if it matches any special
@@ -199,11 +199,17 @@ module.exports = {
          case "OPTIONS" || "HELP":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
           break;
+        case "WHEN IS THE NEXT EPISODE OF JUDGE CUTS":
+            sendTextMessage(senderID, "Tuesday, JUL 25. Would you like me to remind you?");  
+          break;
+        case "YES":
+            sendTextMessage(senderID, "Got it! I will send in a reminder.");  
+          break;
+        case "MIDNIGHT TEXAS PROMO":
+            sendTextMessage(senderID, "https://www.youtube.com/watch?v=rSjtrj-zFgo");  
+          break;
         case "NBC":
            sendFBLogin(senderID);
-           break;
-        case "TESTGAME":
-           playGames(senderID,'1');
            break;
         case 'IMAGE':
           sendImageMessage(senderID);
