@@ -199,11 +199,17 @@ module.exports = {
          case "OPTIONS" || "HELP":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
           break;
+        case "when is the next episode of judge cuts" || "HELP":
+            sendTextMessage(senderID, "Tuesday, JUL 25. Would you like me to remind you?");  
+          break;
+        case "YES":
+            sendTextMessage(senderID, "Got it! I will send in a reminder.");  
+          break;
+        case "Midnight Texas promo":
+            sendTextMessage(senderID, "https://www.youtube.com/watch?v=rSjtrj-zFgo");  
+          break;
         case "NBC":
            sendFBLogin(senderID);
-           break;
-        case "TESTGAME":
-           playGames(senderID,'1');
            break;
         case 'IMAGE':
           sendImageMessage(senderID);
