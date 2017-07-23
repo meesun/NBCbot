@@ -1060,19 +1060,7 @@ function callSendAPI(messageData) {
 
   
   function sendRecommendedShows(senderID){
-     elements = [{
-          title: "The Big Bang Theory",
-          subtitle: "Knock Knock Knock, Penny",
-          item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-          image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-          buttons: [{
-            type: "postback",
-            title: "Add to favorites",
-            payload: "ADD_TO_FAVORITE_2",
-          }]
-        }];
           findShows(senderID);
-          sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message
@@ -1166,11 +1154,36 @@ function callSendAPI(messageData) {
   function findShows(senderID){
     console.log("FINDINGS SHOWS")
     var shows = require(__base + 'models/shows');
-    shows.distinct( "tags", { "favUserList": senderID},function(err,data){
+    shows.distinct("tags", { "favUserList": senderID},function(err,data){
       console.log("callback")
-      console.log(err)
-      console.log(data);
+      shows.find({"tags":{"$in":data},"favUserList":{"$ne":senderID}},function(err,data){
+              console.log("recommendedShows");
+              console.log(data);
+        if(data.length>0){
+              for (i = 0; i < data.length; i++) {
+              var show= data[i];
+              var elements=[];
+              var showElement={
+                title: show.name,
+                subtitle:show.description,
+                item_url:show.videoURL,
+                image_url:show.imageURL,
+                 buttons: [{
+                 type: "postback",
+                 title: "Add to favorites",
+                 payload: "ADD_TO_FAVORITE_"+show._id,
+                }],
+              }
+              elements.push(showElement);
+            }
+                sendGenericMessage(senderID,elements);
+
+        }
+      });
+     
     })
+
+
 
   }
 
