@@ -76,7 +76,7 @@ function saveUserProfileData(senderId, senderData) {
 		  roles: 'user'
 	});
 
-    var query = {fbId: senderId},
+    var query = {"fbId": senderId},
     update = { name: senderData.name,
 		  timezone: senderData.timezone,
 		  birthday: senderData.birthday,
@@ -94,16 +94,9 @@ function saveUserProfileData(senderId, senderData) {
 	// Find the document
 	Users.findOneAndUpdate(query, update, options, function(error, result) {
     	if (error) return;
-
-    // do something with the document
+    	console.log('user created!');
 	});
 
-    
-
-	users.save(function(err) {
-		if (err) next(err);
-		console.log('user created!');
-	});
 }
 
 
