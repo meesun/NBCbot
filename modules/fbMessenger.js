@@ -525,6 +525,31 @@ function sendVideoMessage(recipientId) {
 }
 
 /*
+ * Send a video using the Send API.
+ *
+ */
+function sendVideoMessageWithData(messageData) {
+  console.log('Sap');
+  if(!messageData){
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        attachment: {
+          type: "video",
+          payload: {
+            url: constants.SERVER_URL + "/assets/allofus480.mov"
+          }
+        }
+      }
+    }
+  }
+
+  callSendAPI(messageData);
+}
+
+/*
  * Send a file using the Send API.
  *
  */
@@ -1065,6 +1090,7 @@ function callSendAPI(messageData) {
       
   }
 
+
   function sendHelpMessage(senderID) {
     console.log('sendHelpMessage method called');
     var quickReply = [{
@@ -1099,7 +1125,7 @@ function callSendAPI(messageData) {
     console.log(ansUser);
 
     console.log(questionID);
-    
+
     global.sendMsg = senderID;
 
     Qnas.findOneAndUpdate({_id:questionID},

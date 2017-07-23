@@ -2,7 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var constants = require('./modules/constants');
 var fbMessenger = require('./modules/fbMessenger');
-var shows = require(__dirname + '/routes/shows');
+var shows = require(__dirname + '/routes/shows')();
+var showsFunc = require(__dirname + '/routes/shows');
+var dashboardFunc = require(__dirname + '/routes/dashboard');
 
 var config = require('./config');
 var cronJob = require('cron').CronJob;
@@ -205,7 +207,7 @@ app.get('/getQuestion', function(req, res) {
 //Send push message
 app.get('/sendSample', function(req, res) {
     // get all the shows
-        shows.getShowsList().then(function(response) {
+        showsFunc.getShowsList().then(function(response) {
             var promise = new Promise(function(resolve, reject) {
                 global.showResponse = response[0];
                 console.log('sap1' + global.showResponse);
@@ -256,7 +258,7 @@ app.get('/sendSample', function(req, res) {
                             console.log(buttons);
                             fbMessenger.sendQuickReply(userList[j], buttons,global.quesResponse[k].qn);
                         }
-                        dashboard.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
+                        dashboardFunc.setUserIdInQuestion(userList[j],global.quesResponse[k]._id);
                     }
                 }
 
