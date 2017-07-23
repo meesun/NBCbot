@@ -60,8 +60,7 @@ module.exports = function() {
            console.log(global.showUserResponse);
            for(var k = 0 ; k < global.showUserResponse.favUserList.length ; k++)
 			{
-				console.log('SApna');
-    			console.log(global.showUserResponse);
+				console.log(global.showUserResponse);
     			// var messageData = {
 			    //   recipient: {
 			    //     id: global.showUserResponse[k]
