@@ -199,7 +199,7 @@ module.exports = {
          case "OPTIONS" || "HELP":
             sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
           break;
-        case "when is the next episode of judge cuts" || "HELP":
+        case "when is the next episode of judge cuts":
             sendTextMessage(senderID, "Tuesday, JUL 25. Would you like me to remind you?");  
           break;
         case "YES":
