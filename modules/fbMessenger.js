@@ -885,7 +885,7 @@ function sendAccountLinking(recipientId) {
 function findGames(senderID){
 
       var Qnas = require(__base + 'models/qna');
-      Qnas.find({type:"quiz"},function(err,data){
+      Qnas.distinct("show",{type:"quiz"},function(err,data){
         var quickReply=[];
         for(var i=0;i<data.length;i++){
              var reply={
