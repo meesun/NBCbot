@@ -247,12 +247,12 @@ $(document).ready(function() {
     var settings = {
       "async": true,
       "url": "dashboard/saveShows",
-      "method": "POST",
+      "method": "GET",
       "headers": {
         "content-type": "application/json",
         "cache-control": "no-cache"
       },
-      "data": JSON.stringify(body)
+      "data": body
     }
 
     $.ajax(settings)
@@ -261,7 +261,7 @@ $(document).ready(function() {
       })
       .always(function() {
         $.LoadingOverlay("hide");
-        $("#feedbackForm")[0].reset();
+        $("#addshowform")[0].reset();
       });
 
   });
