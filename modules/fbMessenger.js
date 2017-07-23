@@ -88,8 +88,10 @@ module.exports = {
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
   },
  sendLikedShows: function(senderID,shows){
+      console.log(shows);
       if(shows.length>0){
       for (i = 0; i < shows.length; i++) {
+           console.log("show---"+i)
             var show= shows[i];
             var elements=[];
             var showElement={
@@ -102,8 +104,10 @@ module.exports = {
                title: "Add to favorites",
                payload: "ADD_TO_FAVORITE_"+show._id,
               }],
+
             }
             elements.push(showElement);
+            console.log(elements);
         }
             sendGenericMessage(senderID,elements);
 
