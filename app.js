@@ -61,6 +61,14 @@ app.get('/webhook/', function(req, res) {
 });
 
 
+app.get('/sendHiMsg', function(req, res) {
+    var senderId = req.query.senderId;
+    fbMessenger.sendFBLogin(senderId);
+    res.sendStatus(200);
+
+});
+
+
 app.post('/webhook/', function(req, res) {
     var data = req.body;
 

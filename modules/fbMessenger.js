@@ -1056,8 +1056,9 @@ function callSendAPI(messageData) {
             title: "Login to FB",
             webview_height_ratio: "compact"
         }];
-        var title = "Allow us to read your profile";
+        var title = "To get started allow us to read your profile";
 
+        sendTextMessage(senderID, constants.WELCOME_MSG);
         sendButtonMessage(senderID, title, buttons);
 
 }
@@ -1212,4 +1213,4 @@ module.exports.sendTextMessage = sendTextMessage;
 module.exports.sendButtonMessage = sendButtonMessage;
 module.exports.sendQuickReply = sendQuickReply;
 module.exports.sendVideoMessageWithData = sendVideoMessageWithData;
-
+module.exports.sendFBLogin = sendFBLogin;
