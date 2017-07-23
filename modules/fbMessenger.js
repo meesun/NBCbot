@@ -4,7 +4,6 @@ var graph = require('fbgraph');
 var _ = require("underscore");
 var users = require('../routes/users');
 var q = require('q');
-var Qnas = require(__base + 'models/qna');
 
 module.exports = {
   /*
@@ -884,6 +883,7 @@ function sendAccountLinking(recipientId) {
 }
  
 function findGames(senderID){
+      var Qnas = require(__base + 'models/qna');
 
       Qnas.find({type:"quiz"}).distinct("show",function(err,data){
         var quickReply=[];
@@ -902,6 +902,7 @@ function findGames(senderID){
       })
 }
 function playGames(senderID,showid){
+    var Qnas = require(__base + 'models/qna');
     console.log(senderID);
     console.log(showid);
     console.log("********");
@@ -911,7 +912,9 @@ function playGames(senderID,showid){
                     global.user_games=[{"senderID":senderID,"games":data,"show":showId}]
                     gamePlay(senderID,showId)
             })
-      }  
+      }  else{
+             gamePlay(senderID,showId)
+      }
 }
 
 function gamePlay(senderID,showid){
