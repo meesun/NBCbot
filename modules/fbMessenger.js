@@ -36,7 +36,7 @@ module.exports = {
             global.user_game_score.push(score);
     }
     console.log(res[0]+"......"+res[1]+"......"+res[2]+"......"+res[3]+"...."+res[4]);
-    playGames(senderID,res[1])
+    playGames(senderID,''+res[1])
   },
 
   
@@ -196,7 +196,7 @@ module.exports = {
            sendFBLogin(senderID);
            break;
         case "TESTGAME":
-           playGames(senderID,1);
+           playGames(senderID,'1');
            break;
         case 'IMAGE':
           sendImageMessage(senderID);
