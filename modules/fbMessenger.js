@@ -920,11 +920,13 @@ function playGames(senderID,quiz_id){
       "quiz_id":"1"
     }]
         global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]*/
-
+        var game_score= global.user_game_score;
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
         console.log("zero case");
       } 
           
-          if(user_games!=undefined && user_games.length>0)
+      else  if(user_games!=undefined && user_games.length>0)
           {
              console.log("user_games"+user_games[0].games);
               var gameToBeSent=user_games[0].games[0]; 
