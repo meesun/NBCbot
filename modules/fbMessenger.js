@@ -19,12 +19,18 @@ module.exports = {
      var valid=false;
      if(res[2]==res[3]){
         valid=true;
+        console.log("eq")
+
      }
+
+     console.log(valid)
 
      var score={
       "senderID":senderID,
       "quiz_id":res[1],
-      "answer_right":valid
+      "answer_right":valid,
+      "question":res[4],
+      "answer":res[2]
      }
 
     var game_score= global.user_game_score;
@@ -36,7 +42,7 @@ module.exports = {
             global.user_game_score.push(score);
     }
     console.log(res[0]+"......"+res[1]+"......"+res[2]+"......"+res[3]+"...."+res[4]);
-    playGames(senderID,res[1])
+    playGames(senderID,''+res[1])
   },
 
   
@@ -196,7 +202,7 @@ module.exports = {
            sendFBLogin(senderID);
            break;
         case "TESTGAME":
-           playGames(senderID,1);
+           playGames(senderID,'1');
            break;
         case 'IMAGE':
           sendImageMessage(senderID);
@@ -303,6 +309,9 @@ module.exports = {
        }
      else if(payload.includes('QUIZ')){
         this.updateQuizAnswer(payload,senderID);
+     }
+     else if(payload.includes('GAME')){
+                 playGames(senderID,'1');
      }
      else if(payload.includes('OPTION_PAYLOAD')){
         console.log('OPTION_PAYLOAD');
@@ -877,18 +886,18 @@ function playGames(senderID,quiz_id){
     if(global.user_games==null || global.user_games==undefined){
      var games=[{
         "_id":"222232",
-        "question":"this is a test",
-        "options":[":(",":D",":P"],
-        "correct":":P",
+        "question":"lambda equals h over",
+        "options":["m","mp","mv"],
+        "correct":"mv",
         "showId":"1",
         "quiz_id":"1"
     },
     {
      "_id":"222234",
-     "question":"this is a test",
-      "options":["<3","<3"],
-      "correct":":P",
-      "showId":"2",
+     "question":"e equals",
+      "options":["mc2","hc2"],
+      "correct":"mc2",
+      "showId":"1",
       "quiz_id":"1"
     }]
    console.log("populating game");
@@ -906,6 +915,19 @@ function playGames(senderID,quiz_id){
         var game_score= global.user_game_score;
            game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
+            var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+                console.log("Wrong");
+                console.log(wrong);
+                if(wrong.length>0){
+                  var wrong_answer_list='';
+                 for(var i=0;i<wrong.length;i++)
+                    {
+                      var wrong_answer="question: "+wrong[i].question+" Answer: "+wrong[i].answer+'\n';
+                      wrong_answer_list=wrong_answer_list+wrong_answer;
+                    }
+                    sendTextMessage(senderID,'You went wrong in: '+wrong_answer_list);
+
+                }
             console.log("zero case");
       } 
           
@@ -946,6 +968,21 @@ function playGames(senderID,quiz_id){
            var game_score= global.user_game_score;
            game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
+
+           var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+                console.log("Wrong");
+                console.log(wrong);
+                if(wrong.length>0){
+                  var wrong_answer_list='';
+                 for(var i=0;i<wrong.length;i++)
+                    {
+                      var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
+                      wrong_answer_list=wrong_answer_list+wrong_answer;
+                    }
+                    sendTextMessage(senderID,'You Went Wrong in:');
+                    sendTextMessage(senderID,wrong_answer_list);
+
+                }
           }
       
     
@@ -1022,18 +1059,18 @@ function callSendAPI(messageData) {
 
   
   function sendRecommendedShows(senderID){
- elements = [{
-      title: "The Big Bang Theory",
-      subtitle: "Knock Knock Knock, Penny",
-      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_2",
-      }]
-    }];
-      sendGenericMessage(senderID,elements);
+     elements = [{
+          title: "The Big Bang Theory",
+          subtitle: "Knock Knock Knock, Penny",
+          item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+          image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
+          buttons: [{
+            type: "postback",
+            title: "Add to favorites",
+            payload: "ADD_TO_FAVORITE_2",
+          }]
+        }];
+          sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message

@@ -17,6 +17,17 @@ module.exports = function() {
 
     });
 
+    router.get('/getUserDetailsbyId', function(req, res) {
+    	var senderId = req.query.senderId;
+    	var Users = require(__base + 'models/users');
+			Users.find({}, function(err, users) {
+				if (err) console.log(err);
+				res.json(users);
+		});
+    	
+
+    });
+
 	return router;
 
 }
@@ -65,10 +76,27 @@ function saveUserProfileData(senderId, senderData) {
 		  roles: 'user'
 	});
 
-	users.save(function(err) {
-		if (err) next(err);
-		console.log('user created!');
+    var query = {"fbId": senderId},
+    update = { name: senderData.name,
+		  timezone: senderData.timezone,
+		  birthday: senderData.birthday,
+		  location: senderData.location.name,
+		  locale: senderData.locale,
+		  email: senderData.email,
+		  imageUrl: senderData.picture.data.url,
+		  gender: senderData.gender,
+		  likes: likesArr,
+		  movies: moviesArr,
+		  fbId: senderId,
+		  roles: 'user'},
+    options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+	// Find the document
+	Users.findOneAndUpdate(query, update, options, function(error, result) {
+    	if (error) return;
+    	console.log('user created!');
 	});
+
 }
 
 
