@@ -92,7 +92,7 @@ function saveUserProfileData(senderId, senderData) {
     options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
 	// Find the document
-	users.findOneAndUpdate(query, update, options, function(error, result) {
+	Users.findOneAndUpdate(query, update, options, function(error, result) {
     	if (error) return;
 
     // do something with the document
