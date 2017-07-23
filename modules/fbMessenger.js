@@ -361,22 +361,7 @@ module.exports = {
 
     if (payload.indexOf('ADD_TO_FAVORITE') != -1) {
       addToFavorite(payload,global.finalUserId).then(function(response) {
-                var quickReply = [{
-                   "content_type": "text",
-                    "title": "Explore",
-                    "payload": "EXPLORE"
-                   },
-                   {
-                   "content_type": "text",
-                   "title": "Trending Shows",
-                   "payload": "WHATS_HOT"
-                   }, {
-                   "content_type": "text",
-                   "title": "Game",
-                   "payload": "GAME"
-                }];
-                 var text = "I can help you find new shows and play games";
-                 sendQuickReply(senderID,quickReply,text);
+                console.log('console test - NBC');
                 
       })
 
@@ -1058,8 +1043,25 @@ function callSendAPI(messageData) {
        {$push: {"favUserList": senderId}},
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
+        
           sendTextMessage(global.addFavUserId, "Added to the favorite");
-          deferred.resolve(global.addFavUserId);
+          var quickReply = [{
+                   "content_type": "text",
+                    "title": "Explore",
+                    "payload": "EXPLORE"
+                   },
+                   {
+                   "content_type": "text",
+                   "title": "Trending Shows",
+                   "payload": "WHATS_HOT"
+                   }, {
+                   "content_type": "text",
+                   "title": "Game",
+                   "payload": "GAME"
+                }];
+          var text = "I can help you find new shows and play games";
+          sendQuickReply(global.addFavUserId,quickReply,text);
+          deferred.resolve(quickReply);
       });
       return deferred.promise;
    }
