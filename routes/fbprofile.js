@@ -96,5 +96,12 @@ module.exports = function() {
             
        
 	});
+
+	router.get('/games', function(req, res, next) {
+		
+        facebook.resolveQuickReplyPayload(req.query['senderID'],'GAME');
+            
+       
+	});
      return router;
 }
