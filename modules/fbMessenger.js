@@ -312,7 +312,12 @@ module.exports = {
         this.updateQuizAnswer(payload,senderID);
      }
      else if(payload.includes('GAME')){
-                 playGames(senderID,'1');
+                 findGames(senderID);
+                 // playGames(senderID,'1');
+     }
+     else if(payload.includes('SHOW')){
+          var payloadSplitArr = payload.split('_');
+          playGames(senderID,payloadSplitArr[1]);
      }
      else if(payload.includes('OPTION_PAYLOAD')){
         console.log('OPTION_PAYLOAD');
@@ -877,46 +882,49 @@ function sendAccountLinking(recipientId) {
   callSendAPI(messageData);
 }
  
+function findGames(senderID){
 
-function playGames(senderID,quiz_id){
+      var Qnas = require(__base + 'models/qna');
+      Qnas.find({type:"quiz"}function(err,data){
+        for(var i=0;i<data.length;i++){
+             var reply={
+                "content_type":"text",
+                "title":data[i].show,
+                "payload":"SHOW_"+data[i].show
+              }
+              console.log(reply);
+              quickReply.push(reply);
+        }
+        var txt="you can play one of these"
+        sendQuickReply(senderID,quickReply,txt)
+      })
+}
+function playGames(senderID,showid){
     console.log(senderID);
-    console.log(quiz_id);
-      console.log("********");
-
+    console.log(showid);
+    console.log("********");
 
     if(global.user_games==null || global.user_games==undefined){
-     var games=[{
-        "_id":"222232",
-        "question":"lambda equals h over",
-        "options":["m","mp","mv"],
-        "correct":"mv",
-        "showId":"1",
-        "quiz_id":"1"
-    },
-    {
-     "_id":"222234",
-     "question":"e equals",
-      "options":["mc2","hc2"],
-      "correct":"mc2",
-      "showId":"1",
-      "quiz_id":"1"
-    }]
-   console.log("populating game");
+            Qnas.find({type:"quiz",show:showId}function(err,data){
+                    global.user_games=[{"senderID":senderID,"games":data,"show":showId}]
+                    gamePlay(senderID,showId)
+            })
+      }  
+}
 
-    global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
-  }  
-      console.log("+++++++++++");
+function gamePlay(senderID,showid){
+  console.log("+++++++++++");
       console.log(global.user_games);
 
-      var user_games=_.where(global.user_games, {"senderID":senderID,"quiz_id":quiz_id});
+      var user_games=_.where(global.user_games, {"senderID":senderID,"show":show_id});
       console.log("user games");
       console.log(user_games);
       console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
         var game_score= global.user_game_score;
-           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
-            var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+            var wrong=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":false});
                 console.log("Wrong");
                 console.log(wrong);
                 if(wrong.length>0){
@@ -956,7 +964,7 @@ function playGames(senderID,quiz_id){
               var reply={
                 "content_type":"text",
                 "title":gameToBeSent.options[i],
-                "payload":"QUIZ_"+gameToBeSent.quiz_id+"_"+gameToBeSent.correct+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
+                "payload":"QUIZ_"+gameToBeSent.show+"_"+gameToBeSent.answer+"_"+gameToBeSent.options[i]+"_"+gameToBeSent.question
               }
               console.log(reply);
               quickReply.push(reply);
@@ -988,7 +996,6 @@ function playGames(senderID,quiz_id){
       
     
   
-
 }
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
