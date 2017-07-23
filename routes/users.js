@@ -22,7 +22,7 @@ module.exports = function() {
     	var Users = require(__base + 'models/users');
 			Users.find({fbId:userId}, function(err, users) {
 				if (err) console.log(err);
-				res.json(sers[0].imageUrl);
+				res.json(users[0].imageUrl);
 		});
     	
 
