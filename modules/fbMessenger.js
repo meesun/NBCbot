@@ -936,10 +936,10 @@ function gamePlay(senderID,showid){
                   var wrong_answer_list='';
                  for(var i=0;i<wrong.length;i++)
                     {
-                      var wrong_answer="question: "+wrong[i].qn+" Answer: "+wrong[i].answer+'\n';
+                      var wrong_answer="question: "+wrong[i].question+" Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
-                    sendTextMessage(senderID,'You went wrong in: '+wrong_answer_list);
+                    sendTextMessage(senderID,'You went wrong in: -'+wrong_answer_list);
 
                 }
             console.log("zero case");
@@ -993,7 +993,7 @@ function gamePlay(senderID,showid){
                       var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
-                    sendTextMessage(senderID,'You Went Wrong in:');
+                    sendTextMessage(senderID,'You Went Wrong in-');
                     sendTextMessage(senderID,wrong_answer_list);
 
                 }
