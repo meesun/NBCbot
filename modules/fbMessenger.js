@@ -891,8 +891,8 @@ function findGames(senderID){
         for(var i=0;i<data.length;i++){
              var reply={
                 "content_type":"text",
-                "title":data[i].show,
-                "payload":"SHOW_"+data[i].show
+                "title":data[i],
+                "payload":"SHOW_"+data[i]
               }
               console.log(reply);
               quickReply.push(reply);
