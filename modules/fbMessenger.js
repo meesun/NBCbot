@@ -902,7 +902,7 @@ function playGames(senderID,quiz_id){
       console.log(user_games);
       console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
-        //Fetch from DB and insert
+      /*  //Fetch from DB and insert
       var games=[{
         "_id":"222232",
         "question":"this is a test",
@@ -919,7 +919,7 @@ function playGames(senderID,quiz_id){
       "showId":"2",
       "quiz_id":"1"
     }]
-        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]*/
 
         console.log("zero case");
       } 
