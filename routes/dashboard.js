@@ -61,6 +61,10 @@ module.exports = function() {
   router.get('/getQuizQuestions', function(req, res) {
     dashboard.getQuizQuestions(req, res);
   });
+  
+  router.post('/saveAllQuestions', function(req, res) {
+    dashboard.saveAllQuestions(req, res);
+  });
 
   return router;
 }

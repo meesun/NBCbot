@@ -308,6 +308,32 @@ module.exports = {
             
         })
         
+    },
+
+    saveAllQuestions:function(req, res){
+
+        console.log("saveAllQuestions hit");
+        var qnaSchema = require(__base + 'models/qna');
+        var show = req.body.show;
+        if(req.body.type.includes("quiz")){
+          show = "";
+        }
+
+
+        var qna = new qnaSchema({
+            "userId": [],
+            "show": show,
+            "options": req.body.options,
+            "answer": req.body.answer,
+            "response": [],
+            "type": req.body.type,
+            "qn": req.body.qn
+        });
+        qna.save(function(err){
+            console.log("question saved in db");
+            res.sendStatus(200);
+        });
+        
     }
 }
     
