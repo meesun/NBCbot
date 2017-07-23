@@ -43,8 +43,7 @@ module.exports = function() {
   });
 
   router.get('/getTagsfromReviews', function(req, res) {
-    res.sendStatus(200);
-    // dashboard.getTagsfromReviews(req, res);
+    dashboard.getTagsfromReviews(req, res);
   });
 
   router.get('/getAllQuestions', function(req, res) {

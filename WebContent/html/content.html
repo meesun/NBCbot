@@ -67,8 +67,9 @@
 </div>
 <!-- /.row -->
 
+<!-- MAIN FORM -->
 <div class="row">
-  <!-- left column -->
+  <!-- left column for charts -->
   <div class="col-md-6">
     <!-- BAR CHART -->
     <div class="box box-success">
@@ -150,9 +151,9 @@
     <!-- /.box -->
   </div>
 
-  <!-- right column -->
+  <!-- right column for forms -->
   <div class="col-md-6">
-    <!-- FORM -->
+    <!-- add question for game FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add Questions for Game</h3>
@@ -173,25 +174,25 @@
           <label>Enter Answer Option 1</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="1">
+                <input type="radio" name="gameanswer" value="0">
               </span>
-            <input type="text" class="form-control" name="gameanswer1" placeholder="Enter answer option 1">
+            <input type="text" class="form-control" name="option1" placeholder="Enter answer option 1">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 2</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="2">
+                <input type="radio" name="gameanswer" value="1">
               </span>
-            <input type="text" class="form-control" name="gameanswer2" placeholder="Enter answer option 2">
+            <input type="text" class="form-control" name="option2" placeholder="Enter answer option 2">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 3</label>
           <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="gameanswer" value="3">
+                <input type="radio" name="gameanswer" value="2">
               </span>
-            <input type="text" class="form-control" name="gameanswer3" placeholder="Enter answer option 3">
+            <input type="text" class="form-control" name="option3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
@@ -203,7 +204,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add feedback FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add a new feedback question</h3>
@@ -215,7 +216,7 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form" id="">
+      <form role="form" id="feedbackForm">
         <div class="box-body">
           <!-- select -->
           <div class="form-group">
@@ -225,22 +226,22 @@
           </div>
           <div class="form-group">
             <label for="gamequestion">Question</label>
-            <input type="text" class="form-control" id="gamequestion" placeholder="Enter your feedback question">
+            <input type="text" class="form-control" name="feedbackQuestion" placeholder="Enter your feedback question">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 1</label>
           <div class="form-group">
-            <input type="text" class="form-control" name="answer1" placeholder="Enter answer option 1">
+            <input type="text" class="form-control" name="option1" placeholder="Enter answer option 1">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 2</label>
           <div class="form-group">
-            <input type="text" class="form-control" name="answer2" placeholder="Enter answer option 2">
+            <input type="text" class="form-control" name="option2" placeholder="Enter answer option 2">
           </div>
           <!-- /input-group -->
           <label>Enter Answer Option 3</label>
           <div class="form-group">
-            <input type="text" class="form-control" name="answer3" placeholder="Enter answer option 3">
+            <input type="text" class="form-control" name="option3" placeholder="Enter answer option 3">
           </div>
           <!-- /input-group -->
         </div>
@@ -252,7 +253,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add push event FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Push event notification for show</h3>
@@ -264,7 +265,7 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="pushEventForm">
         <div class="box-body">
           <!-- select -->
           <div class="form-group">
@@ -274,7 +275,7 @@
           </div>
           <div class="form-group">
             <label for="gamequestion">Enter the link here</label>
-            <input type="url" class="form-control" id="gamequestion" placeholder="Enter question">
+            <input type="url" class="form-control" name="trailerLink" placeholder="Enter trailer link">
           </div>
         </div>
         <!-- /.box-body -->
@@ -285,7 +286,7 @@
       </form>
     </div>
 
-    <!-- FORM -->
+    <!-- add new show FORM -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Add a new show?</h3>
@@ -302,37 +303,37 @@
         <div class="box-body">
           <div class="form-group">
             <label for="gamequestion">Enter the show name</label>
-            <input type="text" class="form-control" id="showname" placeholder="Enter Show Name">
+            <input type="text" class="form-control" name="showname" placeholder="Enter Show Name">
           </div>
 
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="gamequestion">Enter the show start timing</label>
-                <input type="time" class="form-control" id="starttime" placeholder="Enter Show start time">
+                <input type="time" class="form-control" name="starttime" placeholder="Enter Show start time">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="gamequestion">Enter the show end timing</label>
-                <input type="time" class="form-control" id="endtime" placeholder="Enter Show end time">
+                <input type="time" class="form-control" name="endtime" placeholder="Enter Show end time">
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show image</label>
-            <input type="url" class="form-control" id="showimage" placeholder="Enter show image link here">
+            <input type="url" class="form-control" name="showimage" placeholder="Enter show image link here">
           </div>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show trailer link</label>
-            <input type="url" class="form-control" id="showtrailer" placeholder="Enter Show trailer link">
+            <input type="url" class="form-control" name="showtrailer" placeholder="Enter Show trailer link">
           </div>
 
           <div class="form-group">
             <label for="gamequestion">Enter the show tags</label>
-            <input type="text" class="form-control" id="showtag" placeholder="Enter Show tags seperated by tags">
+            <input type="text" class="form-control" name="showtags" placeholder="Enter Show tags seperated by tags">
           </div>
 
         </div>
@@ -343,7 +344,7 @@
         </div>
       </form>
     </div>
-    <!-- END FORM QUESTION -->
+
   </div>
 
 </div>
@@ -469,9 +470,7 @@
           })
         }
       }
-
       $("#wordcloud").jQCloud(word_array);
-
     });
 
     $.ajax({
@@ -483,14 +482,97 @@
     });
 
     $('#questionform').on('submit', function(e) {
-      var dataArray = $("#questionform").serializeArray();
+      $.LoadingOverlay("show");
+      e.preventDefault();
+      var dataArray = $(this).serializeArray();
+      var data = objectifyForm(dataArray);
+      var options =[data.option1, data.option2, data.option3];
+      var body = {
+        "show": "",
+        "options": options,
+        "answer": options[data.gameanswer],
+        "type": "quiz",
+        "qn": data.gamequestion
+      }
+
+      console.log(body);
+
+      var settings = {
+        "async": true,
+        "url": "dashboard/saveAllQuestions",
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-cache",
+          "postman-token": "150979a6-a36f-daae-86e7-bb48de5352a8"
+        },
+        "data": JSON.stringify(body)
+      }
+
+      $.ajax(settings)
+        .done(function(response) {
+          console.log(response);
+        })
+        .always(function() {
+          $.LoadingOverlay("hide");
+          $("#questionform")[0].reset();
+        });
+    });
+
+    $('#feedbackForm').on('submit', function(e) {
+      $.LoadingOverlay("show");
+      e.preventDefault();
+      var dataArray = $(this).serializeArray();
+      var data = objectifyForm(dataArray);
+      var options =[data.option1, data.option2, data.option3];
+      var body = {
+        "show": data.showName,
+        "options": options,
+        "answer": "",
+        "type": "feedback",
+        "qn": data.feedbackQuestion
+      }
+
+      console.log(body);
+
+      var settings = {
+        "async": true,
+        "url": "dashboard/saveAllQuestions",
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-cache",
+          "postman-token": "150979a6-a36f-daae-86e7-bb48de5352a8"
+        },
+        "data": JSON.stringify(body)
+      }
+
+      $.ajax(settings)
+        .done(function(response) {
+          console.log(response);
+        })
+        .always(function() {
+          $.LoadingOverlay("hide");
+          $("#feedbackForm")[0].reset();
+        });
+    });
+
+    $('#pushEventForm').on('submit', function(e) {
+      var dataArray = $(this).serializeArray();
       var data = objectifyForm(dataArray);
       console.log(data); //use the console for debugging, F12 in Chrome, not alerts
       e.preventDefault();
     });
 
-    function objectifyForm(formArray) { //serialize data function
+    $('#addshowform').on('submit', function(e) {
+      var dataArray = $(this).serializeArray();
+      var data = objectifyForm(dataArray);
+      console.log(data); //use the console for debugging, F12 in Chrome, not alerts
+      e.preventDefault();
+    });
 
+    //serialize data function
+    function objectifyForm(formArray) {
       var returnArray = {};
       for (var i = 0; i < formArray.length; i++) {
         returnArray[formArray[i]['name']] = formArray[i]['value'];
@@ -504,7 +586,6 @@
         $(this).append('<option value="' + option + '">' + option + '</option>');
       }
     }
-
 
   });
 </script>
