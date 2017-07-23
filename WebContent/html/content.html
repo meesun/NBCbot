@@ -215,7 +215,7 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="">
         <div class="box-body">
           <!-- select -->
           <div class="form-group">
@@ -412,14 +412,7 @@
     }
 
     barChartOptions.datasetFill = false
-    barChart.Bar(barChartData, barChartOptions)
-
-    $('#questionformbutton').on('click', function(e) {
-      e.preventDefault();
-      console.log('button clicked');
-      var data = $("#questionform").serializeArray();
-      console.log(data); //use the console for debugging, F12 in Chrome, not alerts
-    });
+    barChart.Bar(barChartData, barChartOptions);
 
     $.ajax({
       url: '/dashboard/getShowDataByCountry'
