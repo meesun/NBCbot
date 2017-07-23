@@ -129,6 +129,40 @@ $(document).ready(function() {
     $("#selectShows2").populate(response, true);
   });
 
+  $("#favShowBox").LoadingOverlay("show");
+  $.ajax({
+    url: 'shows/getMostFavoriteShows'
+  }).then(function(show) {
+    console.log(show);
+
+    var usrString = `<div class="box-header with-border">
+      <h3>Most Favourite Show</h3>
+      <div class="user-block">
+        <span class="username"><a href="` + show.videoURL + `" target="_blank">` + show.name + `</a></span>
+        <span class="description">` + show.startTime + ` - ` + show.endTime + `</span>
+      </div>
+      <!-- /.user-block -->
+      <div class="box-tools">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+      </div>
+      <!-- /.box-tools -->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <img class="img-responsive" src="`+ show.imageURL +`" alt="Photo">
+      <p>` + show.description + `</p>
+      <div class="box-comment" id="userLiked">
+        <img class="img-circle img-sm margin" src="../dist/img/user4-128x128.jpg" alt="User Image">
+      </div>
+    </div>
+    <!-- /.box-body -->`;
+
+    $("#favShowBox").append(usrString);
+  }).always(function() {
+    $("#favShowBox").LoadingOverlay("hide");
+  });
+
   $('#questionform').on('submit', function(e) {
     $.LoadingOverlay("show");
     e.preventDefault();
