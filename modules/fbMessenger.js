@@ -908,7 +908,7 @@ function playGames(senderID,showid){
     console.log("********");
 
     if(global.user_games==null || global.user_games==undefined){
-            Qnas.find({type:"quiz",show:showId},function(err,data){
+            Qnas.find({type:"quiz",show:showid},function(err,data){
                     global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
                     gamePlay(senderID,showid)
             })
@@ -921,7 +921,7 @@ function gamePlay(senderID,showid){
   console.log("+++++++++++");
       console.log(global.user_games);
 
-      var user_games=_.where(global.user_games, {"senderID":senderID,"show":show_id});
+      var user_games=_.where(global.user_games, {"senderID":senderID,"show":showid});
       console.log("user games");
       console.log(user_games);
       console.log("-----------");
@@ -953,7 +953,7 @@ function gamePlay(senderID,showid){
               
 
             _.each(global.user_games, function(item) {
-               if (item.senderID === senderID && item.quiz_id==gameToBeSent.quiz_id ) {
+               if (item.senderID === senderID && item.showid==gameToBeSent.showid ) {
                     item.games=user_games[0].games;
                     console.log("removing");
                     console.log(item)
@@ -980,10 +980,10 @@ function gamePlay(senderID,showid){
       } else{
             //calculate score
            var game_score= global.user_game_score;
-           game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
+           game_score=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
 
-           var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+           var wrong=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":false});
                 console.log("Wrong");
                 console.log(wrong);
                 if(wrong.length>0){
