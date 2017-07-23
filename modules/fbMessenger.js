@@ -950,6 +950,8 @@ function playGames(senderID,quiz_id){
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
 
            var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+                console.log("Wrong");
+                console.log(wrong);
                 if(wrong.length>0){
                   var wrong_answer_list='';
                  for(var i=0;i<wrong.length;i++)
