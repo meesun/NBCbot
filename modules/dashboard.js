@@ -114,13 +114,9 @@ module.exports = {
     
     getAllQuestions:function(req,res)
     {
-        qna.find({type:'feedback'},{'qn':1,'_id':0},function(err,data){
-            var ques=[];
-            for(var i=0;i<data.length;i++)
-                {
-                    ques.push(data[i].qn)
-                }
-            res.send(ques);
+
+        qna.find({type:'feedback'},function(err,data){
+            res.send(data);
         });
     },
     
@@ -268,18 +264,21 @@ module.exports = {
                       'version_date': '2017-02-27'
                     });
 
-                    var parameters = {
-                      'text': data[i].response[0].response,
-                      'features': {
-                        'keywords': {
-                          'sentiment': true,
-                          'emotion': true,
-                          'limit': 3
+                    if(typeof data[i].response[0] != 'undefined'){
+                      var parameters = {
+                        'text': data[i].response[0].response,
+                        'features': {
+                          'keywords': {
+                            'sentiment': true,
+                            'emotion': true,
+                            'limit': 3
+                          }
                         }
-                      }
-                    };
-                    var promise=getTags(natural_language_understanding,parameters,tagArr);
-                    promises.push(promise);        
+                      };
+                      var promise=getTags(natural_language_understanding,parameters,tagArr);
+                      promises.push(promise);
+
+                    }        
                 }
                 q.all(promises).then(function(data){res.send(tagArr)});
             }
