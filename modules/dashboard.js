@@ -288,7 +288,9 @@ module.exports = {
 
     saveShows:function(req,res)
     {
-        var shows= new shows({
+
+        var showsSchema = require(__base + 'models/shows');
+        var shows= new showsSchema({
             name: req.body.name,
             startTime: req.body.startTime,
             endTime: req.body.endTime,
