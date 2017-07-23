@@ -90,10 +90,10 @@ module.exports = {
  sendLikedShows: function(senderID,shows){
       console.log(shows);
       if(shows.length>0){
+        var elements=[];
       for (i = 0; i < shows.length; i++) {
            console.log("show---"+i)
             var show= shows[i];
-            var elements=[];
             var showElement={
               title: show.name,
               subtitle:show.description,
