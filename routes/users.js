@@ -18,11 +18,12 @@ module.exports = function() {
     });
 
     router.get('/getUserDetailsbyId', function(req, res) {
-    	var senderId = req.query.senderId;
+    	var userId = req.query.userId;
     	var Users = require(__base + 'models/users');
-			Users.find({}, function(err, users) {
+			Users.find({fbId:userId}, function(err, users) {
 				if (err) console.log(err);
-				res.json(users);
+				var finalJSON = {"imageURL": users[0].imageUrl};
+				res.json(finalJSON);
 		});
     	
 
