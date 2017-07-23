@@ -1076,7 +1076,7 @@ function callSendAPI(messageData) {
     users.getGenericList(senderID).then(function(response) {
          console.log("final response");
          console.log(response);
-         response = 
+         
          // Comment the below line and add the code to construct the list of fav - respons
 
          var elements = [];
