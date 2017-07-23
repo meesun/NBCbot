@@ -909,11 +909,11 @@ function playGames(senderID,showid){
 
     if(global.user_games==null || global.user_games==undefined){
             Qnas.find({type:"quiz",show:showId},function(err,data){
-                    global.user_games=[{"senderID":senderID,"games":data,"show":showId}]
-                    gamePlay(senderID,showId)
+                    global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
+                    gamePlay(senderID,showid)
             })
       }  else{
-             gamePlay(senderID,showId)
+             gamePlay(senderID,showid)
       }
 }
 
