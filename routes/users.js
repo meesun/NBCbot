@@ -76,7 +76,7 @@ function saveUserProfileData(senderId, senderData) {
 		  roles: 'user'
 	});
 
-    var query = {},
+    var query = {fbId: senderId},
     update = { name: senderData.name,
 		  timezone: senderData.timezone,
 		  birthday: senderData.birthday,
