@@ -19,7 +19,11 @@ module.exports = {
      var valid=false;
      if(res[2]==res[3]){
         valid=true;
+        console.log("eq")
+
      }
+
+     console.log(valid)
 
      var score={
       "senderID":senderID,
