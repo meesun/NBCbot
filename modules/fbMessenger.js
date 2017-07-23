@@ -525,6 +525,31 @@ function sendVideoMessage(recipientId) {
 }
 
 /*
+ * Send a video using the Send API.
+ *
+ */
+function sendVideoMessageWithData(messageData) {
+  console.log('Sap');
+  if(!messageData){
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        attachment: {
+          type: "video",
+          payload: {
+            url: constants.SERVER_URL + "/assets/allofus480.mov"
+          }
+        }
+      }
+    }
+  }
+
+  callSendAPI(messageData);
+}
+
+/*
  * Send a file using the Send API.
  *
  */
@@ -877,7 +902,7 @@ function playGames(senderID,quiz_id){
       console.log(user_games);
       console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 || user_games[0].games.length==0){
-        //Fetch from DB and insert
+      /*  //Fetch from DB and insert
       var games=[{
         "_id":"222232",
         "question":"this is a test",
@@ -894,7 +919,7 @@ function playGames(senderID,quiz_id){
       "showId":"2",
       "quiz_id":"1"
     }]
-        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]
+        global.user_games=[{"senderID":senderID,"games":games,"quiz_id":quiz_id}]*/
 
         console.log("zero case");
       } 
@@ -1065,6 +1090,7 @@ function callSendAPI(messageData) {
       
   }
 
+
   function sendHelpMessage(senderID) {
     console.log('sendHelpMessage method called');
     var quickReply = [{
@@ -1099,7 +1125,7 @@ function callSendAPI(messageData) {
     console.log(ansUser);
 
     console.log(questionID);
-    
+
     global.sendMsg = senderID;
 
     Qnas.findOneAndUpdate({_id:questionID},
@@ -1114,3 +1140,5 @@ module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
 module.exports.sendButtonMessage = sendButtonMessage;
 module.exports.sendQuickReply = sendQuickReply;
+module.exports.sendVideoMessageWithData = sendVideoMessageWithData;
+
