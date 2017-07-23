@@ -359,7 +359,7 @@ module.exports = {
 
 
       //Commenting out to check the error
-       //addToFavorite(payload,senderID);
+       addToFavorite(payload,senderID);
 
 
        var quickReply = [{

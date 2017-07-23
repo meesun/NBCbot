@@ -83,6 +83,13 @@ $(document).ready(function() {
   }).then(function(show) {
     console.log(show);
 
+    // var users = "";
+    // for (var i = 0; i < show.favUserList.length; i++) {
+    //   users += '<img class="img-circle img-sm margin" src="http://localhost:8080/users/getUserDetailsbyId?userId=' + show.favUserList[i] + '" alt="User Image">';
+    // }
+    //
+    // console.log(users);
+
     var usrString = `<div class="box-header with-border">
       <h3>Most Favourite Show</h3>
       <div class="user-block">
@@ -234,7 +241,7 @@ $(document).ready(function() {
         "content-type": "application/json",
         "cache-control": "no-cache"
       },
-      "data": body
+      "data": JSON.stringify(body)
     }
 
     $.ajax(settings)
