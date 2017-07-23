@@ -250,7 +250,7 @@ $(document).ready(function() {
       })
       .always(function() {
         $.LoadingOverlay("hide");
-        // $("#addshowform")[0].reset();
+        $("#addshowform")[0].reset();
       });
 
   });
