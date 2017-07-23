@@ -4,6 +4,7 @@ var graph = require('fbgraph');
 var _ = require("underscore");
 var users = require('../routes/users');
 var q = require('q');
+var Qnas = require(__base + 'models/qna');
 
 module.exports = {
   /*
@@ -884,7 +885,6 @@ function sendAccountLinking(recipientId) {
  
 function findGames(senderID){
 
-      var Qnas = require(__base + 'models/qna');
       Qnas.find({type:"quiz"}).distinct("show",function(err,data){
         var quickReply=[];
         console.log(data);
