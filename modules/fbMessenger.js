@@ -29,8 +29,8 @@ module.exports = {
       "senderID":senderID,
       "quiz_id":res[1],
       "answer_right":valid,
-      "question":res[1],
-      "answer":res[4]
+      "question":res[4],
+      "answer":res[2]
      }
 
     var game_score= global.user_game_score;
@@ -891,7 +891,7 @@ function playGames(senderID,quiz_id){
     },
     {
      "_id":"222234",
-     "question":"e quals",
+     "question":"e equals",
       "options":["mc2","hc2"],
       "correct":"mc2",
       "showId":"1",
@@ -922,8 +922,7 @@ function playGames(senderID,quiz_id){
                       var wrong_answer="question: "+wrong[i].question+"Answer: "+wrong[i].answer+'\n';
                       wrong_answer_list=wrong_answer_list+wrong_answer;
                     }
-                    sendTextMessage(senderID,'You Went Wrong in:');
-                    sendTextMessage(senderID,wrong_answer_list);
+                    sendTextMessage(senderID,'You went wrong in: '+wrong_answer_list);
 
                 }
             console.log("zero case");
