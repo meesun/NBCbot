@@ -1022,18 +1022,18 @@ function callSendAPI(messageData) {
 
   
   function sendRecommendedShows(senderID){
- elements = [{
-      title: "The Big Bang Theory",
-      subtitle: "Knock Knock Knock, Penny",
-      item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
-      image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
-      buttons: [{
-        type: "postback",
-        title: "Add to favorites",
-        payload: "ADD_TO_FAVORITE_2",
-      }]
-    }];
-      sendGenericMessage(senderID,elements);
+     elements = [{
+          title: "The Big Bang Theory",
+          subtitle: "Knock Knock Knock, Penny",
+          item_url: "https://www.youtube.com/watch?v=8xn-Rb0jejo",
+          image_url: "https://upload.wikimedia.org/wikipedia/en/c/ce/The_Big_Bang_Theory_Cast.png",
+          buttons: [{
+            type: "postback",
+            title: "Add to favorites",
+            payload: "ADD_TO_FAVORITE_2",
+          }]
+        }];
+          sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message

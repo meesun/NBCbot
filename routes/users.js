@@ -76,6 +76,30 @@ function saveUserProfileData(senderId, senderData) {
 		  roles: 'user'
 	});
 
+    var query = {},
+    update = { name: senderData.name,
+		  timezone: senderData.timezone,
+		  birthday: senderData.birthday,
+		  location: senderData.location.name,
+		  locale: senderData.locale,
+		  email: senderData.email,
+		  imageUrl: senderData.picture.data.url,
+		  gender: senderData.gender,
+		  likes: likesArr,
+		  movies: moviesArr,
+		  fbId: senderId,
+		  roles: 'user'},
+    options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+	// Find the document
+	users.findOneAndUpdate(query, update, options, function(error, result) {
+    	if (error) return;
+
+    // do something with the document
+	});
+
+    
+
 	users.save(function(err) {
 		if (err) next(err);
 		console.log('user created!');
