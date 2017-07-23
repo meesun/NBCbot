@@ -1061,7 +1061,6 @@ function callSendAPI(messageData) {
   
   function sendRecommendedShows(senderID){
           findShows(senderID);
-          sendGenericMessage(senderID,elements);
   }
   function sendTrendingShows(senderID){
     // Get the content from DB and send a text message along with Generic Message
@@ -1181,8 +1180,7 @@ function callSendAPI(messageData) {
 
         }
       });
-      console.log(err)
-      console.log(data);
+     
     })
 
 
