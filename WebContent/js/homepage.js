@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  $('#importantModal').modal('show');
+
   /* ChartJS
    * -------
    * Here we will create a few charts using ChartJS
