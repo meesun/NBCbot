@@ -908,6 +908,20 @@ function playGames(senderID,quiz_id){
         var game_score= global.user_game_score;
            game_score=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
+            var wrong=_.where(global.user_game_score, {"senderID":senderID,"quiz_id":quiz_id,"answer_right":false});
+                console.log("Wrong");
+                console.log(wrong);
+                if(wrong.length>0){
+                  var wrong_answer_list='';
+                 for(var i=0;i<wrong.length;i++)
+                    {
+                      var wrong_answer="question"+wrong[i].question+"Answer:"+wrong[i].answer+'\n';
+                      wrong_answer_list=wrong_answer_list+wrong_answer;
+                    }
+                    sendTextMessage(senderID,'You Went Wrong in:');
+                    sendTextMessage(senderID,wrong_answer_list);
+
+                }
             console.log("zero case");
       } 
           
