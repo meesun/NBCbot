@@ -1044,7 +1044,7 @@ function callSendAPI(messageData) {
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
         
-          sendTextMessage(global.addFavUserId, "Added to the favorite");
+          //sendTextMessage(global.addFavUserId, "Added to the favorite");
           var quickReply = [{
                    "content_type": "text",
                     "title": "Explore",
