@@ -310,6 +310,9 @@ module.exports = {
      else if(payload.includes('QUIZ')){
         this.updateQuizAnswer(payload,senderID);
      }
+     else if(payload.includes('GAME')){
+                 playGames(senderID,'1');
+     }
      else if(payload.includes('OPTION_PAYLOAD')){
         console.log('OPTION_PAYLOAD');
         var payloadSplitArr = payload.split('_');
