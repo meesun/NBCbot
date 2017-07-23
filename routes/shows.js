@@ -109,7 +109,7 @@ function getShowsList() {
 
 	Shows.find({}, function(err, shows) {
 		if (err) console.log(err);
-		
+				console.log(shows);
 				deferred.resolve(shows);
 	});
 	return deferred.promise;

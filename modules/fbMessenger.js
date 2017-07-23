@@ -378,7 +378,7 @@ module.exports = {
                  var text = "I can help you find new shows and play games";
                  sendQuickReply(senderID,quickReply,text);
                 
-            })
+      })
 
       //Commenting out to check the error
        //addToFavorite(payload,senderID);  
