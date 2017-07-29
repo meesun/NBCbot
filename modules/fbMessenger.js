@@ -222,13 +222,13 @@ module.exports = {
        var showName= messageText.substring(0, messageText.indexOf('PROMO'));
        console.log(showName)
        showName=showName.replace(/ /g,'')
-       
+
        var regex = new RegExp(["^", showName, "$"].join(""), "i");
 
        var shows = require(__base + 'models/shows');
        console.log(regex)
         shows.find({ "name": regex},function(err,data){
-              sendTextMessage(senderID,'Promo: '+data[0])
+              sendTextMessage(senderID,'Promo: '+data[0].videoURL)
         }); 
     }
     else if(messageText.includes('WHEN')||messageText.includes('TIME')){
