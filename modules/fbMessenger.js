@@ -224,7 +224,8 @@ module.exports = {
        var regex = new RegExp(["^", showName, "$"].join(""), "i");
 
        var shows = require(__base + 'models/shows');
-        shows.find("videoURL", { "name": regex},function(err,data){
+       console.log(regex)
+        shows.find({ "name": regex},function(err,data){
               sendTextMessage(senderID,'Promo: '+data[0])
         }); 
     }
