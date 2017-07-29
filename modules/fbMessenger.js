@@ -237,6 +237,7 @@ module.exports = {
        var shows = require(__base + 'models/shows');
        console.log(regex);
         shows.find({ "name": regex},function(err,data){
+              console.log(data)
               sendTextMessage(senderID, data[0].airDay+' at: '+data[0].startTime)
         }); 
 
