@@ -94,6 +94,30 @@ module.exports = function() {
 	});
 
 
+
+	router.get('/sendTargetedMessage', function(req, res) {
+
+		var gender_inp = req.query.gender;
+		var city_inp=req.query.location;
+		global.message = req.query.message;
+    	var Users = require(__base + 'models/users');
+
+    	console.log("sending Targeted Message"+gender_inp+city_inp)
+
+		Users.find({"gender":gender_inp,"location":city_inp},function(err,data){
+			console.log(err)
+			console.log(data)
+			for(var k = 0 ; k < data.length ; k++)
+			{
+				console.log(data[k]);
+    			facebook.sendTextMessage(data[k].fbId ,global.message );
+    		}
+		})
+
+        res.sendStatus(200);
+	});
+
+
 	return router;
 }
 

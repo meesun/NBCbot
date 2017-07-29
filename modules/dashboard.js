@@ -105,6 +105,21 @@ module.exports = {
         });
     },
 
+    getGender:function(req,res){
+        users.find({}).distinct("gender", function(err, data) {
+                        if(err==undefined)
+                             res.send(data);
+
+        });
+    },
+
+    getCity:function(req,res){
+        users.find({}).distinct("location", function(err, data) {
+                        if(err==undefined)
+                             res.send(data);
+
+        });
+    },
     getQuizQuestions:function(req,res){
         qna.find({type:'quiz'}, function(err,data){
                  if(err==undefined)

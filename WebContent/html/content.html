@@ -161,6 +161,42 @@
 
     </div>
     <!-- /.box -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Targeted Messaging</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <!-- form start -->
+      <form role="form" id="sendTargetedMessageForm">
+        <div class="box-body">
+          <!-- select -->
+          <div class="form-group">
+            <label>Select the Gender</label>
+            <select class="form-control" id="selectGender" name="genderName">
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Select the Location</label>
+            <select class="form-control" id="selectCity" name="cityName">
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="gamequestion">Enter the message here</label>
+            <input type="text" class="form-control" name="message" placeholder="Enter message here">
+          </div>
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- right column for forms -->

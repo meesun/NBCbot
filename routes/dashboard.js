@@ -34,6 +34,12 @@ module.exports = function() {
     dashboard.getShows(req, res);
   });
 
+  router.get('/getGender', function(req, res) {
+    dashboard.getGender(req, res);
+  });
+  router.get('/getCity', function(req, res) {
+    dashboard.getCity(req, res);
+  });
   router.get('/getShowReviews', function(req, res) {
     dashboard.getShowReviews(req, res);
   });

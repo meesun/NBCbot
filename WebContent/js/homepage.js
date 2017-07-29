@@ -80,6 +80,25 @@ $(document).ready(function() {
       $("#selectShows2").populate(response, true);
     });
 
+
+  $.ajax({
+      url: 'dashboard/getGender'
+    })
+    .then(function(response) {
+      console.log(response);
+      showList = response;
+      $("#selectGender").populate1(response, true);
+    });
+
+  $.ajax({
+      url: 'dashboard/getCity'
+    })
+    .then(function(response) {
+      console.log(response);
+      showList = response;
+      $("#selectCity").populate1(response, true);
+    });
+
   $("#favShowBox").LoadingOverlay("show");
   $.ajax({
     url: 'shows/getMostFavoriteShows'
@@ -217,6 +236,28 @@ $(document).ready(function() {
       });
   });
 
+  $('#sendTargetedMessageForm').on('submit', function(e) {
+    $.LoadingOverlay("show");
+    e.preventDefault();
+    var dataArray = $(this).serializeArray();
+    var data = objectifyForm(dataArray);
+    console.log(data);
+    var settings = {
+      "async": true,
+      "url": "shows/sendTargetedMessage?gender=" + data.genderName + "&location=" + data.cityName+"&message="+data.message,
+      "method": "GET"
+    }
+
+    $.ajax(settings)
+      .done(function(response) {
+        console.log(response);
+      })
+      .always(function() {
+        $.LoadingOverlay("hide");
+        $("#pushEventForm")[0].reset();
+      });
+  });
+
   $('#addshowform').on('submit', function(e) {
     $.LoadingOverlay("show");
     e.preventDefault();
@@ -271,6 +312,12 @@ $(document).ready(function() {
     for (var i = 0; i < optionArray.length; i++) {
       var option = bindId ? optionArray[i]["_id"] : optionArray[i]["name"];
       $(this).append('<option value="' + option + '">' + optionArray[i]["name"] + '</option>');
+    }
+  }
+
+  $.fn.populate1 = function(optionArray, bindId) {
+    for (var i = 0; i < optionArray.length; i++) {
+      $(this).append('<option value="' + optionArray[i] + '">' + optionArray[i] + '</option>');
     }
   }
 
