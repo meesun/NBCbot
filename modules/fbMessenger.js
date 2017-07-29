@@ -231,7 +231,7 @@ module.exports = {
         }); 
     }
     else if(messageText.includes('WHEN')||messageText.includes('TIME')){
-       var showName= messageText.substring(messageText.indexOf('EPISODE OF')+1, messageText.length);
+       var showName= messageText.substring(messageText.indexOf('EPISODE OF')+10, messageText.length);
         var regex = new RegExp(["^", showName, "$"].join(""), "i");
 
        var shows = require(__base + 'models/shows');
