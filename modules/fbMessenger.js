@@ -165,7 +165,7 @@ module.exports = {
               users.getFavoriteList(senderId).then(function(response) {
                   console.log("final response---- FavoriteList");
                    console.log(response);
-                // Comment the below line and add the code to construct the list of fav - response
+                  console.log("----Send liked shows");
                    sendLikedShows(senderId,response);
                }, function(error) {
                     console.log(error);
