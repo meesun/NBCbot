@@ -240,7 +240,7 @@ module.exports = {
               console.log(data[0].airDay)
               var text=''
               if(data[0].airDay!=undefined){
-                text=data[0].data+' at: '+data[0].startTime;
+                text=data[0].airDay+' at: '+data[0].startTime;
               } else {
                 text=' At: '+data[0].startTime;
               }
