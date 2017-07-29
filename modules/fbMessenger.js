@@ -221,9 +221,11 @@ module.exports = {
        console.log('includes')
        var showName= messageText.substring(0, messageText.indexOf('PROMO'));
        console.log(showName)
+       var regex = new RegExp(["^", showName, "$"].join(""), "i");
+
        var shows = require(__base + 'models/shows');
-        shows.find("videoURL", { "name": showName},function(err,data){
-              sendTextMessage(senderID,data[0])
+        shows.find("videoURL", { "name": regex},function(err,data){
+              sendTextMessage(senderID,'Promo: '+data[0])
         }); 
     }
     else if(messageText.includes('WHEN')||messageText.includes('TIME')){
