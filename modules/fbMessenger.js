@@ -90,6 +90,7 @@ module.exports = {
 
 
  sendLikedShows: function(senderID,shows){
+      console.log('----Sending Liked shows-----');
       console.log(shows);
       if(shows.length>0){
         var elements=[];
@@ -162,7 +163,7 @@ module.exports = {
       UsersModel.find({fbId:senderId}, function(err, user) {
           if(user.length>0){
               users.getFavoriteList(senderId).then(function(response) {
-                 console.log("final response");
+                  console.log("final response---- FavoriteList");
                    console.log(response);
                 // Comment the below line and add the code to construct the list of fav - response
                    this.sendLikedShows(senderId,response);
