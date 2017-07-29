@@ -219,9 +219,8 @@ module.exports = {
     
     if(messageText.includes('PROMO')){
        console.log('includes')
-       var showName= messageText.substring(0, messageText.indexOf('PROMO'));
+       var showName= messageText.substring(0, messageText.indexOf('PROMO')-1);
        console.log(showName)
-       showName=showName.replace(/ /g,'')
 
        var regex = new RegExp(["^", showName, "$"].join(""), "i");
 
