@@ -9,6 +9,7 @@ var showsSchema = new Schema({
   videoURL: String,
   favUserList: Array,
   description: String,
+  airDay:String,
   tags: Array
 });
 
