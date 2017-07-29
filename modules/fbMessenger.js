@@ -909,13 +909,24 @@ function playGames(senderID,showid){
     console.log(showid);
     console.log("********");
 
-    if(global.user_games==null || global.user_games==undefined){
+    if(global.user_games==null || global.user_games==undefined){            
             Qnas.find({type:"quiz",show:showid},function(err,data){
                     global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
                     gamePlay(senderID,showid)
             })
       }  else{
-             gamePlay(senderID,showid)
+
+            var user_games=_.where(global.user_games, {"senderID":senderID,"show":showid});
+            if(user_games.length==0){
+                Qnas.find({type:"quiz",show:showid},function(err,data){
+                      global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
+                      gamePlay(senderID,showid)
+                })
+            }
+             else {
+               gamePlay(senderID,showid)
+             }
+            
       }
 }
 
@@ -928,15 +939,6 @@ function gamePlay(senderID,showid){
       console.log(user_games);
       console.log("-----------");
       if(user_games!=undefined&& user_games.length==0 && user_games[0].games.length==0){
-        if(user_games.length==0)
-        {
-                var Qnas = require(__base + 'models/qna');
-                Qnas.find({type:"quiz",show:showid},function(err,data){
-                    global.user_games=[{"senderID":senderID,"games":data,"show":showid}]
-                    gamePlay(senderID,showid)
-            });
-        }
-        else if(user_games[0].games.length==0){
         var game_score= global.user_game_score;
            game_score=_.where(global.user_game_score, {"senderID":senderID,"show":showid,"answer_right":true});
            sendTextMessage(senderID,constants.YOUR_SCORE_IS+game_score.length);
@@ -954,7 +956,6 @@ function gamePlay(senderID,showid){
 
                 }
             console.log("zero case");
-          } 
       } 
           
       else  if(user_games!=undefined && user_games.length>0)
