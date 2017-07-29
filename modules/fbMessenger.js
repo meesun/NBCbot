@@ -223,6 +223,7 @@ module.exports = {
         shows.find("videoURL", { "name": showName},function(err,data){
               sendTextMessage(senderID,data[0])
         }); 
+    }
     if(messageText.includes('WHEN')||messageText.includes('TIME')){
        var showName= messageText.substring(messageText.indexOf('EPISODE OF'), messageText.length);
         
@@ -311,6 +312,7 @@ module.exports = {
     } else if (messageAttachments) {
       sendTextMessage(senderID, "Message with attachment received");
     }
+
   },
 
 
