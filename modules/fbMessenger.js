@@ -218,13 +218,15 @@ module.exports = {
     console.log(messageText)
     
     if(messageText.includes('PROMO')){
+       console.log('includes')
        var showName= messageText.substring(0, messageText.indexOf('PROMO'));
+       console.log(showName)
        var shows = require(__base + 'models/shows');
         shows.find("videoURL", { "name": showName},function(err,data){
               sendTextMessage(senderID,data[0])
         }); 
     }
-    if(messageText.includes('WHEN')||messageText.includes('TIME')){
+    else if(messageText.includes('WHEN')||messageText.includes('TIME')){
        var showName= messageText.substring(messageText.indexOf('EPISODE OF'), messageText.length);
         
     }
