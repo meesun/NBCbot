@@ -165,8 +165,8 @@ module.exports = {
               users.getFavoriteList(senderId).then(function(response) {
                   console.log("final response---- FavoriteList");
                    console.log(response);
-                  console.log("----Send liked shows");
-                   sendLikedShows(senderId,response);
+                   console.log("----Send liked shows");
+                   sendfavShows(senderId,response);
                }, function(error) {
                     console.log(error);
                     console.error(error);
@@ -1222,6 +1222,50 @@ function callSendAPI(messageData) {
 
   }
 
+ function sendfavShows(senderID,shows){
+      console.log('----Sending Liked shows-----');
+      console.log(shows);
+      if(shows.length>0){
+        var elements=[];
+      for (i = 0; i < shows.length; i++) {
+           console.log("show---"+i)
+            var show= shows[i];
+            var showElement={
+              title: show.name,
+              subtitle:show.description,
+              item_url:show.videoURL,
+              image_url:show.imageURL,
+               buttons: [{
+               type: "postback",
+               title: "Add to favorites",
+               payload: "ADD_TO_FAVORITE_"+show._id,
+              }],
+
+            }
+            elements.push(showElement);
+            console.log(elements);
+        }
+            sendTextMessage(senderID,"Here's a list of shows based on your facebook likes. Click add to favourites to get more updates on the shows")
+            sendGenericMessage(senderID,elements);
+
+    } else{
+        var quickReply = [{
+         "content_type": "text",
+          "title": "Explore",
+          "payload": "EXPLORE"
+         },
+         {
+         "content_type": "text",
+         "title": "Trending Shows",
+         "payload": "WHATS_HOT"
+         }, {
+         "content_type": "text",
+         "title": "Game",
+         "payload": "GAME"
+      }];
+       var text = "I can help you find new shows and play games";
+       sendQuickReply(senderID,quickReply,text);
+    }
 
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
