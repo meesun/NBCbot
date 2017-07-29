@@ -221,6 +221,8 @@ module.exports = {
        console.log('includes')
        var showName= messageText.substring(0, messageText.indexOf('PROMO'));
        console.log(showName)
+       showName=showName.replace(/ /g,'')
+       
        var regex = new RegExp(["^", showName, "$"].join(""), "i");
 
        var shows = require(__base + 'models/shows');
