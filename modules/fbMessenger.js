@@ -1266,7 +1266,7 @@ function callSendAPI(messageData) {
        var text = "I can help you find new shows and play games";
        sendQuickReply(senderID,quickReply,text);
     }
-
+}
 module.exports.sendGenericMessage = sendGenericMessage;
 module.exports.sendTextMessage = sendTextMessage;
 module.exports.sendButtonMessage = sendButtonMessage;
