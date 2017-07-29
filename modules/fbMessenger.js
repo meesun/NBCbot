@@ -156,7 +156,8 @@ module.exports = {
   },
   
   checkLogin:function(senderID){
-      Users.find({fbId:senderId}, function(err, users) {
+      console.log("here")
+      users.find({fbId:senderId}, function(err, users) {
           if(users.length>0){
               users.getFavoriteList(senderID).then(function(response) {
                  console.log("final response");
