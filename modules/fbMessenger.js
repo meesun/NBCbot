@@ -87,6 +87,8 @@ module.exports = {
 
         sendTextMessage(senderID, constants.SEND_WELCOME_USER+name);
   },
+
+
  sendLikedShows: function(senderID,shows){
       console.log(shows);
       if(shows.length>0){
@@ -109,6 +111,7 @@ module.exports = {
             elements.push(showElement);
             console.log(elements);
         }
+            sendTextMessage(senderID,"Here's a list of shows based on your facebook likes. Click add to favourites to get more updates on the shows")
             sendGenericMessage(senderID,elements);
 
     } else{
@@ -151,7 +154,24 @@ module.exports = {
       }]
     }];*/
   },
-
+  
+  checkLogin:function(senderID){
+      Users.find({fbId:senderId}, function(err, users) {
+          if(users.length>0){
+              users.getFavoriteList(senderID).then(function(response) {
+                 console.log("final response");
+                   console.log(response);
+                // Comment the below line and add the code to construct the list of fav - response
+                   this.sendLikedShows(global.senderIdFromOauth,response);
+               }, function(error) {
+                    console.error(error);
+              });
+          }
+          else{
+            sendFBLogin(senderID)
+          }
+      });
+  },
   receivedMessage: function(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -199,9 +219,11 @@ module.exports = {
       switch (messageText) {
         case "HI" || "HELLO" || "GOOD MORNING":
           sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
+          this.checkLogin(senderID);
           break;
          case "OPTIONS" || "HELP":
-            sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");  
+            sendTextMessage(senderID, "Welcome to NBC. I am here to help you :-)");
+          this.checkLogin(senderID);  
           break;
         case "WHEN IS THE NEXT EPISODE OF JUDGE CUTS":
             sendTextMessage(senderID, "Tuesday, JUL 25. Would you like me to remind you?");  
@@ -1044,7 +1066,7 @@ function callSendAPI(messageData) {
        {safe: true, upsert: true, new : true}, 
        function (err, place) {
         
-          //sendTextMessage(global.addFavUserId, "Added to the favorite");
+          sendTextMessage(global.addFavUserId, "Added to the favorites. We'll keep you posted on this show");
           var quickReply = [{
                    "content_type": "text",
                     "title": "Explore",
