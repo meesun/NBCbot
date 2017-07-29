@@ -1109,7 +1109,6 @@ function callSendAPI(messageData) {
         var elements = [];
         if(response.length>0){
           console.log("looping through")
-          var elements=[];
 
         for (i = 0; i < response.length; i++) {
               var show= response[i];

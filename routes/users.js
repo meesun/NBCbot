@@ -173,7 +173,7 @@ function getGenericList(senderId) {
 				for(var j = 0; j< global.showsList.length; j++){
 					console.log(global.showsList[j].name);
 					console.log(global.showsList[j].favUserList);
-					if(!likesList.includes(global.showsList[j].name) && (typeof global.showsList[j].favUserList != 'undefined') && !global.showsList[j].favUserList.includes(global.sId)){
+					if(((typeof global.showsList[j].favUserList != 'undefined') && !global.showsList[j].favUserList.includes(global.sId)){
 						finalLikesArr.push(global.showsList[j]);
 					}
 				}
