@@ -173,7 +173,7 @@ module.exports = {
               });
           }
           else{
-            sendFBLogin(senderID)
+            sendFBLogin(senderId)
           }
       });
   },
