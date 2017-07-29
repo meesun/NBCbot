@@ -216,7 +216,18 @@ module.exports = {
       return;
     }
     console.log(messageText)
-    if (messageText) {
+    
+    if(messageText.includes('PROMO')){
+       var showName= messageText.substring(0, messageText.indexOf('PROMO'));
+       var shows = require(__base + 'models/shows');
+        shows.find("videoURL", { "name": showName},function(err,data){
+              sendTextMessage(senderID,data[0])
+        }); 
+    if(messageText.includes('WHEN')||messageText.includes('TIME')){
+       var showName= messageText.substring(messageText.indexOf('EPISODE OF'), messageText.length);
+        
+    }
+    else if (messageText) {
 
       // If we receive a text message, check to see if it matches any special
       // keywords and send back the corresponding example. Otherwise, just echo
