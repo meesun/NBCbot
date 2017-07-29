@@ -231,8 +231,15 @@ module.exports = {
         }); 
     }
     else if(messageText.includes('WHEN')||messageText.includes('TIME')){
-       var showName= messageText.substring(messageText.indexOf('EPISODE OF'), messageText.length);
-        
+       var showName= messageText.substring(messageText.indexOf('EPISODE OF')+1, messageText.length);
+        var regex = new RegExp(["^", showName, "$"].join(""), "i");
+
+       var shows = require(__base + 'models/shows');
+       console.log(regex);
+        shows.find({ "name": regex},function(err,data){
+              sendTextMessage(senderID, data[0].airDay+' at: '+data[0].startTime)
+        }); 
+
     }
     else if (messageText) {
 
