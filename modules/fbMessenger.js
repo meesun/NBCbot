@@ -1191,6 +1191,7 @@ function callSendAPI(messageData) {
     var shows = require(__base + 'models/shows');
     shows.distinct("tags", { "favUserList": senderID},function(err,data){
       console.log("callback")
+      console.log(data)
       shows.find({"tags":{"$in":data},"favUserList":{"$ne":senderID}},function(err,data){
               console.log("recommendedShows");
               console.log(data);
