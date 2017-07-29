@@ -155,15 +155,15 @@ module.exports = {
     }];*/
   },
   
-  checkLogin:function(senderID){
+  checkLogin:function(senderId){
       console.log("here")
       users.find({fbId:senderId}, function(err, users) {
           if(users.length>0){
-              users.getFavoriteList(senderID).then(function(response) {
+              users.getFavoriteList(senderId).then(function(response) {
                  console.log("final response");
                    console.log(response);
                 // Comment the below line and add the code to construct the list of fav - response
-                   this.sendLikedShows(global.senderIdFromOauth,response);
+                   this.sendLikedShows(senderId,response);
                }, function(error) {
                     console.error(error);
               });
